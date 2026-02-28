@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 20% 97%;
+    --foreground: 220 20% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 14%;
+    --primary: 345 54% 83%;
+    /* #EFB6BF */
+    --primary-foreground: 345 54% 15%;
+    --secondary: 220 12% 40%;
+    --secondary-foreground: 220 20% 14%;
+    --muted: 220 14% 95%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 345 54% 96%;
+    --accent-foreground: 345 54% 83%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 88%;
+    --input: 220 13% 90%;
+    --ring: 345 54% 83%;
+    --radius: 24px;
+
+    /* SkillEx V2 Colors */
+    --skillex-primary: 0 91% 71%; /* #F87171 */
+    --skillex-secondary: 240 22% 15%; /* #1E1E2F */
+    --skillex-bg-light: 40 33% 94%; /* #F5F1EB */
+    --skillex-text-light: 240 8% 38%; /* #5A5A69 */
+    
+    --skillex-accent-green: 122 41% 75%; /* #A3D9A5 */
+    --skillex-accent-orange: 29 91% 79%; /* #FBC899 */
+    --skillex-accent-purple: 268 89% 85%; /* #D8B4FE */
+    --skillex-accent-yellow: 48 94% 77%; /* #FDE68A */
+
+    /* Semantic Compatibility */
+    --receita: 142 70% 45%;
+    --receita-bg: 142 70% 97%;
+    --despesa: 0 84% 60%;
+    --despesa-bg: 0 84% 98%;
+    --lucro: 45 93% 47%;
+    --lucro-bg: 45 93% 97%;
+
+    --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+    --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    --shadow-elevated: 0 8px 30px rgba(0, 0, 0, 0.10), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    --shadow-modal: 0 24px 64px -12px rgba(0, 0, 0, 0.15);
+  }
+
+  body {
+    @apply bg-[#F5F1EB] text-foreground antialiased;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.01em;
+  }
+
+  /* Global UI Adjustments - Better contrast */
+  input,
+  select,
+  textarea {
+    @apply rounded-[18px] border border-gray-200 bg-gray-50/60 focus:ring-2 focus:ring-[#EFB6BF]/30 focus:border-[#EFB6BF]/40 transition-all font-medium text-gray-800 placeholder:text-gray-400;
+  }
+
+  button {
+    @apply transition-all duration-200 active:scale-[0.97];
+  }
+
+  /* Better text rendering */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-gray-900;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    @apply text-gray-600;
+  }
+}
+
+@layer utilities {
+  .dashboard-card {
+    @apply bg-white rounded-[24px] border border-gray-200/70 shadow-[var(--shadow-card)] transition-all duration-300 hover:shadow-[var(--shadow-elevated)];
+  }
+
+  .action-button-card {
+    @apply bg-white rounded-[20px] p-5 flex flex-col items-center justify-center gap-3 transition-all duration-300 hover:shadow-[var(--shadow-elevated)] hover:scale-[1.02] border border-gray-200/70 shadow-[var(--shadow-soft)];
+  }
+
+  .modal-item-btn {
+    @apply w-full flex items-center justify-between py-3 px-4 bg-white border border-gray-200/60 rounded-[20px] text-left hover:border-[#EFB6BF]/40 hover:bg-[#EFB6BF]/5 transition-all group active:scale-[0.98];
+  }
+
+  .premium-label {
+    @apply text-[11px] font-extrabold uppercase tracking-[0.15em] text-gray-500 mb-1.5 ml-1;
+  }
+
+  .animate-in-fade {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Subtle text glow for headers */
+  .text-glow {
+    text-shadow: 0 0 40px rgba(239, 182, 191, 0.15);
+  }
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.18);
+}
+
+/* Selection color */
+::selection {
+  background: rgba(239, 182, 191, 0.3);
+  color: #1a1a2e;
+}
