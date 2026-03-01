@@ -158,53 +158,62 @@ export default function Receitas() {
     };
 
     return (
-        <>
-            <div className="p-6 max-w-[1400px] mx-auto space-y-6">
-                {/* Header */}
-                <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                        <h1 className="text-[28px] font-bold tracking-tight text-gray-800">Minhas <span className="text-[#EFB6BF]">Receitas</span></h1>
-                        <p className="text-[13px] font-normal text-gray-400 uppercase tracking-widest">Caderno de delícias · {receitas.length} receita{receitas.length !== 1 ? 's' : ''}</p>
-                    </div>
-                    <Button
-                        onClick={() => { setReceitaParaEditar(null); setShowNovaReceita(true); }}
-                        className="h-9 px-6 rounded-full bg-[#EFB6BF] hover:bg-[#EFB6BF]/90 text-white font-black text-xs gap-2 shadow-lg shadow-[#EFB6BF]/20 transition-all active:scale-[0.98]"
-                    >
-                        <Plus className="w-4 h-4" /> Nova Receita
-                    </Button>
+        <div className="w-full p-8 lg:p-10 flex flex-col h-full overflow-hidden animate-in-fade bg-[#F5F1EB] dark:bg-background-dark relative font-sans">
+            {/* Header */}
+            <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8 flex-shrink-0 relative z-10">
+                <div>
+                    <h2 className="text-[28px] md:text-3xl font-extrabold text-[#1E1E2F] dark:text-white leading-tight tracking-tight mb-1">
+                        Minhas <span className="text-primary">Receitas</span>
+                    </h2>
+                    <p className="text-gray-400 dark:text-gray-500 text-xs font-bold uppercase tracking-widest">
+                        CADERNO DE DELÍCIAS · {receitas.length} RECEITA{receitas.length !== 1 ? 'S' : ''}
+                    </p>
                 </div>
+                <Button
+                    onClick={() => { setReceitaParaEditar(null); setShowNovaReceita(true); }}
+                    className="bg-[#F4C7C7] hover:bg-[#F87171] text-[#1E1E2F] hover:text-white px-6 h-12 rounded-2xl font-bold text-[14px] tracking-wide transition shadow-sm flex items-center gap-2 border-none active:scale-[0.98]"
+                >
+                    <span className="material-symbols-outlined text-[20px]">add</span>
+                    Nova Receita
+                </Button>
+            </header>
 
-                {/* Filters Row */}
-                <div className="flex flex-col md:flex-row gap-3">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
-                        <Input
-                            placeholder="Buscar pelo nome da receita..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="bg-white border-none h-10 pl-11 rounded-xl text-sm font-semibold text-gray-700 placeholder:text-gray-300 shadow-sm focus:shadow-md transition-all"
-                        />
-                    </div>
-                    <Button variant="outline" className="h-10 px-6 rounded-xl border-gray-100 text-gray-400 font-bold text-[10px] uppercase tracking-widest gap-2 bg-white shadow-sm">
-                        <Filter className="w-3.5 h-3.5" /> Categorias
-                    </Button>
+            {/* Filters Row */}
+            <div className="flex flex-col md:flex-row gap-4 mb-8 flex-shrink-0 relative z-10">
+                <div className="flex-1 relative group">
+                    <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">search</span>
+                    <Input
+                        placeholder="Buscar pelo nome da receita..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full pl-12 pr-4 h-12 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm text-sm font-bold focus:ring-2 focus:ring-primary focus:border-transparent placeholder-gray-400 text-[#1E1E2F] dark:text-white transition-all outline-none"
+                    />
                 </div>
+                {/* Categorias btn */}
+                <Button className="bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-300 px-6 h-12 rounded-2xl font-bold text-xs uppercase tracking-wide border border-gray-200 dark:border-gray-700 shadow-sm flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                    <span className="material-symbols-outlined text-lg">filter_list</span>
+                    Categorias
+                </Button>
+            </div>
 
+            <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar relative z-10">
                 {loading ? (
-                    <div className="py-16 text-center flex flex-col items-center">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#EFB6BF] mb-3"></div>
-                        <p className="text-[10px] font-black text-gray-300 uppercase tracking-widest">Buscando caderno de receitas...</p>
+                    <div className="flex flex-col items-center justify-center py-24 text-center">
+                        <div className="animate-spin rounded-full h-10 w-10 border-4 border-[#F4C7C7] border-t-primary mb-4"></div>
+                        <p className="text-[13px] font-bold text-gray-400 uppercase tracking-widest">Buscando caderno de receitas...</p>
                     </div>
                 ) : filteredReceitas.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-16 text-center">
-                        <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center mb-4">
-                            <BookOpen className="w-7 h-7 text-gray-200" />
+                    <div className="flex flex-col items-center justify-center py-20 text-center">
+                        <div className="w-20 h-20 bg-gray-50 dark:bg-gray-800 rounded-[2rem] flex items-center justify-center mb-6">
+                            <span className="material-symbols-outlined text-4xl text-gray-300">menu_book</span>
                         </div>
-                        <h3 className="text-sm font-black text-gray-700 tracking-tight">Nenhuma receita encontrada</h3>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Comece criando sua primeira delícia</p>
+                        <h3 className="text-[16px] font-black text-[#1E1E2F] dark:text-white uppercase tracking-wide">Nenhuma receita encontrada</h3>
+                        <p className="text-[13px] font-bold text-gray-400 mt-2 max-w-[250px] mx-auto">
+                            Tente ajustar sua busca ou comece criando sua primeira delícia.
+                        </p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-6 pb-6">
                         {filteredReceitas.map((receita) => {
                             const custoUnit = receita.custo_unitario || 0;
                             const cmvUnit = receita.cmv_unitario || 0;
@@ -215,140 +224,106 @@ export default function Receitas() {
                             const unidadeRend = receita.unidade_rendimento || 'un';
 
                             return (
-                                <div
+                                <article
                                     key={receita.id}
-                                    className="bg-white rounded-[28px] border border-gray-200/70 shadow-[0_4px_16px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.04)] overflow-hidden group hover:shadow-[0_8px_30px_rgba(0,0,0,0.10)] transition-all flex flex-col"
+                                    className="bg-white dark:bg-gray-800 rounded-[2rem] p-4 shadow-card hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-700/50 flex flex-col gap-4 overflow-hidden relative group"
                                 >
-                                    {/* Image / Header */}
+                                    {!receita.foto_url && (
+                                        <div className="absolute -top-6 -right-6 w-32 h-32 bg-pink-50 dark:bg-pink-900/10 rounded-full flex items-center justify-center pointer-events-none"></div>
+                                    )}
+
                                     {receita.foto_url ? (
-                                        <div className="relative h-48 overflow-hidden">
-                                            <img src={receita.foto_url} alt={receita.nome} className="w-full h-full object-cover" />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                                            <div className="absolute bottom-4 left-6 right-6">
-                                                <span className="inline-block text-[9px] font-bold uppercase text-white/80 tracking-[0.2em] bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full mb-2">
+                                        <div className="relative h-48 w-full rounded-2xl overflow-hidden group/image z-10">
+                                            <img src={receita.foto_url} alt={receita.nome} className="w-full h-full object-cover transition-transform duration-500 group-hover/image:scale-105" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                            <div className="absolute top-3 left-3">
+                                                <span className="px-3 py-1 bg-black/30 backdrop-blur-md text-white text-[10px] font-extrabold rounded-lg tracking-wider border border-white/20 uppercase">
                                                     {receita.categoria || 'Sem categoria'}
                                                 </span>
-                                                <h3 className="text-[20px] font-medium text-white tracking-tight line-clamp-2 drop-shadow-md">{receita.nome}</h3>
+                                            </div>
+                                            <div className="absolute bottom-3 left-3 right-3 text-white">
+                                                <h3 className="text-xl font-bold leading-tight drop-shadow-md truncate">{receita.nome}</h3>
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="p-8 pb-4 flex items-start justify-between">
-                                            <div className="space-y-2">
-                                                <span className="text-[9px] font-bold uppercase text-gray-400 tracking-[0.2em]">
-                                                    {receita.categoria || 'Sem categoria'}
-                                                </span>
-                                                <h3 className="text-[20px] font-medium text-gray-800 tracking-tight group-hover:text-[#EFB6BF] transition-colors line-clamp-2">{receita.nome}</h3>
+                                        <div className="flex justify-between items-start relative z-10 px-2 pt-2 mb-2">
+                                            <div>
+                                                <p className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">{receita.categoria || 'Sem categoria'}</p>
+                                                <h3 className="text-xl font-bold text-[#1E1E2F] dark:text-white leading-tight line-clamp-2">{receita.nome}</h3>
                                             </div>
-                                            <div className="w-14 h-14 rounded-[18px] bg-[#EFB6BF]/10 flex items-center justify-center shrink-0">
-                                                <ChefHat className="w-7 h-7 text-[#EFB6BF]" />
+                                            <div className="w-10 h-10 rounded-xl bg-pink-50 dark:bg-pink-900/20 flex items-center justify-center text-primary shadow-sm flex-shrink-0 ml-4">
+                                                <span className="material-symbols-outlined">cookie</span>
                                             </div>
                                         </div>
                                     )}
 
-                                    <div className="px-8 pb-6 space-y-5 flex-1 flex flex-col">
-                                        {/* Info Badges: Time, Yield */}
-                                        <div className="flex items-center gap-3 flex-wrap">
-                                            {receita.tempo_preparo && (
-                                                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-100">
-                                                    <Clock className="w-3.5 h-3.5 text-gray-300" />
-                                                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{receita.tempo_preparo}</span>
-                                                </div>
-                                            )}
-                                            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-100">
-                                                <Box className="w-3.5 h-3.5 text-gray-300" />
-                                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Rend: {rendimento} {unidadeRend}</span>
+                                    <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-gray-500 relative z-10 px-2">
+                                        {receita.tempo_preparo && (
+                                            <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-700/50 px-2 py-1.5 rounded-lg border border-gray-100 dark:border-gray-600">
+                                                <span className="material-symbols-outlined text-[16px]">schedule</span>
+                                                <span className="font-bold">{receita.tempo_preparo.toUpperCase()}</span>
                                             </div>
-                                            {margemAlvo > 0 && (
-                                                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-50 border border-green-100">
-                                                    <TrendingUp className="w-3.5 h-3.5 text-green-400" />
-                                                    <span className="text-[10px] font-bold text-green-500 uppercase tracking-widest">Margem alvo: {margemAlvo}%</span>
-                                                </div>
-                                            )}
+                                        )}
+                                        <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-700/50 px-2 py-1.5 rounded-lg border border-gray-100 dark:border-gray-600">
+                                            <span className="material-symbols-outlined text-[16px]">package_2</span>
+                                            <span className="font-bold">REND: {rendimento} {unidadeRend?.toUpperCase() || 'UN'}</span>
                                         </div>
-
-                                        {/* Cost Details Grid */}
-                                        <div className="bg-gray-50/80 rounded-[20px] p-5 space-y-4 border border-gray-100/50 mt-auto">
-                                            {/* Row 1: CMV + Custo Unitário */}
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <div className="space-y-1">
-                                                    <p className="text-[8px] font-black uppercase text-gray-400 tracking-[0.15em]">CMV Unitário</p>
-                                                    <p className="text-sm font-black text-gray-600 tracking-tight">{formatarMoeda(cmvUnit)}</p>
-                                                </div>
-                                                <div className="space-y-1">
-                                                    <p className="text-[8px] font-black uppercase text-gray-400 tracking-[0.15em]">Custo Total/Un</p>
-                                                    <p className="text-sm font-black text-gray-600 tracking-tight">{formatarMoeda(custoUnit)}</p>
-                                                </div>
+                                        {margemAlvo > 0 && (
+                                            <div className="flex items-center gap-1 bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400 px-2 py-1.5 rounded-lg border border-green-100 dark:border-green-800">
+                                                <span className="material-symbols-outlined text-[16px]">trending_up</span>
+                                                <span className="font-bold">META: {margemAlvo}%</span>
                                             </div>
+                                        )}
+                                    </div>
 
-                                            {/* Divider */}
-                                            <div className="border-t border-gray-200/50" />
-
-                                            {/* Row 2: Preço Venda + Margem Lucro */}
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <div className="space-y-1">
-                                                    <p className="text-[8px] font-black uppercase text-[#EFB6BF] tracking-[0.15em]">Preço de Venda</p>
-                                                    <p className="text-lg font-black text-[#EFB6BF] tracking-tighter">{formatarMoeda(precoVenda)}</p>
-                                                </div>
-                                                <div className="space-y-1">
-                                                    <p className="text-[8px] font-black uppercase text-gray-400 tracking-[0.15em]">Margem de Lucro</p>
-                                                    <div className="flex items-center gap-2">
-                                                        <p className={cn(
-                                                            "text-lg font-black tracking-tighter",
-                                                            margem >= 50 ? "text-green-500" : margem >= 30 ? "text-yellow-500" : "text-rose-500"
-                                                        )}>
-                                                            {margem.toFixed(1)}%
-                                                        </p>
-                                                        <TrendingUp className={cn(
-                                                            "w-4 h-4",
-                                                            margem >= 50 ? "text-green-400" : margem >= 30 ? "text-yellow-400" : "text-rose-400"
-                                                        )} />
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {/* Row 3: Custo por Lote */}
-                                            {rendimento > 1 && (
-                                                <>
-                                                    <div className="border-t border-gray-200/50" />
-                                                    <div className="grid grid-cols-2 gap-4">
-                                                        <div className="space-y-1">
-                                                            <p className="text-[8px] font-black uppercase text-gray-400 tracking-[0.15em]">Custo Lote ({rendimento} {unidadeRend})</p>
-                                                            <p className="text-sm font-black text-gray-600 tracking-tight">{formatarMoeda(custoUnit * rendimento)}</p>
-                                                        </div>
-                                                        <div className="space-y-1">
-                                                            <p className="text-[8px] font-black uppercase text-gray-400 tracking-[0.15em]">Receita Lote</p>
-                                                            <p className="text-sm font-black text-green-500 tracking-tight">{formatarMoeda(precoVenda * rendimento)}</p>
-                                                        </div>
-                                                    </div>
-                                                </>
-                                            )}
+                                    <div className="bg-gray-50/50 dark:bg-gray-800/50 rounded-2xl p-4 grid grid-cols-2 gap-y-4 gap-x-2 relative z-10 flex-1 mt-2">
+                                        <div>
+                                            <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">CMV UNITÁRIO</p>
+                                            <p className="text-sm font-bold text-[#1E1E2F] dark:text-white">{formatarMoeda(cmvUnit)}</p>
                                         </div>
-
-                                        {/* Action Buttons */}
-                                        <div className="flex gap-2 pt-2">
-                                            <Button
-                                                onClick={() => { setSelectedReceita(receita); setShowDetalhes(true); }}
-                                                className="flex-1 h-11 bg-[#EFB6BF]/10 hover:bg-[#EFB6BF]/20 text-[#EFB6BF] font-black text-xs uppercase tracking-widest rounded-2xl transition-all border border-[#EFB6BF]/20 gap-2"
-                                            >
-                                                <Eye className="w-4 h-4" /> Ver Detalhes
-                                            </Button>
-                                            <Button
-                                                variant="ghost"
-                                                onClick={() => { setReceitaParaEditar(receita); setShowNovaReceita(true); }}
-                                                className="w-11 h-11 p-0 rounded-2xl text-gray-300 hover:text-[#EFB6BF] hover:bg-[#EFB6BF]/10 transition-all border border-transparent hover:border-[#EFB6BF]/20"
-                                            >
-                                                <Pencil className="w-4 h-4" />
-                                            </Button>
-                                            <Button
-                                                variant="ghost"
-                                                onClick={() => handleDelete(receita.id)}
-                                                className="w-11 h-11 p-0 rounded-2xl text-gray-300 hover:text-rose-400 hover:bg-rose-50 transition-all border border-transparent hover:border-rose-100"
-                                            >
-                                                <Trash2 className="w-4 h-4" />
-                                            </Button>
+                                        <div>
+                                            <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">CUSTO TOTAL/UN</p>
+                                            <p className="text-sm font-bold text-[#1E1E2F] dark:text-white">{formatarMoeda(custoUnit)}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-[9px] font-bold text-primary/70 uppercase tracking-widest mb-1">PREÇO DE VENDA</p>
+                                            <p className="text-lg font-extrabold text-primary">{formatarMoeda(precoVenda)}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">MARGEM DE LUCRO</p>
+                                            <div className="flex items-center gap-1">
+                                                <p className={cn("text-lg font-bold tracking-tight", margem >= 50 ? "text-green-500" : margem >= 30 ? "text-yellow-500" : "text-red-500")}>
+                                                    {margem.toFixed(1)}%
+                                                </p>
+                                                <span className={cn("material-symbols-outlined text-sm font-bold", margem >= 50 ? "text-green-500" : margem >= 30 ? "text-yellow-500" : "text-red-500")}>
+                                                    trending_up
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+
+                                    <div className="flex items-center gap-3 pt-3 border-t border-gray-100 dark:border-gray-700/50 relative z-10 px-2">
+                                        <button
+                                            onClick={() => { setSelectedReceita(receita); setShowDetalhes(true); }}
+                                            className="flex-1 flex items-center justify-center gap-2 bg-[#FCE7E7] hover:bg-pink-100 dark:bg-pink-900/20 text-primary dark:text-pink-300 py-2.5 rounded-xl font-bold text-[11px] tracking-wider transition"
+                                        >
+                                            <span className="material-symbols-outlined text-[18px]">visibility</span>
+                                            VER DETALHES
+                                        </button>
+                                        <button
+                                            onClick={() => { setReceitaParaEditar(receita); setShowNovaReceita(true); }}
+                                            className="p-2 text-gray-400 hover:text-primary transition rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+                                        >
+                                            <span className="material-symbols-outlined text-[18px]">edit</span>
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(receita.id)}
+                                            className="p-2 text-gray-400 hover:text-red-500 transition rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+                                        >
+                                            <span className="material-symbols-outlined text-[18px]">delete</span>
+                                        </button>
+                                    </div>
+                                </article>
                             );
                         })}
                     </div>
@@ -367,6 +342,6 @@ export default function Receitas() {
                 onOpenChange={setShowDetalhes}
                 receita={selectedReceita}
             />
-        </>
+        </div>
     );
 }

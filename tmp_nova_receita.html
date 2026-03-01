@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DoceLab - Nova Receita</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F28B82", // Soft coral/pink from the design
+                        "primary-dark": "#D96C63",
+                        "background-light": "#F5F3F0", // Off-white/beige background
+                        "background-dark": "#1F1F1F", // Dark mode background
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#2D2D2D",
+                        "text-light": "#1F2937",
+                        "text-dark": "#F3F4F6",
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#404040",
+                        "accent-pink": "#FFF0F0",
+                        "accent-pink-dark": "#3D2B2B",
+                    },
+                    fontFamily: {
+                        display: ["'Plus Jakarta Sans'", "sans-serif"],
+                        body: ["'Plus Jakarta Sans'", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark antialiased transition-colors duration-200">
+<div class="min-h-screen flex">
+<aside class="w-64 hidden lg:flex flex-col border-r border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark p-6 space-y-8">
+<div class="flex items-center gap-2 mb-4">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg">D</div>
+<h1 class="text-xl font-bold text-gray-800 dark:text-white">DoceLab<span class="text-primary">.</span></h1>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-20 h-20 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden mb-3 border-4 border-white dark:border-gray-600 shadow-sm">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-9cUPIEYOZ3eQLB5CU2mEW0fbxr_2HtxAhXk8b2bnzclI-EbpFLAmbP32FEk5wyDhVFK7CD-qv2VtUoZuLMm0Ux6pgz0vVUU7vo6An-88ug5uUYb0iJFRLzgUEVYI5Ux24pQtAynzTJDHWroxCCyHOt7usAjfq9GdE_SCgbIWgXAUfohqxs0TxuQTP2LhCI6EXfLfcZeXtbUyvP85RDdCYaZ99tRoO-IINC9ie7HaoW5xhoV01KzrpE5fKaa4BFgcGmcVVQCQjemz"/>
+</div>
+<h3 class="font-bold text-lg dark:text-white">Ana Paula</h3>
+<div class="flex items-center gap-1 bg-white dark:bg-surface-dark px-3 py-1 rounded-full shadow-sm mt-2">
+<span class="text-yellow-400 text-sm">★</span>
+<span class="text-xs font-semibold text-gray-600 dark:text-gray-300">4.9</span>
+</div>
+</div>
+<nav class="space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-icons-round text-xl">grid_view</span>
+<span class="font-medium">Painel</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-surface-dark text-primary shadow-sm rounded-xl" href="#">
+<span class="material-icons-round text-xl">menu_book</span>
+<span class="font-medium">Receitas</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-icons-round text-xl">shopping_bag</span>
+<span class="font-medium">Pedidos</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-icons-round text-xl">people</span>
+<span class="font-medium">Clientes</span>
+</a>
+</nav>
+<div class="mt-auto">
+<a class="flex items-center gap-3 px-4 py-3 text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors" href="#">
+<span class="material-icons-round text-xl">logout</span>
+<span class="font-medium">Sair</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 p-8 relative">
+<header class="flex justify-between items-center mb-10">
+<div>
+<h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-1">Minhas <span class="text-primary">Receitas</span></h2>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-medium tracking-wide">CADERNO DE DELÍCIAS · 7 RECEITAS</p>
+</div>
+<button class="bg-accent-pink dark:bg-accent-pink-dark text-primary dark:text-primary-dark px-6 py-3 rounded-xl font-semibold shadow-sm hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors flex items-center gap-2">
+<span class="material-icons-round">add</span> Nova Receita
+                </button>
+</header>
+<div aria-hidden="true" class="grid grid-cols-1 md:grid-cols-2 gap-8 opacity-20 pointer-events-none filter blur-sm select-none">
+<div class="bg-white dark:bg-surface-dark rounded-3xl p-6 shadow-sm border border-border-light dark:border-border-dark">
+<div class="h-48 rounded-2xl bg-gray-200 dark:bg-gray-700 mb-6 overflow-hidden relative">
+<span class="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full backdrop-blur-md">DOCES</span>
+<div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+<h3 class="text-white font-bold text-lg">Ovo de Colher ao Leite</h3>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark rounded-3xl p-6 shadow-sm border border-border-light dark:border-border-dark">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Doces</span>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mt-1">Recheio de chocolate</h3>
+</div>
+<div class="w-12 h-12 rounded-full bg-accent-pink dark:bg-accent-pink-dark flex items-center justify-center text-primary">
+<span class="material-icons-round">cookie</span>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+<div class="bg-white dark:bg-surface-dark w-full max-w-5xl h-[85vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-fade-in-up transition-all duration-300 border border-white/20 dark:border-gray-700" x-data="{ step: 1 }">
+<div class="px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between shrink-0">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-accent-pink dark:bg-accent-pink-dark flex items-center justify-center text-primary">
+<span class="material-icons-round">restaurant_menu</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-gray-900 dark:text-white leading-tight">Nova Receita</h3>
+<p class="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-semibold">Caderno de Delícias</p>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-2 bg-gray-50 dark:bg-gray-800 p-1.5 rounded-xl">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all shadow-sm bg-white dark:bg-surface-dark text-gray-900 dark:text-white" id="step-btn-1" onclick="changeStep(1)">
+<span class="material-icons-round text-base text-primary">description</span> Detalhes
+                            </button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-all" id="step-btn-2" onclick="changeStep(2)">
+<span class="material-icons-round text-base">inventory_2</span> Composição
+                            </button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-all" id="step-btn-3" onclick="changeStep(3)">
+<span class="material-icons-round text-base">attach_money</span> Financeiro
+                            </button>
+</div>
+<button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+<span class="material-icons-round">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-8 relative bg-gray-50/50 dark:bg-[#252525]" id="modal-content">
+<div class="block animate-fade-in" id="step-1">
+<div class="grid grid-cols-12 gap-8 h-full">
+<div class="col-span-12 md:col-span-8 space-y-6">
+<div class="space-y-1">
+<label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Nome da Receita</label>
+<input class="w-full bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-600 rounded-xl px-4 py-3.5 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all shadow-sm" placeholder="Ex: Brownie de Nutella" type="text"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-1">
+<label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Categoria</label>
+<div class="relative">
+<select class="w-full appearance-none bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-600 rounded-xl px-4 py-3.5 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all shadow-sm">
+<option>Selecione...</option>
+<option>Doces</option>
+<option>Bolos</option>
+<option>Salgados</option>
+</select>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none material-icons-round">expand_more</span>
+</div>
+</div>
+<div class="space-y-1">
+<label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Tempo de Preparo</label>
+<div class="relative">
+<input class="w-full bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-600 rounded-xl pl-10 pr-4 py-3.5 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all shadow-sm" placeholder="Ex: 45 min" type="text"/>
+<span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 material-icons-round text-lg">schedule</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-1">
+<label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Rendimento do Lote</label>
+<div class="flex items-center gap-3">
+<div class="relative flex-1">
+<input class="w-full text-center font-bold text-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-600 rounded-xl px-4 py-3.5 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all shadow-sm" type="number" value="1"/>
+</div>
+<div class="relative w-24">
+<select class="w-full appearance-none bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-600 rounded-xl px-2 py-3.5 text-center text-sm font-semibold text-gray-600 dark:text-gray-300 focus:ring-2 focus:ring-primary outline-none shadow-sm">
+<option>un</option>
+<option>kg</option>
+<option>g</option>
+<option>L</option>
+</select>
+</div>
+</div>
+</div>
+<div class="space-y-1">
+<label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Foto da Receita</label>
+<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 bg-white dark:bg-surface-dark rounded-xl h-[52px] flex items-center justify-center cursor-pointer hover:border-primary dark:hover:border-primary transition-colors group">
+<div class="flex items-center gap-2 text-gray-400 group-hover:text-primary transition-colors">
+<span class="material-icons-round text-lg">cloud_upload</span>
+<span class="text-xs font-bold uppercase tracking-wide">Clique para upload</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-span-12 md:col-span-4 flex flex-col items-center justify-center bg-white dark:bg-surface-dark rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm min-h-[300px]">
+<div class="w-32 h-32 rounded-full bg-gray-50 dark:bg-gray-800 flex items-center justify-center mb-4">
+<span class="material-icons-round text-6xl text-gray-200 dark:text-gray-600">image</span>
+</div>
+<p class="text-center text-gray-400 dark:text-gray-500 text-sm">Adicione uma foto para deixar sua receita mais atraente.</p>
+</div>
+</div>
+</div>
+<div class="hidden animate-fade-in h-full flex flex-col" id="step-2">
+<div class="text-center mb-6">
+<h4 class="text-xl font-bold text-gray-800 dark:text-white">Composição Técnica</h4>
+<p class="text-gray-500 dark:text-gray-400 text-sm">Vincule itens do estoque para o cálculo de CMV</p>
+</div>
+<div class="flex-1 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-2xl flex flex-col items-center justify-center p-10 bg-white dark:bg-surface-dark/50 mb-8 min-h-[200px]">
+<div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-2xl flex items-center justify-center mb-4 text-gray-300 dark:text-gray-500">
+<span class="material-icons-round text-3xl">inventory_2</span>
+</div>
+<p class="text-gray-400 dark:text-gray-500 font-medium mb-6">Nenhum ingrediente vinculado ainda</p>
+<button class="bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg shadow-primary/30 transition-all transform hover:scale-105 flex items-center gap-2">
+<span class="material-icons-round text-sm">add</span> Adicionar Item
+                                </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Ingredientes Extras</label>
+<textarea class="w-full h-32 bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-600 rounded-xl p-4 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-primary focus:border-transparent outline-none resize-none shadow-sm transition-all" placeholder="Outros itens não pesáveis..."></textarea>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Modo de Preparo</label>
+<textarea class="w-full h-32 bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-600 rounded-xl p-4 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-primary focus:border-transparent outline-none resize-none shadow-sm transition-all" placeholder="Passo a passo da receita..."></textarea>
+</div>
+</div>
+</div>
+<div class="hidden animate-fade-in pb-20" id="step-3">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+<div class="bg-white dark:bg-surface-dark p-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2 h-2 rounded-full bg-purple-400"></span>
+<span class="text-[10px] font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500">Custos Fixos</span>
+</div>
+<div class="text-2xl font-bold text-gray-900 dark:text-white">R$ 0,00</div>
+<div class="text-[10px] text-gray-400 dark:text-gray-500 mt-1">R$ 0,00 / min × 0 min</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2 h-2 rounded-full bg-orange-400"></span>
+<span class="text-[10px] font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500">Gás &amp; Energia</span>
+</div>
+<div class="text-2xl font-bold text-gray-900 dark:text-white">R$ 0,00</div>
+<div class="text-[10px] text-gray-400 dark:text-gray-500 mt-1">Botijão R$ 120 / 50h</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow ring-2 ring-primary ring-opacity-10">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-icons-round text-blue-500 text-xs">verified_user</span>
+<span class="text-[10px] font-bold uppercase tracking-wide text-blue-500">CMV + Segurança</span>
+</div>
+<div class="text-2xl font-bold text-gray-900 dark:text-white">R$ 0,01</div>
+<div class="text-[10px] text-gray-400 dark:text-gray-500 mt-1">+20% Imprevistos</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-icons-round text-gray-400 text-xs">paid</span>
+<span class="text-[10px] font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500">Custo Operacional</span>
+</div>
+<div class="text-2xl font-bold text-gray-900 dark:text-white">R$ 0,00</div>
+<div class="text-[10px] text-gray-400 dark:text-gray-500 mt-1">CMV + Gás + MO</div>
+</div>
+</div>
+<div class="bg-accent-pink dark:bg-accent-pink-dark/30 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center mb-8 border border-primary/20">
+<div>
+<h4 class="text-primary dark:text-primary font-bold text-xs uppercase tracking-widest mb-1">Custo Unitário Final</h4>
+<p class="text-gray-500 dark:text-gray-400 text-xs">Custo Base / 1 UN</p>
+</div>
+<div class="text-5xl font-bold text-primary dark:text-primary mt-4 md:mt-0">
+                                    R$ 0,01
+                                </div>
+</div>
+<div class="mb-6">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
+<span class="material-icons-round">trending_up</span>
+</div>
+<div>
+<h4 class="font-bold text-gray-900 dark:text-white">Sugestões de Preço</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">Clique para definir o preço de venda</p>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<button class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary rounded-xl p-4 text-center transition-all group">
+<div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 group-hover:text-primary transition-colors">Lucro 30%</div>
+<div class="text-2xl font-bold text-gray-900 dark:text-white mb-1">R$ 0,01</div>
+<div class="text-[10px] text-gray-400">Lote: R$ 0,01</div>
+</button>
+<button class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary rounded-xl p-4 text-center transition-all group">
+<div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 group-hover:text-primary transition-colors">Lucro 50%</div>
+<div class="text-2xl font-bold text-gray-900 dark:text-white mb-1">R$ 0,01</div>
+<div class="text-[10px] text-gray-400">Lote: R$ 0,01</div>
+</button>
+<button class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary rounded-xl p-4 text-center transition-all group">
+<div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 group-hover:text-primary transition-colors">Lucro 70%</div>
+<div class="text-2xl font-bold text-gray-900 dark:text-white mb-1">R$ 0,01</div>
+<div class="text-[10px] text-gray-400">Lote: R$ 0,01</div>
+</button>
+<button class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary rounded-xl p-4 text-center transition-all group">
+<div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 group-hover:text-primary transition-colors">Lucro 100%</div>
+<div class="text-2xl font-bold text-gray-900 dark:text-white mb-1">R$ 0,01</div>
+<div class="text-[10px] text-gray-400">Lote: R$ 0,01</div>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="px-8 py-5 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between shrink-0 bg-white dark:bg-surface-dark rounded-b-3xl">
+<button class="text-gray-500 dark:text-gray-400 font-bold text-sm hover:text-gray-700 dark:hover:text-gray-200 px-4 py-2 transition-colors uppercase tracking-wide" onclick="prevStep()">
+                            Voltar
+                        </button>
+<button class="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-6 py-3 rounded-xl font-bold text-sm shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center gap-2" onclick="nextStep()">
+<span id="next-btn-text">Próximo Passo</span>
+<span class="material-icons-round text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+        let currentStep = 1;
+        const totalSteps = 3;
+        function updateUI() {
+            // Hide all steps
+            for (let i = 1; i <= totalSteps; i++) {
+                const el = document.getElementById(`step-${i}`);
+                if (el) {
+                    el.classList.add('hidden');
+                    el.classList.remove('block');
+                }
+                // Reset button styles
+                const btn = document.getElementById(`step-btn-${i}`);
+                if (btn) {
+                     btn.className = "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-all cursor-pointer";
+                }
+            }
+            // Show current step
+            const currentEl = document.getElementById(`step-${currentStep}`);
+            if (currentEl) {
+                currentEl.classList.remove('hidden');
+                currentEl.classList.add('block');
+            }
+            // Active button style
+            const activeBtn = document.getElementById(`step-btn-${currentStep}`);
+            if (activeBtn) {
+                activeBtn.className = "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white ring-1 ring-gray-200 dark:ring-gray-600 cursor-default";
+                // Add color to icon of active step
+                const icon = activeBtn.querySelector('.material-icons-round');
+                if(icon) icon.classList.add('text-primary');
+            }
+            // Update Next Button Text
+            const nextText = document.getElementById('next-btn-text');
+            if (currentStep === totalSteps) {
+                nextText.textContent = "Finalizar Receita";
+            } else {
+                nextText.textContent = "Próximo Passo";
+            }
+        }
+        function changeStep(step) {
+            currentStep = step;
+            updateUI();
+        }
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateUI();
+            } else {
+                // Submit logic would go here
+                alert("Receita Finalizada!");
+            }
+        }
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateUI();
+            }
+        }
+        // Initialize
+        updateUI();
+    </script>
+<style>
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fade-in 0.4s ease-out forwards;
+        }
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .animate-fade-in-up {
+            animation: fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+
+</body></html>

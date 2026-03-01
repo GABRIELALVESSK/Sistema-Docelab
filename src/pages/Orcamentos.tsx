@@ -139,9 +139,6 @@ export default function Orcamentos() {
         try {
             const { data: { user } } = await supabase.auth.getUser();
 
-            // 1. Create the order in 'pedidos' table
-            // We map 'itens' from budget to 'itens' in orders
-            // pedals table uses 'cliente', 'telefone', 'produto', 'quantidade', 'preco', 'itens'
             const firstItem = orc.itens[0] || { nome: "Personalizado", quantidade: 1, precoUnitario: orc.valor_total };
             const fotoBudget = orc.itens?.find((it: any) => it.fotoUrl)?.fotoUrl || null;
 
@@ -164,7 +161,6 @@ export default function Orcamentos() {
 
             if (pedidoError) throw pedidoError;
 
-            // 2. Update budget status
             const { error: orcError } = await supabase
                 .from('orcamentos')
                 .update({ status: 'aprovado' })
@@ -214,7 +210,7 @@ export default function Orcamentos() {
             try {
                 await fetch(webhookUrl, {
                     method: 'POST',
-                    mode: 'no-cors', // Bypassa bloqueios de CORS
+                    mode: 'no-cors',
                     headers: {
                         'Content-Type': 'text/plain',
                     },
@@ -228,7 +224,6 @@ export default function Orcamentos() {
                     })
                 });
 
-                // Em modo no-cors, consideramos sucesso se não houve erro de rede imediato
                 toast({ title: "Enviando...", description: "O orçamento está sendo processado." });
             } catch (error: any) {
                 console.error("Erro ao enviar webhook:", error);
@@ -246,100 +241,43 @@ export default function Orcamentos() {
     };
 
     return (
-        <>
-            <div className="p-8 pb-20 max-w-6xl mx-auto">
-                {/* Header */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
-                    <div>
-                        <h1 className="text-[28px] font-bold text-gray-900 tracking-tight">Orçamentos Profissionais</h1>
-                        <p className="text-[15px] font-normal text-gray-500">Crie propostas encantadoras e envie direto pelo WhatsApp</p>
-                    </div>
-                    <Button
-                        onClick={() => setShowCriarOrcamento(true)}
-                        className="gap-2 bg-[#EFB6BF] hover:bg-[#e8a0ab] text-white font-black px-8 h-14 rounded-2xl shadow-lg shadow-[#EFB6BF]/20 border-none transition-all hover:scale-105 active:scale-95"
-                    >
-                        <Plus className="w-5 h-5" />
-                        Novo Orçamento
-                    </Button>
-                </div>
-
-                {/* Section: Orçamentos Prontos */}
-                <div className="mb-12">
-                    <div className="flex items-center justify-between mb-6">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-2xl bg-[#EFB6BF]/10 flex items-center justify-center">
-                                <Package className="w-5 h-5 text-[#EFB6BF]" />
-                            </div>
-                            <div>
-                                <h2 className="text-[20px] font-medium text-gray-800 tracking-tight">Meus Templates</h2>
-                                <p className="text-[12px] text-gray-400 font-bold uppercase tracking-wider">Orçamentos Rápidos</p>
-                            </div>
-                        </div>
-                        <Button
-                            size="sm"
-                            variant="outline"
-                            className="gap-2 border-[#EFB6BF]/20 text-[#EFB6BF] hover:bg-[#EFB6BF]/5 font-bold rounded-xl"
-                            onClick={() => setShowNovoTemplate(true)}
-                        >
-                            <Plus className="w-4 h-4" />
-                            Novo Template
-                        </Button>
-                    </div>
-
-                    {templates.length === 0 && !loading ? (
-                        <div className="bg-white rounded-[2rem] border border-dashed border-gray-200 p-12 text-center">
-                            <Package className="w-12 h-12 text-gray-200 mx-auto mb-4" />
-                            <h3 className="font-bold text-gray-400 text-sm">Nenhum template criado</h3>
-                            <p className="text-xs text-gray-300 mt-1 max-w-[200px] mx-auto">Salve configurações frequentes para criar orçamentos em segundos</p>
-                        </div>
-                    ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {templates.map((template) => (
-                                <div key={template.id} className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-md transition-all group relative overflow-hidden">
-                                    <div className="absolute top-0 left-0 w-1.5 h-full bg-[#EFB6BF]/20" />
-                                    <div className="flex justify-between items-start mb-4">
-                                        <div>
-                                            <h4 className="font-black text-gray-900 leading-tight">{template.nome_template}</h4>
-                                            <p className="text-[10px] text-gray-400 font-bold uppercase mt-1">{template.tipo_encomenda}</p>
-                                        </div>
-                                        <div className="text-right">
-                                            <p className="text-sm font-black text-[#EFB6BF]">{formatarMoeda(template.preco_final)}</p>
-                                        </div>
-                                    </div>
-                                    <p className="text-xs text-gray-500 line-clamp-2 mb-4 h-8">{template.descricao || "Sem descrição"}</p>
-                                    <div className="flex items-center gap-2 text-[10px] text-gray-400 font-bold">
-                                        <Clock className="w-3 h-3" />
-                                        Criado em {format(new Date(template.created_at), "dd/MM/yyyy")}
-                                    </div>
-                                </div>
-                            ))}
-                            {loading && <div className="animate-pulse bg-gray-50 h-32 rounded-[2rem]" />}
-                        </div>
-                    )}
-                </div>
-
-                {/* Main List Section */}
+        <div className="w-full p-8 lg:p-10 flex flex-col h-full overflow-hidden animate-in-fade bg-[#F5F1EB] dark:bg-background-dark relative">
+            <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-10 flex-shrink-0 relative z-10">
                 <div>
+                    <h2 className="text-[28px] font-extrabold text-[#1E1E2F] dark:text-white leading-tight tracking-tight mb-1">Orçamentos Profissionais</h2>
+                    <p className="text-[#5A5A69] dark:text-gray-400 text-[14px] font-medium">Crie propostas encantadoras e envie direto pelo WhatsApp</p>
+                </div>
+                <Button
+                    onClick={() => setShowCriarOrcamento(true)}
+                    className="bg-[#F4C7C7] hover:bg-[#F87171] text-[#1E1E2F] hover:text-white px-8 h-14 rounded-2xl font-bold text-[14px] tracking-wide transition shadow-sm flex items-center gap-2 border-none"
+                >
+                    <span className="material-symbols-outlined text-[20px]">add</span>
+                    Novo Orçamento
+                </Button>
+            </header>
+
+            <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar relative z-10">
+                <section>
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="w-10 h-10 rounded-2xl bg-gray-100 flex items-center justify-center">
-                            <FileText className="w-5 h-5 text-gray-400" />
+                        <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-[#3B82F6]">
+                            <span className="material-symbols-outlined text-xl">description</span>
                         </div>
                         <div>
-                            <h2 className="text-lg font-black text-gray-800 tracking-tight">Histórico de Orçamentos</h2>
-                            <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Enviados e Pendentes</p>
+                            <h3 className="text-[18px] font-bold text-[#1E1E2F] dark:text-white">Histórico de Orçamentos</h3>
+                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">ENVIADOS E PENDENTES</p>
                         </div>
                     </div>
 
                     {orcamentos.length === 0 && !loading ? (
-                        <div className="bg-white rounded-[2rem] border border-gray-100 p-16 text-center shadow-sm">
-                            <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <FileText className="w-10 h-10 text-gray-200" />
+                        <div className="bg-white dark:bg-gray-800 rounded-[2rem] border border-gray-100 dark:border-gray-700 p-16 text-center shadow-soft">
+                            <div className="w-20 h-20 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <span className="material-symbols-outlined text-gray-300 dark:text-gray-600 text-4xl">description</span>
                             </div>
-                            <h3 className="text-xl font-black text-gray-900">Nenhum orçamento ainda</h3>
-                            <p className="text-gray-500 mt-2 mb-10 max-w-md mx-auto"> Comece a profissionalizar seu atendimento criando orçamentos detalhados com fotos para seus clientes.</p>
+                            <h3 className="text-[20px] font-bold text-[#1E1E2F] dark:text-white">Nenhum orçamento ainda</h3>
+                            <p className="text-[#5A5A69] dark:text-gray-400 text-[14px] mt-2 mb-10 max-w-md mx-auto italic">Comece a profissionalizar seu atendimento criando orçamentos detalhados com fotos para seus clientes.</p>
                             <Button
                                 onClick={() => setShowCriarOrcamento(true)}
-                                className="bg-[#EFB6BF] hover:bg-[#e8a0ab] text-white font-black px-10 h-14 rounded-2xl shadow-lg shadow-[#EFB6BF]/20 border-none transition-all hover:scale-105"
+                                className="bg-[#F4C7C7] hover:bg-[#F87171] text-[#1E1E2F] hover:text-white px-10 h-14 rounded-2xl font-bold shadow-lg transition-all"
                             >
                                 Criar meu primeiro orçamento
                             </Button>
@@ -347,78 +285,75 @@ export default function Orcamentos() {
                     ) : (
                         <div className="space-y-4">
                             {orcamentos.map((orc) => (
-                                <div key={orc.id} className="bg-white p-6 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row md:items-center gap-6 group">
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex items-center gap-3 mb-2">
+                                <div key={orc.id} className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-soft border border-gray-100 dark:border-gray-700 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-md transition-shadow group">
+                                    <div className="flex-1 flex flex-col gap-3 min-w-0">
+                                        <div className="flex items-center gap-3">
                                             <span className={cn(
-                                                "text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter",
-                                                orc.status === 'aprovado' ? "bg-emerald-100 text-emerald-600" :
-                                                    orc.status === 'cancelado' ? "bg-red-100 text-red-600" :
-                                                        "bg-amber-100 text-amber-600"
+                                                "px-3 py-1 text-[10px] font-extrabold rounded-full tracking-wider uppercase",
+                                                orc.status === 'aprovado' ? "bg-emerald-50 text-emerald-600" :
+                                                    orc.status === 'cancelado' ? "bg-red-50 text-red-500" :
+                                                        "bg-amber-50 text-amber-500"
                                             )}>
                                                 {orc.status}
                                             </span>
-                                            <span className="text-[10px] font-bold text-gray-400">
+                                            <span className="text-[10px] font-bold text-gray-300">
                                                 #{orc.id.slice(0, 5)} • {format(new Date(orc.created_at), "dd MMM yyyy", { locale: ptBR })}
                                             </span>
                                         </div>
-                                        <h3 className="text-lg font-black text-gray-900 truncate">{orc.cliente_nome}</h3>
-                                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1">
-                                            {orc.cliente_telefone && (
-                                                <div className="flex items-center gap-1.5 text-xs text-gray-500 font-medium">
-                                                    <MessageCircle className="w-3.5 h-3.5 text-emerald-500" />
-                                                    {orc.cliente_telefone}
+                                        <div>
+                                            <h4 className="text-[16px] font-bold text-[#1E1E2F] dark:text-white mb-1 truncate">{orc.cliente_nome}</h4>
+                                            <div className="flex items-center gap-4 text-gray-400">
+                                                {orc.cliente_telefone && (
+                                                    <div className="flex items-center gap-1">
+                                                        <span className="material-symbols-outlined text-[16px]">chat</span>
+                                                        <span className="text-[12px] font-semibold">{orc.cliente_telefone}</span>
+                                                    </div>
+                                                )}
+                                                <div className="flex items-center gap-1">
+                                                    <span className="material-symbols-outlined text-[16px]">inventory_2</span>
+                                                    <span className="text-[12px] font-semibold">{orc.itens.length} {orc.itens.length === 1 ? 'item' : 'itens'}</span>
                                                 </div>
-                                            )}
-                                            <div className="flex items-center gap-1.5 text-xs text-gray-500 font-medium">
-                                                <Package className="w-3.5 h-3.5 text-gray-400" />
-                                                {orc.itens.length} {orc.itens.length === 1 ? 'item' : 'itens'}
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center gap-6 md:border-l md:pl-6 border-gray-50">
+                                    <div className="flex items-center gap-6">
                                         <div className="text-right">
-                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Valor Total</p>
-                                            <p className="text-xl font-black text-[#EFB6BF] leading-none">
-                                                {formatarMoeda(orc.valor_total)}
-                                            </p>
+                                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">VALOR TOTAL</p>
+                                            <p className="text-[20px] font-extrabold text-[#1E1E2F] dark:text-white">{formatarMoeda(orc.valor_total)}</p>
                                         </div>
-
                                         <div className="flex items-center gap-2">
-                                            <Button
-                                                size="icon"
-                                                variant="ghost"
+                                            <button
                                                 onClick={() => sendWhatsApp(orc)}
-                                                className="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-600 hover:bg-emerald-100 hover:text-emerald-700 transition-all"
-                                                title="Reenviar pelo WhatsApp"
+                                                className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center hover:scale-105 transition shadow-sm"
+                                                title="Enviar WhatsApp"
                                             >
-                                                <MessageCircle className="w-5 h-5" />
-                                            </Button>
+                                                <span className="material-symbols-outlined text-[20px] fill-1">chat</span>
+                                            </button>
 
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
-                                                    <Button size="icon" variant="ghost" className="w-11 h-11 rounded-2xl">
-                                                        <MoreVertical className="w-5 h-5 text-gray-400" />
-                                                    </Button>
+                                                    <button className="w-10 h-10 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                                                        <span className="material-symbols-outlined">more_vert</span>
+                                                    </button>
                                                 </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end" className="rounded-2xl p-2 border-gray-100 shadow-xl">
+                                                <DropdownMenuContent align="end" className="rounded-2xl p-2 border-gray-100 dark:border-gray-700 shadow-xl dark:bg-gray-800">
                                                     <DropdownMenuItem
                                                         onClick={() => handleAprovarOrcamento(orc)}
-                                                        className="rounded-xl gap-2 font-bold text-emerald-600 focus:text-emerald-700"
+                                                        className="rounded-xl gap-2 font-bold text-emerald-600 focus:text-emerald-700 cursor-pointer"
                                                     >
                                                         <CheckCircle2 className="w-4 h-4" /> Aprovar e Gerar Pedido
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem
                                                         onClick={() => handleStatusUpdate(orc.id, 'cancelado')}
-                                                        className="rounded-xl gap-2 font-bold text-red-400 focus:text-red-500"
+                                                        className="rounded-xl gap-2 font-bold text-red-500 focus:text-red-600 cursor-pointer"
                                                     >
                                                         <Trash2 className="w-4 h-4" /> Cancelar
                                                     </DropdownMenuItem>
-                                                    <div className="h-px bg-gray-50 my-1" />
+                                                    <div className="h-px bg-gray-50 dark:bg-gray-700 my-1" />
                                                     <DropdownMenuItem
                                                         onClick={() => handleDeleteOrcamento(orc.id)}
-                                                        className="rounded-xl gap-2 font-bold text-gray-400 focus:text-red-500"
+                                                        className="rounded-xl gap-2 font-bold text-gray-400 hover:text-red-500 cursor-pointer"
                                                     >
                                                         Excluir Definitivamente
                                                     </DropdownMenuItem>
@@ -428,10 +363,10 @@ export default function Orcamentos() {
                                     </div>
                                 </div>
                             ))}
-                            {loading && [1, 2, 3].map(i => <div key={i} className="animate-pulse bg-white h-24 rounded-[2.5rem] border border-gray-100" />)}
+                            {loading && [1, 2].map(i => <div key={i} className="animate-pulse bg-white dark:bg-gray-800 h-28 rounded-3xl shadow-soft" />)}
                         </div>
                     )}
-                </div>
+                </section>
             </div>
 
             <NovoOrcamentoProntoModal
@@ -445,6 +380,6 @@ export default function Orcamentos() {
                 onOpenChange={setShowCriarOrcamento}
                 onSubmit={handleCreateOrcamento}
             />
-        </>
+        </div>
     );
 }

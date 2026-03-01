@@ -21,6 +21,8 @@ import {
     X,
     ChevronDown,
     Sparkles,
+    Calendar,
+    Clock,
 } from "lucide-react";
 import { format, addDays } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -274,97 +276,151 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
         }
     };
 
-    // Preview step
+    // Render logic
     if (step === "preview") {
         return (
             <Dialog open={open} onOpenChange={onOpenChange}>
-                <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden rounded-[2rem] border-none shadow-2xl max-h-[95vh] flex flex-col">
-                    <div className="p-8 bg-white overflow-y-auto custom-scrollbar">
-                        <DialogHeader className="mb-6">
-                            <div className="flex items-center gap-2 mb-1">
-                                <Sparkles className="w-5 h-5 text-[#EFB6BF]" />
-                                <DialogTitle className="text-xl font-black text-gray-900">
+                <DialogContent className="sm:max-w-[700px] p-0 overflow-hidden rounded-3xl border-none shadow-modal max-h-[90vh] flex flex-col bg-white dark:bg-card-dark">
+                    <div className="px-8 pt-8 pb-4 flex items-start justify-between flex-shrink-0">
+                        <div>
+                            <div className="flex items-center gap-3 mb-1">
+                                <span className="material-symbols-outlined text-secondary dark:text-white text-2xl">description</span>
+                                <DialogTitle className="text-2xl font-extrabold text-secondary dark:text-white tracking-tight">
                                     Pré-visualização do Orçamento
                                 </DialogTitle>
                             </div>
-                        </DialogHeader>
-
-                        {/* Client info */}
-                        <div className="p-5 rounded-2xl bg-[#FDFCFB] border border-border/30 mb-6 space-y-1">
-                            {clienteNome && <p className="text-sm font-bold text-gray-800">👤 {clienteNome}</p>}
-                            {clienteEndereco && <p className="text-xs text-gray-500">📍 {clienteEndereco}</p>}
-                            {clienteTelefone && <p className="text-xs text-gray-500">📱 {clienteTelefone}</p>}
-                            {clienteEmail && <p className="text-xs text-gray-500">✉️ {clienteEmail}</p>}
-                            <p className="text-[10px] text-gray-400 pt-1">
-                                Válido até: {validade ? format(new Date(validade + 'T12:00:00'), "dd/MM/yyyy", { locale: ptBR }) : "N/A"}
+                            <p className="text-sm font-semibold text-gray-400 tracking-wide uppercase">
+                                {format(new Date(), "dd 'DE' MMMM 'DE' yyyy", { locale: ptBR })}
                             </p>
                         </div>
+                        <button
+                            onClick={() => onOpenChange(false)}
+                            className="text-gray-400 hover:text-secondary dark:hover:text-white transition-colors p-1"
+                        >
+                            <span className="material-symbols-outlined text-2xl">close</span>
+                        </button>
+                    </div>
 
-                        {/* Items */}
-                        <div className="space-y-3 mb-6">
-                            {itens.map((item, index) => (
-                                <div key={index} className="flex gap-4 p-4 rounded-2xl border border-border/30 bg-white">
-                                    {item.fotoUrl ? (
-                                        <img src={item.fotoUrl} alt={item.nome} className="w-16 h-16 rounded-xl object-cover flex-shrink-0" />
-                                    ) : (
-                                        <div className="w-16 h-16 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
-                                            <ImageIcon className="w-6 h-6 text-gray-300" />
-                                        </div>
-                                    )}
-                                    <div className="flex-1 min-w-0">
-                                        <h4 className="text-sm font-black text-gray-900 truncate">{item.nome}</h4>
-                                        <p className="text-xs text-gray-500 mt-0.5">
-                                            {item.quantidade}x {formatarMoeda(item.precoUnitario)}
-                                        </p>
-                                        {item.observacao && (
-                                            <p className="text-[10px] text-amber-600 mt-1 italic">📝 {item.observacao}</p>
-                                        )}
+                    <div className="flex-1 overflow-y-auto px-8 pb-8 custom-scrollbar space-y-6 mt-4">
+                        {/* Client info card */}
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
+                            <div className="flex items-center gap-2 mb-4">
+                                <span className="material-symbols-outlined text-primary text-xl">person</span>
+                                <h3 className="text-lg font-bold text-secondary dark:text-white">Dados do Cliente</h3>
+                            </div>
+                            <div className="space-y-2">
+                                {clienteNome && (
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-sm font-bold text-gray-800 dark:text-gray-200">{clienteNome}</span>
                                     </div>
-                                    <div className="text-right flex-shrink-0">
-                                        <p className="text-sm font-black text-[#EFB6BF]">
-                                            {formatarMoeda(item.precoUnitario * item.quantidade)}
-                                        </p>
+                                )}
+                                {clienteEndereco && (
+                                    <div className="flex items-center gap-2 opacity-70">
+                                        <span className="material-symbols-outlined text-sm">location_on</span>
+                                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{clienteEndereco}</span>
                                     </div>
+                                )}
+                                {clienteTelefone && (
+                                    <div className="flex items-center gap-2 opacity-70">
+                                        <span className="material-symbols-outlined text-sm">call</span>
+                                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{clienteTelefone}</span>
+                                    </div>
+                                )}
+                                {clienteEmail && (
+                                    <div className="flex items-center gap-2 opacity-70">
+                                        <span className="material-symbols-outlined text-sm">mail</span>
+                                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{clienteEmail}</span>
+                                    </div>
+                                )}
+                                <div className="flex items-center gap-2 pt-2 opacity-50">
+                                    <span className="material-symbols-outlined text-sm">calendar_today</span>
+                                    <span className="text-[10px] font-bold uppercase tracking-wider">
+                                        Válido até: {validateDate(validade)}
+                                    </span>
                                 </div>
-                            ))}
+                            </div>
+                        </div>
+
+                        {/* Items Preview */}
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
+                            <div className="flex items-center gap-2 mb-6">
+                                <span className="material-symbols-outlined text-primary text-xl">shopping_bag</span>
+                                <h3 className="text-lg font-bold text-secondary dark:text-white">Itens do Orçamento</h3>
+                            </div>
+                            <div className="space-y-4">
+                                {itens.map((item, index) => (
+                                    <div key={index} className="flex gap-4 p-4 rounded-2xl border border-gray-50 dark:border-gray-700 bg-gray-50/30 dark:bg-gray-700/30">
+                                        {item.fotoUrl ? (
+                                            <img src={item.fotoUrl} alt={item.nome} className="w-16 h-16 rounded-xl object-cover flex-shrink-0" />
+                                        ) : (
+                                            <div className="w-16 h-16 rounded-xl bg-white dark:bg-gray-600 flex items-center justify-center flex-shrink-0 border border-gray-100 dark:border-gray-600">
+                                                <span className="material-symbols-outlined text-gray-300 dark:text-gray-500">image</span>
+                                            </div>
+                                        )}
+                                        <div className="flex-1 min-w-0">
+                                            <h4 className="text-sm font-extrabold text-secondary dark:text-white truncate">{item.nome}</h4>
+                                            <p className="text-xs font-bold text-gray-400 mt-0.5">
+                                                {item.quantidade}x {formatarMoeda(item.precoUnitario)}
+                                            </p>
+                                            {item.observacao && (
+                                                <p className="text-[10px] font-bold text-primary mt-2 flex items-center gap-1 uppercase tracking-wide">
+                                                    <span className="material-symbols-outlined text-xs">notes</span>
+                                                    {item.observacao}
+                                                </p>
+                                            )}
+                                        </div>
+                                        <div className="text-right flex-shrink-0 flex flex-col justify-center">
+                                            <p className="text-sm font-black text-primary">
+                                                {formatarMoeda(item.precoUnitario * item.quantidade)}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
 
                         {/* Totals Preview */}
-                        <div className="p-5 rounded-2xl bg-[#FDFCFB] border border-border/30 mb-6 space-y-2">
-                            <div className="flex justify-between items-center text-xs text-gray-500 font-medium">
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm space-y-3">
+                            <div className="flex justify-between items-center text-xs font-bold text-gray-400 uppercase tracking-wider">
                                 <span>Subtotal dos itens</span>
-                                <span>{formatarMoeda(valorItens)}</span>
+                                <span className="text-secondary dark:text-white">{formatarMoeda(valorItens)}</span>
                             </div>
                             {frete > 0 && (
-                                <div className="flex justify-between items-center text-xs text-emerald-600 font-bold">
-                                    <span>Entrega / Frete</span>
+                                <div className="flex justify-between items-center text-xs font-bold text-emerald-600 uppercase tracking-wider">
+                                    <div className="flex items-center gap-1">
+                                        <span className="material-symbols-outlined text-xs">local_shipping</span>
+                                        <span>Entrega / Frete</span>
+                                    </div>
                                     <span>+ {formatarMoeda(frete)}</span>
                                 </div>
                             )}
-                            <div className="h-px bg-gray-100 my-1" />
+                            <div className="h-px bg-gray-100 dark:bg-gray-700 my-2" />
                             <div className="flex justify-between items-center">
-                                <span className="text-sm font-bold text-gray-700">Total Final</span>
-                                <span className="text-2xl font-black text-[#EFB6BF]">{formatarMoeda(valorTotal)}</span>
+                                <span className="text-sm font-extrabold text-secondary dark:text-white uppercase tracking-tight">Total Final</span>
+                                <span className="text-2xl font-black text-primary tracking-tighter">{formatarMoeda(valorTotal)}</span>
                             </div>
                         </div>
 
                         {notas && (
-                            <div className="p-4 rounded-xl bg-amber-50 border border-amber-100 mb-6">
-                                <p className="text-xs font-bold text-amber-700 mb-1">Observações</p>
-                                <p className="text-xs text-amber-600">{notas}</p>
+                            <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30">
+                                <p className="text-[10px] font-extrabold text-amber-700 dark:text-amber-500 uppercase tracking-widest mb-1 flex items-center gap-1">
+                                    <span className="material-symbols-outlined text-xs">event_note</span>
+                                    Observações do Orçamento
+                                </p>
+                                <p className="text-xs font-semibold text-amber-600 dark:text-amber-400/80 leading-relaxed">{notas}</p>
                             </div>
                         )}
 
                         {/* Actions */}
-                        <div className="space-y-3 pt-2">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
                             {clienteTelefone && (
                                 <Button
                                     type="button"
                                     onClick={handleSendWhatsApp}
-                                    className="w-full h-12 rounded-[20px] bg-emerald-500 hover:bg-emerald-600 text-white font-black text-sm shadow-lg shadow-emerald-500/20 border-none transition-all active:scale-[0.98] gap-2"
+                                    className="h-14 rounded-2xl bg-[#25D366] hover:bg-[#1fb355] text-white font-black text-sm shadow-lg shadow-emerald-500/20 border-none transition-all active:scale-[0.98] flex items-center justify-center gap-2"
                                 >
-                                    <MessageCircle className="w-4 h-4" />
-                                    {isSaving ? "Salvando..." : "Enviar via WhatsApp"}
+                                    <span className="material-symbols-outlined fill-1">chat</span>
+                                    {isSaving ? "SALVANDO..." : "ENVIAR VIA WHATSAPP"}
                                 </Button>
                             )}
 
@@ -372,19 +428,19 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                 type="button"
                                 onClick={handleConfirmAndSave}
                                 disabled={isSaving}
-                                className="w-full h-12 rounded-[20px] bg-[#EFB6BF] hover:bg-[#e8a0ab] text-white font-black text-sm shadow-lg shadow-[#EFB6BF]/20 border-none transition-all active:scale-[0.98] gap-2"
+                                className="h-14 rounded-2xl bg-secondary dark:bg-white dark:text-secondary text-white font-black text-sm shadow-lg border-none transition-all active:scale-[0.98] flex items-center justify-center gap-2"
                             >
-                                <Send className="w-4 h-4" />
-                                {isSaving ? "Salvando..." : "Salvar Orçamento"}
+                                <span className="material-symbols-outlined">save</span>
+                                {isSaving ? "SALVANDO..." : "SALVAR ORÇAMENTO"}
                             </Button>
 
                             <Button
                                 type="button"
-                                variant="outline"
+                                variant="ghost"
                                 onClick={() => setStep("form")}
-                                className="w-full h-10 rounded-[20px] text-sm font-bold"
+                                className="md:col-span-2 h-10 rounded-xl text-xs font-bold text-gray-400 hover:text-secondary transition-colors"
                             >
-                                ← Voltar e Editar
+                                ← VOLTAR E EDITAR CAMPOS
                             </Button>
                         </div>
                     </div>
@@ -393,33 +449,41 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
         );
     }
 
-    // Form step
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[650px] p-0 overflow-hidden rounded-[2rem] border-none shadow-2xl max-h-[95vh] flex flex-col">
-                <div className="p-8 bg-white overflow-y-auto custom-scrollbar">
-                    <DialogHeader className="mb-6">
-                        <div className="flex items-center gap-2 mb-1">
-                            <FileEdit className="w-5 h-5 text-muted-foreground" />
-                            <DialogTitle className="text-xl font-bold text-foreground">
+            <DialogContent className="sm:max-w-[700px] p-0 overflow-hidden rounded-3xl border-none shadow-modal max-h-[90vh] flex flex-col bg-white dark:bg-card-dark [&>button]:hidden">
+                <div className="px-8 pt-8 pb-4 flex items-start justify-between flex-shrink-0">
+                    <div>
+                        <div className="flex items-center gap-3 mb-1">
+                            <span className="material-symbols-outlined text-secondary dark:text-white text-2xl">description</span>
+                            <DialogTitle className="text-2xl font-extrabold text-secondary dark:text-white tracking-tight">
                                 Criar Orçamento
                             </DialogTitle>
                         </div>
-                        <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
-                            {format(new Date(), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
+                        <p className="text-sm font-semibold text-gray-400 tracking-wide uppercase">
+                            {format(new Date(), "dd 'DE' MMMM 'DE' yyyy", { locale: ptBR })}
                         </p>
-                    </DialogHeader>
+                    </div>
+                    <button
+                        onClick={() => onOpenChange(false)}
+                        className="text-gray-400 hover:text-secondary dark:hover:text-white transition-colors p-1"
+                    >
+                        <span className="material-symbols-outlined text-2xl">close</span>
+                    </button>
+                </div>
 
+                <div className="flex-1 overflow-y-auto px-8 pb-8 custom-scrollbar space-y-6 mt-4">
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Client Info Card */}
-                        <div className="p-6 rounded-2xl border border-border/30 bg-[#FDFCFB] space-y-4">
-                            <div className="flex items-center gap-2 text-foreground font-bold text-sm">
-                                <User className="w-4 h-4 text-[#EFB6BF]" /> Dados do Cliente
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
+                            <div className="flex items-center gap-2 mb-6">
+                                <span className="material-symbols-outlined text-primary text-xl">person</span>
+                                <h3 className="text-lg font-bold text-secondary dark:text-white">Dados do Cliente</h3>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2 col-span-2">
-                                    <Label>Nome do Cliente</Label>
+                            <div className="space-y-5">
+                                <div className="space-y-2">
+                                    <Label className="text-sm font-bold text-secondary dark:text-gray-300">Nome do Cliente</Label>
                                     <div className="relative">
                                         <Input
                                             placeholder="Ex: Maria Silva"
@@ -428,7 +492,7 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                             onFocus={() => setShowClienteDropdown(true)}
                                             onBlur={() => setTimeout(() => setShowClienteDropdown(false), 200)}
                                             autoComplete="off"
-                                            className="bg-white h-11"
+                                            className="w-full rounded-2xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-secondary dark:text-white px-4 py-3 focus:ring-primary focus:border-primary placeholder-gray-400 text-sm h-12"
                                         />
                                         {showClienteDropdown && clienteNome.length > 0 && (() => {
                                             const filtered = clientes.filter(c =>
@@ -436,12 +500,12 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                             );
                                             if (filtered.length === 0 || (filtered.length === 1 && filtered[0].nome.toLowerCase() === clienteNome.toLowerCase())) return null;
                                             return (
-                                                <div className="absolute z-50 w-full mt-1 bg-white rounded-xl border border-gray-100 shadow-lg overflow-hidden max-h-[150px] overflow-y-auto">
+                                                <div className="absolute z-50 w-full mt-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-xl overflow-hidden max-h-[200px] overflow-y-auto custom-scrollbar">
                                                     {filtered.map((c, idx) => (
                                                         <button
                                                             key={idx}
                                                             type="button"
-                                                            className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 text-left border-b border-gray-50 last:border-0"
+                                                            className="w-full flex items-center gap-4 px-5 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 text-left border-b border-gray-50 dark:border-gray-700 last:border-0 transition-colors"
                                                             onMouseDown={(e) => {
                                                                 e.preventDefault();
                                                                 setClienteNome(c.nome);
@@ -451,12 +515,12 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                                                 setShowClienteDropdown(false);
                                                             }}
                                                         >
-                                                            <div className="w-7 h-7 rounded-full bg-[#EFB6BF]/10 flex items-center justify-center">
-                                                                <span className="text-[10px] font-black text-[#EFB6BF]">{c.nome.charAt(0).toUpperCase()}</span>
+                                                            <div className="w-9 h-9 rounded-xl bg-pink-50 dark:bg-pink-900/20 flex items-center justify-center">
+                                                                <span className="text-xs font-black text-primary">{c.nome.charAt(0).toUpperCase()}</span>
                                                             </div>
                                                             <div>
-                                                                <p className="text-xs font-bold text-gray-800">{c.nome}</p>
-                                                                <p className="text-[10px] text-gray-400">{c.telefone}</p>
+                                                                <p className="text-sm font-bold text-gray-800 dark:text-white">{c.nome}</p>
+                                                                <p className="text-[10px] font-bold text-gray-400 uppercase">{c.telefone}</p>
                                                             </div>
                                                         </button>
                                                     ))}
@@ -466,236 +530,246 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                     </div>
                                 </div>
 
-                                <div className="space-y-2 col-span-2">
-                                    <Label className="flex items-center gap-1.5">
-                                        <MapPin className="w-3 h-3 text-gray-400" /> Endereço
-                                    </Label>
+                                <div className="space-y-2">
+                                    <div className="flex items-center gap-1 mb-1">
+                                        <span className="material-symbols-outlined text-gray-400 text-sm">location_on</span>
+                                        <Label className="text-sm font-bold text-secondary dark:text-gray-300">Endereço</Label>
+                                    </div>
                                     <Input
                                         placeholder="Rua, número, bairro..."
                                         value={clienteEndereco}
                                         onChange={(e) => setClienteEndereco(e.target.value)}
-                                        className="bg-white h-11"
+                                        className="w-full rounded-2xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-secondary dark:text-white px-4 py-3 focus:ring-primary focus:border-primary placeholder-gray-400 text-sm h-12"
                                     />
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div className="space-y-2">
+                                        <div className="flex items-center gap-1 mb-1">
+                                            <span className="material-symbols-outlined text-gray-400 text-sm">call</span>
+                                            <Label className="text-sm font-bold text-secondary dark:text-gray-300">Telefone / WhatsApp</Label>
+                                        </div>
+                                        <Input
+                                            placeholder="(21) 99999-0000"
+                                            value={clienteTelefone}
+                                            onChange={(e) => setClienteTelefone(e.target.value)}
+                                            className="w-full rounded-2xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-secondary dark:text-white px-4 py-3 focus:ring-primary focus:border-primary placeholder-gray-400 text-sm h-12"
+                                        />
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <div className="flex items-center gap-1 mb-1">
+                                            <span className="material-symbols-outlined text-gray-400 text-sm">mail</span>
+                                            <Label className="text-sm font-bold text-secondary dark:text-gray-300">E-mail (opcional)</Label>
+                                        </div>
+                                        <Input
+                                            placeholder="email@exemplo.com"
+                                            value={clienteEmail}
+                                            onChange={(e) => setClienteEmail(e.target.value)}
+                                            className="w-full rounded-2xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-secondary dark:text-white px-4 py-3 focus:ring-primary focus:border-primary placeholder-gray-400 text-sm h-12"
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="flex items-center gap-1.5">
-                                        <Phone className="w-3 h-3 text-gray-400" /> Telefone / WhatsApp
-                                    </Label>
-                                    <Input
-                                        placeholder="(21) 99999-0000"
-                                        value={clienteTelefone}
-                                        onChange={(e) => setClienteTelefone(e.target.value)}
-                                        className="bg-white h-11"
-                                    />
+                                    <Label className="text-sm font-bold text-secondary dark:text-gray-300 mb-2 block">Validade do Orçamento</Label>
+                                    <div className="relative w-full sm:w-1/2">
+                                        <Input
+                                            type="date"
+                                            value={validade}
+                                            onChange={(e) => setValidade(e.target.value)}
+                                            className="w-full rounded-2xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-secondary dark:text-white px-4 py-3 focus:ring-primary focus:border-primary text-sm font-medium h-12 pl-10"
+                                        />
+                                        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-lg">calendar_today</span>
+                                    </div>
                                 </div>
-
-                                <div className="space-y-2">
-                                    <Label className="flex items-center gap-1.5">
-                                        <Mail className="w-3 h-3 text-gray-400" /> E-mail (opcional)
-                                    </Label>
-                                    <Input
-                                        placeholder="email@exemplo.com"
-                                        value={clienteEmail}
-                                        onChange={(e) => setClienteEmail(e.target.value)}
-                                        className="bg-white h-11"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="space-y-2">
-                                <Label>Validade do Orçamento</Label>
-                                <Input
-                                    type="date"
-                                    value={validade}
-                                    onChange={(e) => setValidade(e.target.value)}
-                                    className="bg-white h-11 w-auto"
-                                />
                             </div>
                         </div>
 
                         {/* Items Card */}
-                        <div className="p-6 rounded-2xl border border-border/30 bg-white space-y-4">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2 text-foreground font-bold text-sm">
-                                    <ShoppingBag className="w-4 h-4 text-[#EFB6BF]" /> Itens do Orçamento
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm min-h-[300px] flex flex-col">
+                            <div className="flex items-center justify-between mb-6">
+                                <div className="flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-primary text-xl">shopping_bag</span>
+                                    <h3 className="text-lg font-bold text-secondary dark:text-white">Itens do Orçamento</h3>
                                 </div>
                                 <Button
                                     type="button"
-                                    variant="outline"
-                                    size="sm"
                                     onClick={addItem}
-                                    className="text-[10px] h-7 gap-1 border-[#EFB6BF]/20 hover:bg-[#EFB6BF]/5 text-[#EFB6BF] font-black"
+                                    className="flex items-center gap-2 bg-pink-50 dark:bg-pink-900/20 hover:bg-pink-100 dark:hover:bg-pink-900/40 text-primary px-4 py-2 rounded-xl text-xs font-black transition-colors border-none"
                                 >
-                                    <Plus className="w-3 h-3" /> Adicionar Receita
+                                    <span className="material-symbols-outlined text-base">add</span>
+                                    ADICIONAR RECEITA
                                 </Button>
                             </div>
 
                             {itens.length === 0 ? (
-                                <div className="py-10 text-center">
-                                    <div className="w-14 h-14 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-3">
-                                        <ShoppingBag className="w-6 h-6 text-gray-300" />
+                                <div className="flex-1 flex flex-col items-center justify-center text-center py-8">
+                                    <div className="w-16 h-16 rounded-2xl bg-gray-50 dark:bg-gray-700 flex items-center justify-center mb-4">
+                                        <span className="material-symbols-outlined text-gray-300 dark:text-gray-500 text-4xl">shopping_bag</span>
                                     </div>
-                                    <p className="text-sm font-bold text-gray-400 mb-1">Nenhum item adicionado</p>
-                                    <p className="text-xs text-gray-300 mb-4">Selecione as receitas desejadas para o orçamento</p>
+                                    <h4 className="text-base font-bold text-gray-400 dark:text-gray-500 mb-1">Nenhum item adicionado</h4>
+                                    <p className="text-xs font-bold text-gray-300 dark:text-gray-600 mb-6 uppercase tracking-wider">Selecione as receitas desejadas</p>
                                     <Button
                                         type="button"
-                                        variant="outline"
                                         onClick={addItem}
-                                        className="gap-2 text-xs h-9 rounded-xl border-[#EFB6BF]/30 text-[#EFB6BF] hover:bg-[#EFB6BF]/5"
+                                        className="bg-primary hover:bg-primary/90 text-white px-6 py-4 h-auto rounded-2xl font-black text-sm transition-all shadow-lg shadow-primary/20 flex items-center gap-2"
                                     >
-                                        <Plus className="w-3 h-3" /> Adicionar primeiro item
+                                        <span className="material-symbols-outlined text-xl">add</span>
+                                        ADICIONAR PRIMEIRO ITEM
                                     </Button>
                                 </div>
                             ) : (
                                 <div className="space-y-4">
                                     {itens.map((item, index) => (
-                                        <div key={index} className="p-4 rounded-2xl bg-[#FDFCFB] border border-border/30 relative">
+                                        <div key={index} className="p-5 rounded-3xl bg-gray-50/50 dark:bg-gray-700/30 border border-gray-100 dark:border-gray-700 relative group">
                                             <button
                                                 type="button"
                                                 onClick={() => removeItem(index)}
-                                                className="absolute top-3 right-3 p-1 text-gray-300 hover:text-red-400 transition-colors"
+                                                className="absolute top-4 right-4 p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all"
                                             >
-                                                <X className="w-4 h-4" />
+                                                <span className="material-symbols-outlined text-xl">delete</span>
                                             </button>
 
-                                            <div className="flex gap-4">
-                                                {/* Photo preview */}
+                                            <div className="flex flex-col sm:flex-row gap-5">
+                                                {/* Photo/Avatar */}
                                                 {item.fotoUrl ? (
-                                                    <img src={item.fotoUrl} alt={item.nome} className="w-20 h-20 rounded-xl object-cover flex-shrink-0" />
+                                                    <img src={item.fotoUrl} alt={item.nome} className="w-20 h-20 rounded-2xl object-cover flex-shrink-0 shadow-sm" />
                                                 ) : (
-                                                    <div className="w-20 h-20 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
-                                                        <ImageIcon className="w-8 h-8 text-gray-200" />
+                                                    <div className="w-20 h-20 rounded-2xl bg-white dark:bg-gray-700 flex items-center justify-center flex-shrink-0 border border-gray-100 dark:border-gray-600">
+                                                        <span className="material-symbols-outlined text-gray-200 dark:text-gray-500 text-3xl">image</span>
                                                     </div>
                                                 )}
 
-                                                <div className="flex-1 space-y-3 min-w-0">
-                                                    {/* Recipe selector */}
-                                                    <Select
-                                                        value={item.receitaId}
-                                                        onValueChange={(val) => handleReceitaSelect(index, val)}
-                                                    >
-                                                        <SelectTrigger className="bg-white h-9 text-sm">
-                                                            <SelectValue placeholder="Selecione uma receita..." />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            {receitas.map((r) => (
-                                                                <SelectItem key={r.id} value={r.id}>
-                                                                    <div className="flex items-center gap-2">
-                                                                        {r.foto_url && (
-                                                                            <img src={r.foto_url} className="w-5 h-5 rounded object-cover" alt="" />
-                                                                        )}
-                                                                        <span>{r.nome}</span>
-                                                                        {r.preco_venda ? (
-                                                                            <span className="text-[10px] text-gray-400 ml-1">{formatarMoeda(r.preco_venda)}</span>
-                                                                        ) : null}
-                                                                    </div>
-                                                                </SelectItem>
-                                                            ))}
-                                                        </SelectContent>
-                                                    </Select>
+                                                <div className="flex-1 space-y-4">
+                                                    {/* Recipe select */}
+                                                    <div className="space-y-1.5">
+                                                        <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Produto / Receita</Label>
+                                                        <Select
+                                                            value={item.receitaId}
+                                                            onValueChange={(val) => handleReceitaSelect(index, val)}
+                                                        >
+                                                            <SelectTrigger className="w-full rounded-xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 h-11 text-sm font-bold">
+                                                                <SelectValue placeholder="Selecione..." />
+                                                            </SelectTrigger>
+                                                            <SelectContent className="rounded-2xl shadow-xl border-gray-100 dark:border-gray-700">
+                                                                {receitas.map((r) => (
+                                                                    <SelectItem key={r.id} value={r.id} className="py-3 focus:bg-pink-50 dark:focus:bg-pink-900/20 cursor-pointer">
+                                                                        <div className="flex items-center gap-3">
+                                                                            {r.foto_url ? (
+                                                                                <img src={r.foto_url} className="w-6 h-6 rounded-lg object-cover" />
+                                                                            ) : (
+                                                                                <div className="w-6 h-6 rounded-lg bg-gray-50 flex items-center justify-center"><span className="material-symbols-outlined text-xs">image</span></div>
+                                                                            )}
+                                                                            <span className="font-bold">{r.nome}</span>
+                                                                            {r.preco_venda && <span className="text-[10px] font-black text-primary ml-auto">{formatarMoeda(r.preco_venda)}</span>}
+                                                                        </div>
+                                                                    </SelectItem>
+                                                                ))}
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </div>
 
-                                                    <div className="grid grid-cols-2 gap-3">
-                                                        <div className="space-y-1">
-                                                            <Label className="text-[10px] uppercase font-bold text-gray-400">Quantidade</Label>
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <div className="space-y-1.5">
+                                                            <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Quantidade</Label>
                                                             <Input
                                                                 type="number"
                                                                 min="1"
                                                                 value={item.quantidade}
                                                                 onChange={(e) => updateItem(index, "quantidade", parseInt(e.target.value) || 1)}
-                                                                className="bg-white h-8 text-sm"
+                                                                className="rounded-xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 h-10 text-sm font-bold text-center"
                                                             />
                                                         </div>
-                                                        <div className="space-y-1">
-                                                            <Label className="text-[10px] uppercase font-bold text-gray-400">Valor Unit.</Label>
+                                                        <div className="space-y-1.5">
+                                                            <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Preço Sugerido</Label>
                                                             <Input
                                                                 type="number"
                                                                 step="0.01"
                                                                 min="0"
                                                                 value={item.precoUnitario || ""}
                                                                 onChange={(e) => updateItem(index, "precoUnitario", parseFloat(e.target.value) || 0)}
-                                                                className="bg-white h-8 text-sm"
+                                                                className="rounded-xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 h-10 text-sm font-bold text-center text-primary"
                                                             />
                                                         </div>
                                                     </div>
 
-                                                    <Input
-                                                        placeholder="Observações do cliente (ex: sem lactose, cor azul...)"
-                                                        value={item.observacao}
-                                                        onChange={(e) => updateItem(index, "observacao", e.target.value)}
-                                                        className="bg-white h-8 text-xs"
-                                                    />
+                                                    <div className="space-y-1.5">
+                                                        <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Variação / Observação</Label>
+                                                        <Input
+                                                            placeholder="Ex: Sem lactose, Tag personalizada..."
+                                                            value={item.observacao}
+                                                            onChange={(e) => updateItem(index, "observacao", e.target.value)}
+                                                            className="rounded-xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 h-9 text-xs italic"
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
 
-                                            {/* Subtotal */}
-                                            <div className="text-right mt-2">
-                                                <span className="text-[10px] font-bold text-gray-400 uppercase mr-2">Subtotal:</span>
-                                                <span className="text-sm font-black text-[#EFB6BF]">
-                                                    {formatarMoeda(item.precoUnitario * item.quantidade)}
-                                                </span>
+                                            <div className="mt-4 pt-4 border-t border-dashed border-gray-200 dark:border-gray-700 flex justify-end items-center gap-2">
+                                                <span className="text-[10px] font-black text-gray-400 uppercase">SUBTOTAL DO ITEM:</span>
+                                                <span className="text-lg font-black text-primary tracking-tighter">{formatarMoeda(item.precoUnitario * item.quantidade)}</span>
                                             </div>
                                         </div>
                                     ))}
-                                </div>
-                            )}
 
-                            {/* Grand Total */}
-                            {itens.length > 0 && (
-                                <div className="space-y-4 pt-4 border-t border-gray-100">
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center gap-2">
-                                            <Input
-                                                type="number"
-                                                step="0.01"
-                                                placeholder="Valor do Frete"
-                                                value={frete || ""}
-                                                onChange={(e) => setFrete(parseFloat(e.target.value) || 0)}
-                                                className="w-32 h-10 bg-gray-50 border-gray-200"
-                                            />
-                                            <span className="text-xs font-bold text-gray-400 uppercase">Taxa de Entrega</span>
+                                    {/* Footer Totals */}
+                                    <div className="space-y-4 pt-4 mt-6">
+                                        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-3xl bg-white dark:bg-card-dark border border-gray-100 dark:border-gray-700 shadow-soft">
+                                            <div className="flex items-center gap-3">
+                                                <div className="relative">
+                                                    <Input
+                                                        type="number"
+                                                        step="0.01"
+                                                        placeholder="0,00"
+                                                        value={frete || ""}
+                                                        onChange={(e) => setFrete(parseFloat(e.target.value) || 0)}
+                                                        className="w-28 pl-8 h-12 rounded-2xl border-gray-100 dark:border-gray-700 font-bold text-emerald-600"
+                                                    />
+                                                    <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-emerald-500 text-base">local_shipping</span>
+                                                </div>
+                                                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Taxa de Entrega</span>
+                                            </div>
+                                            <div className="text-right">
+                                                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1">TOTAL DO CLIENTE</span>
+                                                <span className="text-3xl font-black text-primary tracking-tighter">{formatarMoeda(valorTotal)}</span>
+                                            </div>
                                         </div>
-                                        <div className="text-right">
-                                            <span className="text-xs font-bold text-gray-400 uppercase block">Subtotal Itens</span>
-                                            <span className="text-sm font-black text-gray-900">{formatarMoeda(valorItens)}</span>
-                                        </div>
-                                    </div>
-
-                                    <div className="p-5 rounded-2xl bg-gradient-to-r from-[#EFB6BF]/10 to-[#EFB6BF]/5 border border-[#EFB6BF]/20 flex justify-between items-center">
-                                        <span className="text-sm font-bold text-gray-600">Total do Orçamento</span>
-                                        <span className="text-2xl font-black text-[#EFB6BF]">{formatarMoeda(valorTotal)}</span>
                                     </div>
                                 </div>
                             )}
                         </div>
 
                         {/* Notes */}
-                        <div className="space-y-2">
-                            <Label>Observações gerais (opcional)</Label>
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
+                            <div className="flex items-center gap-2 mb-4">
+                                <span className="material-symbols-outlined text-gray-400 text-xl">event_note</span>
+                                <h3 className="text-base font-bold text-secondary dark:text-white">Observações Gerais</h3>
+                            </div>
                             <Textarea
-                                placeholder="Informações adicionais, condições de pagamento..."
+                                placeholder="Condições de pagamento, prazos de retirada..."
                                 value={notas}
                                 onChange={(e) => setNotas(e.target.value)}
-                                className="bg-[#FDFCFB] border-border/30 rounded-2xl min-h-[80px]"
+                                className="w-full rounded-2xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-secondary dark:text-white px-4 py-3 focus:ring-primary focus:border-primary placeholder-gray-400 text-sm min-h-[100px]"
                             />
                         </div>
 
-                        {/* Submit */}
-                        <div className="flex gap-3 pt-2">
+                        {/* Form Submit */}
+                        <div className="flex gap-4 pt-2">
                             <Button
                                 type="button"
-                                variant="outline"
+                                variant="ghost"
                                 onClick={() => onOpenChange(false)}
-                                className="flex-1 h-12 rounded-[20px] font-bold"
+                                className="flex-1 h-14 rounded-2xl font-bold text-gray-400 hover:text-red-500 transition-colors"
                             >
-                                Cancelar
+                                CANCELAR
                             </Button>
                             <Button
                                 type="submit"
-                                className="flex-1 h-12 rounded-[20px] bg-[#EFB6BF] hover:bg-[#e8a0ab] text-white font-black shadow-lg shadow-[#EFB6BF]/20 border-none transition-all active:scale-[0.98] gap-2"
+                                className="flex-[2] h-14 rounded-2xl bg-secondary dark:bg-white dark:text-secondary text-white font-black text-sm shadow-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2 border-none"
                             >
-                                <Sparkles className="w-4 h-4" />
-                                Pré-visualizar
+                                <span className="material-symbols-outlined">visibility</span>
+                                PRÉ-VISUALIZAR PROPOSTA
                             </Button>
                         </div>
                     </form>
@@ -703,4 +777,13 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
             </DialogContent>
         </Dialog>
     );
+}
+
+// Complementary validation for dates
+function validateDate(dateStr: string) {
+    try {
+        return format(new Date(dateStr + 'T12:00:00'), "dd/MM/yyyy", { locale: ptBR });
+    } catch (e) {
+        return "DATA INVÁLIDA";
+    }
 }

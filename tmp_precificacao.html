@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nova Receita - Precificação | DoceLab</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#FF6B6B", // Coral pink/red typical for sweet apps
+              "primary-soft": "#FFF0F0",
+              "background-light": "#F3F4F6", // Gray-100
+              "background-dark": "#1F2937", // Gray-800
+              "surface-light": "#FFFFFF",
+              "surface-dark": "#374151", // Gray-700
+              "text-main-light": "#111827", // Gray-900
+              "text-main-dark": "#F9FAFB", // Gray-50
+              "text-sub-light": "#6B7280", // Gray-500
+              "text-sub-dark": "#9CA3AF", // Gray-400
+              "border-light": "#E5E7EB", // Gray-200
+              "border-dark": "#4B5563", // Gray-600
+            },
+            fontFamily: {
+              display: ['"Plus Jakarta Sans"', 'sans-serif'],
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            },
+            borderRadius: {
+              DEFAULT: "1rem", // Soft rounded corners
+              "xl": "1.25rem",
+              "2xl": "1.5rem",
+              "3xl": "2rem",
+            },
+            boxShadow: {
+              'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+              'glow': '0 0 15px rgba(255, 107, 107, 0.3)',
+            }
+          },
+        },
+      };
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }.custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #E5E7EB;
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #4B5563;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex items-center justify-center p-4 antialiased transition-colors duration-200">
+<div class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-opacity"></div>
+<main class="relative z-50 w-full max-w-5xl bg-surface-light dark:bg-surface-dark rounded-3xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden transition-colors duration-200">
+<header class="flex items-center justify-between px-8 py-6 border-b border-border-light dark:border-border-dark shrink-0">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-primary-soft dark:bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-icons-round text-2xl">cake</span>
+</div>
+<div>
+<h1 class="text-xl font-bold text-text-main-light dark:text-text-main-dark">Nova Receita</h1>
+<p class="text-xs font-semibold text-text-sub-light dark:text-text-sub-dark uppercase tracking-wider">Caderno de Delícias</p>
+</div>
+</div>
+<div class="hidden md:flex items-center bg-gray-50 dark:bg-gray-800 rounded-full p-1.5 border border-border-light dark:border-border-dark">
+<div class="flex items-center px-4 py-1.5 gap-2 text-text-sub-light dark:text-text-sub-dark opacity-60">
+<span class="material-icons-round text-sm">check_circle</span>
+<span class="text-sm font-semibold">Detalhes</span>
+</div>
+<div class="w-px h-4 bg-gray-300 dark:bg-gray-600 mx-1"></div>
+<div class="flex items-center px-4 py-1.5 gap-2 text-text-sub-light dark:text-text-sub-dark opacity-60">
+<span class="material-icons-round text-sm">check_circle</span>
+<span class="text-sm font-semibold">Composição</span>
+</div>
+<div class="w-px h-4 bg-gray-300 dark:bg-gray-600 mx-1"></div>
+<div class="flex items-center bg-white dark:bg-surface-dark px-4 py-1.5 rounded-full shadow-sm gap-2 text-text-main-light dark:text-text-main-dark border border-gray-100 dark:border-gray-600">
+<span class="material-icons-round text-sm text-primary">monetization_on</span>
+<span class="text-sm font-bold">Financeiro</span>
+<span class="text-[10px] font-bold bg-primary/10 text-primary px-1.5 py-0.5 rounded ml-1">PRECIFICAÇÃO</span>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center text-text-sub-light dark:text-text-sub-dark transition-colors">
+<span class="material-icons-round">close</span>
+</button>
+</header>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-8 space-y-8">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark rounded-xl p-4 flex flex-col gap-2 hover:shadow-md transition-shadow">
+<div class="flex items-center gap-2 text-text-sub-light dark:text-text-sub-dark">
+<span class="material-icons-round text-sm text-blue-400">engineering</span>
+<span class="text-xs font-bold uppercase tracking-wide">Mão de Obra</span>
+</div>
+<div class="text-2xl font-bold text-text-main-light dark:text-text-main-dark">R$ 0,00</div>
+<div class="text-[10px] text-text-sub-light dark:text-text-sub-dark">Unitário: R$ 0,00</div>
+</div>
+<div class="bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark rounded-xl p-4 flex flex-col gap-2 hover:shadow-md transition-shadow">
+<div class="flex items-center gap-2 text-text-sub-light dark:text-text-sub-dark">
+<span class="material-icons-round text-sm text-orange-400">local_fire_department</span>
+<span class="text-xs font-bold uppercase tracking-wide">Gás</span>
+</div>
+<div class="text-2xl font-bold text-text-main-light dark:text-text-main-dark">R$ 0,00</div>
+<div class="text-[10px] text-text-sub-light dark:text-text-sub-dark">Botijão R$ 120 / 60h</div>
+</div>
+<div class="bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark rounded-xl p-4 flex flex-col gap-2 hover:shadow-md transition-shadow">
+<div class="flex items-center gap-2 text-text-sub-light dark:text-text-sub-dark">
+<span class="material-icons-round text-sm text-yellow-400">bolt</span>
+<span class="text-xs font-bold uppercase tracking-wide">Energia / Outros</span>
+</div>
+<div class="text-2xl font-bold text-text-main-light dark:text-text-main-dark">R$ 0,00</div>
+<div class="text-[10px] text-text-sub-light dark:text-text-sub-dark">R$ 20/hora x 0 min</div>
+</div>
+<div class="bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark rounded-xl p-4 flex flex-col gap-2 hover:shadow-md transition-shadow">
+<div class="flex items-center gap-2 text-text-sub-light dark:text-text-sub-dark">
+<span class="material-icons-round text-sm text-purple-400">storefront</span>
+<span class="text-xs font-bold uppercase tracking-wide">Custos Fixos (Rateio)</span>
+</div>
+<div class="text-2xl font-bold text-text-main-light dark:text-text-main-dark">R$ 0,00</div>
+<div class="text-[10px] text-text-sub-light dark:text-text-sub-dark">R$ 0,00 / min x 0 min</div>
+</div>
+<div class="bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark rounded-xl p-4 flex flex-col gap-2 hover:shadow-md transition-shadow">
+<div class="flex items-center gap-2 text-text-sub-light dark:text-text-sub-dark">
+<span class="material-icons-round text-sm text-blue-500">shield</span>
+<span class="text-xs font-bold uppercase tracking-wide">CMV + Segurança</span>
+</div>
+<div class="text-2xl font-bold text-text-main-light dark:text-text-main-dark">R$ 0,01</div>
+<div class="text-[10px] text-text-sub-light dark:text-text-sub-dark">+20% Imprevistos</div>
+</div>
+<div class="bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark rounded-xl p-4 flex flex-col gap-2 hover:shadow-md transition-shadow">
+<div class="flex items-center gap-2 text-text-sub-light dark:text-text-sub-dark">
+<span class="material-icons-round text-sm text-green-500">account_balance_wallet</span>
+<span class="text-xs font-bold uppercase tracking-wide">Custo Operacional</span>
+</div>
+<div class="text-2xl font-bold text-text-main-light dark:text-text-main-dark">R$ 0,00</div>
+<div class="text-[10px] text-text-sub-light dark:text-text-sub-dark">CMV + Gás + MO</div>
+</div>
+</div>
+<div class="bg-primary-soft dark:bg-primary/10 border border-primary/20 rounded-2xl p-6 flex items-center justify-between shadow-sm">
+<div>
+<h3 class="text-xs font-bold text-primary uppercase tracking-wider mb-1">Custo Unitário Final</h3>
+<p class="text-[10px] font-semibold text-primary/70 uppercase">Custo Base / 1 Unidade</p>
+</div>
+<div class="text-4xl font-extrabold text-primary">R$ 0,01</div>
+</div>
+<div class="space-y-4">
+<h3 class="text-xs font-bold text-text-sub-light dark:text-text-sub-dark uppercase tracking-widest pl-1">Custo Por Ingrediente</h3>
+<div class="bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark rounded-xl p-1 divide-y divide-border-light dark:divide-border-dark">
+<div class="flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-lg">
+<div class="flex items-center gap-4">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div>
+<div class="font-bold text-text-main-light dark:text-text-main-dark text-sm">Açúcar Refinado</div>
+<div class="text-xs text-text-sub-light dark:text-text-sub-dark">1g · Proporcional</div>
+</div>
+</div>
+<div class="text-right">
+<div class="font-bold text-text-main-light dark:text-text-main-dark text-sm">R$ 0,00</div>
+<div class="text-[10px] font-medium text-primary">100.0%</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-lg">
+<div class="flex items-center gap-4">
+<div class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600"></div>
+<div>
+<div class="font-bold text-text-main-light dark:text-text-main-dark text-sm">Outros Ingredientes</div>
+<div class="text-xs text-text-sub-light dark:text-text-sub-dark">0g · Proporcional</div>
+</div>
+</div>
+<div class="text-right">
+<div class="font-bold text-text-main-light dark:text-text-main-dark text-sm">R$ 0,00</div>
+<div class="text-[10px] font-medium text-gray-400">0.0%</div>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center">
+<span class="material-icons-round text-lg">trending_up</span>
+</div>
+<div>
+<h3 class="text-sm font-bold text-text-main-light dark:text-text-main-dark">Sugestões de Preço</h3>
+<p class="text-[10px] text-text-sub-light dark:text-text-sub-dark font-medium uppercase">Clique para definir o preço de venda</p>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<button class="bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark rounded-xl p-4 text-center hover:border-primary hover:shadow-glow dark:hover:border-primary transition-all group">
+<div class="text-[10px] font-bold text-text-sub-light dark:text-text-sub-dark uppercase mb-2 group-hover:text-primary transition-colors">Lucro 30%</div>
+<div class="text-xl font-bold text-text-main-light dark:text-text-main-dark mb-1">R$ 0,01</div>
+<div class="text-[10px] text-text-sub-light dark:text-text-sub-dark">Lote: R$ 0,01</div>
+</button>
+<button class="bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark rounded-xl p-4 text-center hover:border-primary hover:shadow-glow dark:hover:border-primary transition-all group">
+<div class="text-[10px] font-bold text-text-sub-light dark:text-text-sub-dark uppercase mb-2 group-hover:text-primary transition-colors">Lucro 50%</div>
+<div class="text-xl font-bold text-text-main-light dark:text-text-main-dark mb-1">R$ 0,01</div>
+<div class="text-[10px] text-text-sub-light dark:text-text-sub-dark">Lote: R$ 0,01</div>
+</button>
+<button class="bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark rounded-xl p-4 text-center hover:border-primary hover:shadow-glow dark:hover:border-primary transition-all group">
+<div class="text-[10px] font-bold text-text-sub-light dark:text-text-sub-dark uppercase mb-2 group-hover:text-primary transition-colors">Lucro 70%</div>
+<div class="text-xl font-bold text-text-main-light dark:text-text-main-dark mb-1">R$ 0,01</div>
+<div class="text-[10px] text-text-sub-light dark:text-text-sub-dark">Lote: R$ 0,01</div>
+</button>
+<button class="bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark rounded-xl p-4 text-center hover:border-primary hover:shadow-glow dark:hover:border-primary transition-all group">
+<div class="text-[10px] font-bold text-text-sub-light dark:text-text-sub-dark uppercase mb-2 group-hover:text-primary transition-colors">Lucro 100%</div>
+<div class="text-xl font-bold text-text-main-light dark:text-text-main-dark mb-1">R$ 0,01</div>
+<div class="text-[10px] text-text-sub-light dark:text-text-sub-dark">Lote: R$ 0,01</div>
+</button>
+</div>
+</div>
+</div>
+<footer class="px-8 py-6 border-t border-border-light dark:border-border-dark shrink-0 flex items-center justify-between">
+<button class="text-xs font-bold text-text-sub-light dark:text-text-sub-dark hover:text-text-main-light dark:hover:text-text-main-dark uppercase tracking-widest px-4 py-2 transition-colors">
+                Voltar
+            </button>
+<button class="bg-gray-800 dark:bg-primary hover:bg-gray-900 dark:hover:bg-primary/90 text-white rounded-lg px-6 py-3 flex items-center gap-2 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
+<span class="text-xs font-bold uppercase tracking-wider">Finalizar Receita</span>
+<span class="material-icons-round text-sm">arrow_forward</span>
+</button>
+</footer>
+</main>
+
+</body></html>

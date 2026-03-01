@@ -1,26 +1,11 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { StatCard } from "@/components/dashboard/StatCard";
 import { NovoClienteModal, ClienteData } from "@/components/clientes/NovoClienteModal";
 import { DetalhesClienteModal } from "@/components/clientes/DetalhesClienteModal";
-import {
-    Users,
-    ShoppingBag,
-    DollarSign,
-    Cake,
-    Plus,
-    Search,
-    UserCircle,
-    Phone,
-    Mail,
-    Edit2,
-    Trash2,
-    MessageCircle,
-    Eye
-} from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 interface Cliente {
     id: string;
@@ -66,14 +51,11 @@ export default function Clientes() {
             ]);
 
             if (clientsError) throw clientsError;
-            // Ignore order/transaction errors if tables strictly don't exist yet, but they should.
-            // Logging them is enough to not break client list
             if (ordersError) console.error("Error fetching orders:", ordersError);
             if (transactionsError) console.error("Error fetching transactions:", transactionsError);
 
             if (clientsData) {
                 const clientsWithStats = clientsData.map(client => {
-                    // Match by name since that's how we're linking data currently
                     const clientOrders = ordersData?.filter((o: any) => o.cliente === client.nome) || [];
                     const clientTransactions = transactionsData?.filter((t: any) => t.cliente === client.nome) || [];
 
@@ -105,7 +87,6 @@ export default function Clientes() {
     const handleSaveCliente = async (clienteData: ClienteData) => {
         try {
             if (clienteParaEditar) {
-                // Update
                 const { data, error } = await supabase
                     .from('clientes')
                     .update({
@@ -129,7 +110,6 @@ export default function Clientes() {
                     });
                 }
             } else {
-                // Insert
                 const { data, error } = await supabase
                     .from('clientes')
                     .insert([{
@@ -153,6 +133,7 @@ export default function Clientes() {
                 }
             }
             setClienteParaEditar(null);
+            fetchClientes(); // Refresh stats
         } catch (error: any) {
             toast({
                 title: "Erro ao salvar cliente",
@@ -190,158 +171,175 @@ export default function Clientes() {
         c.telefone.includes(searchTerm)
     );
 
+    const totalPedidosGeral = clientes.reduce((acc, c) => acc + (c.totalPedidos || 0), 0);
+    const receitaTotalGeral = clientes.reduce((acc, c) => acc + (c.totalGasto || 0), 0);
+
     return (
-        <>
-            <div className="space-y-4 animate-in-fade">
-                {/* Header */}
-                <div className="flex items-center justify-between mb-2">
-                    <div className="space-y-0.5">
-                        <h1 className="text-[28px] font-bold tracking-tighter text-gray-900">Clientes</h1>
-                        <p className="text-[15px] font-normal text-gray-500">Gerencie sua base de clientes</p>
+        <div className="w-full p-8 lg:p-10 flex flex-col h-full overflow-hidden animate-in-fade bg-[#F5F1EB] dark:bg-[#181824] relative font-sans">
+            <header className="flex flex-col gap-8 mb-8 flex-shrink-0 relative z-10">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                    <div>
+                        <h2 className="text-[28px] font-extrabold text-[#1E1E2F] dark:text-white leading-tight tracking-tight mb-1">Clientes</h2>
+                        <p className="text-[#5A5A69] dark:text-gray-400 text-[14px] font-medium italic">Gerencie sua base de clientes e acompanhe o engajamento</p>
                     </div>
                     <Button
                         onClick={() => setShowNovoCliente(true)}
-                        className="rounded-2xl bg-[#EFB6BF] hover:bg-[#e8a0ab] text-white font-black px-6 shadow-md shadow-[#EFB6BF]/20 h-11 border-none"
+                        className="bg-[#F4C7C7] hover:bg-primary text-[#1E1E2F] hover:text-white px-6 py-3 rounded-xl font-bold text-[14px] tracking-wide transition shadow-sm flex items-center gap-2 h-12 border-none active:scale-[0.98]"
                     >
-                        <Plus className="w-5 h-5 mr-1" />
+                        <span className="material-symbols-outlined text-[20px]">add</span>
                         Novo Cliente
                     </Button>
                 </div>
 
-                {/* Stats Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="dashboard-card p-4 flex flex-col items-center justify-center text-center">
-                        <div className="w-9 h-9 rounded-xl bg-pink-100 flex items-center justify-center mb-2">
-                            <Users className="w-5 h-5 text-pink-600" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {/* Stat Cards */}
+                    <div className="bg-white dark:bg-gray-800 p-5 rounded-3xl shadow-soft border border-gray-50 dark:border-gray-700 flex flex-col items-center justify-center text-center h-32 relative overflow-hidden group hover:shadow-card transition-all">
+                        <div className="mb-2 w-10 h-10 rounded-full bg-pink-50 dark:bg-pink-900/20 text-primary flex items-center justify-center">
+                            <span className="material-symbols-outlined text-xl">group</span>
                         </div>
-                        <p className="text-sm font-medium text-gray-400">Total de Clientes</p>
-                        <p className="text-2xl font-bold text-gray-900 mt-1">{clientes.length}</p>
+                        <p className="text-[12px] font-bold text-[#5A5A69] dark:text-gray-400 mb-1 uppercase tracking-wider">Total de Clientes</p>
+                        <p className="text-[24px] font-black text-[#1E1E2F] dark:text-white tracking-tighter">{clientes.length}</p>
                     </div>
-                    <div className="dashboard-card p-4 flex flex-col items-center justify-center text-center">
-                        <div className="w-9 h-9 rounded-xl bg-rose-100 flex items-center justify-center mb-2">
-                            <ShoppingBag className="w-5 h-5 text-rose-600" />
+
+                    <div className="bg-white dark:bg-gray-800 p-5 rounded-3xl shadow-soft border border-gray-50 dark:border-gray-700 flex flex-col items-center justify-center text-center h-32 relative overflow-hidden group hover:shadow-card transition-all">
+                        <div className="mb-2 w-10 h-10 rounded-full bg-red-50 dark:bg-red-900/20 text-red-500 flex items-center justify-center">
+                            <span className="material-symbols-outlined text-xl">shopping_bag</span>
                         </div>
-                        <p className="text-sm font-medium text-gray-400">Total de Pedidos</p>
-                        <p className="text-2xl font-bold text-gray-900 mt-1">0</p>
+                        <p className="text-[12px] font-bold text-[#5A5A69] dark:text-gray-400 mb-1 uppercase tracking-wider">Total de Pedidos</p>
+                        <p className="text-[24px] font-black text-[#1E1E2F] dark:text-white tracking-tighter">{totalPedidosGeral}</p>
                     </div>
-                    <div className="dashboard-card p-4 flex flex-col items-center justify-center text-center">
-                        <div className="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center mb-2">
-                            <DollarSign className="w-5 h-5 text-emerald-600" />
+
+                    <div className="bg-white dark:bg-gray-800 p-5 rounded-3xl shadow-soft border border-gray-50 dark:border-gray-700 flex flex-col items-center justify-center text-center h-32 relative overflow-hidden group hover:shadow-card transition-all">
+                        <div className="mb-2 w-10 h-10 rounded-full bg-green-50 dark:bg-green-900/20 text-green-500 flex items-center justify-center">
+                            <span className="material-symbols-outlined text-xl">attach_money</span>
                         </div>
-                        <p className="text-sm font-medium text-gray-400">Receita Total</p>
-                        <p className="text-2xl font-bold text-gray-900 mt-1">R$ 0,00</p>
+                        <p className="text-[12px] font-bold text-[#5A5A69] dark:text-gray-400 mb-1 uppercase tracking-wider">Receita Total</p>
+                        <p className="text-[24px] font-black text-[#1E1E2F] dark:text-white tracking-tighter">
+                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(receitaTotalGeral)}
+                        </p>
                     </div>
-                    <div className="dashboard-card p-4 flex flex-col items-center justify-center text-center">
-                        <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center mb-2">
-                            <Cake className="w-5 h-5 text-amber-600" />
+
+                    <div className="bg-white dark:bg-gray-800 p-5 rounded-3xl shadow-soft border border-gray-50 dark:border-gray-700 flex flex-col items-center justify-center text-center h-32 relative overflow-hidden group hover:shadow-card transition-all">
+                        <div className="mb-2 w-10 h-10 rounded-full bg-yellow-50 dark:bg-yellow-900/20 text-yellow-500 flex items-center justify-center">
+                            <span className="material-symbols-outlined text-xl">cake</span>
                         </div>
-                        <p className="text-sm font-medium text-gray-400">Aniversários</p>
-                        <p className="text-2xl font-bold text-gray-900 mt-1">0</p>
+                        <p className="text-[12px] font-bold text-[#5A5A69] dark:text-gray-400 mb-1 uppercase tracking-wider">Aniversários</p>
+                        <p className="text-[24px] font-black text-[#1E1E2F] dark:text-white tracking-tighter">0</p>
                     </div>
                 </div>
 
-                {/* Search Bar */}
-                <div className="dashboard-card p-4">
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <div className="w-full">
+                    <div className="relative group">
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 group-focus-within:text-primary transition-colors">
+                            <span className="material-symbols-outlined">search</span>
+                        </span>
                         <Input
+                            className="w-full py-6 pl-12 pr-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl text-[14px] font-bold focus:ring-2 focus:ring-primary focus:border-transparent placeholder-gray-400 shadow-sm transition-all outline-none h-14"
                             placeholder="Pesquisar por nome ou telefone..."
-                            className="pl-10 h-10 border-gray-200 text-[13px] font-normal"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
                 </div>
+            </header>
 
-                {/* Clientes List */}
-                <div className="dashboard-card p-8">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                        <Users className="w-5 h-5 text-gray-600" /> Lista de Clientes ({filteredClientes.length})
-                    </h2>
+            <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar relative z-10 pb-8">
+                <div className="bg-white dark:bg-gray-800 rounded-[2rem] p-8 shadow-card border border-gray-50 dark:border-gray-700">
+                    <div className="flex items-center gap-2 mb-8">
+                        <span className="material-symbols-outlined text-primary">group</span>
+                        <h3 className="text-[20px] font-black text-[#1E1E2F] dark:text-white tracking-tight">Lista de Clientes ({filteredClientes.length})</h3>
+                    </div>
 
                     {loading ? (
-                        <div className="flex justify-center py-16">
-                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                        <div className="flex flex-col items-center justify-center py-24 text-center">
+                            <div className="animate-spin rounded-full h-10 w-10 border-4 border-[#F4C7C7] border-t-primary mb-4"></div>
+                            <p className="text-[13px] font-bold text-gray-400 uppercase tracking-widest">Carregando sua base...</p>
                         </div>
                     ) : filteredClientes.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-16 text-center">
-                            <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
-                                <UserCircle className="w-8 h-8 text-muted-foreground" />
+                        <div className="flex flex-col items-center justify-center py-20 text-center">
+                            <div className="w-20 h-20 bg-gray-50 dark:bg-gray-700/50 rounded-[2rem] flex items-center justify-center mb-6">
+                                <span className="material-symbols-outlined text-4xl text-gray-300">person_add</span>
                             </div>
-                            <h3 className="font-medium text-foreground">Nenhum cliente cadastrado</h3>
-                            <p className="text-sm text-muted-foreground mt-1 text-center">
-                                Adicione seu primeiro cliente!<br />
-                                Clique no botão "Novo Cliente" no topo da página.
+                            <h3 className="text-[16px] font-black text-[#1E1E2F] dark:text-white uppercase tracking-wide">Nenhum cliente encontrado</h3>
+                            <p className="text-[13px] font-bold text-gray-400 mt-2 max-w-[250px] mx-auto">
+                                Tente ajustar sua busca ou adicione um novo cliente para começar.
                             </p>
                         </div>
                     ) : (
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left">
-                                <thead>
-                                    <tr className="text-[12px] font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100">
-                                        <th className="pb-4">Nome</th>
-                                        <th className="pb-4">Telefone / WhatsApp</th>
-                                        <th className="pb-4">Pedidos</th>
-                                        <th className="pb-4">Total Gasto</th>
-                                        <th className="pb-4 text-right">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-100">
-                                    {filteredClientes.map((cliente) => (
-                                        <tr key={cliente.id} className="group transition-colors hover:bg-gray-50/50">
-                                            <td className="py-5 font-medium text-[15px] text-gray-800">{cliente.nome}</td>
-                                            <td className="py-5">
-                                                <div className="flex items-center gap-2 text-sm font-normal text-gray-500">
-                                                    <Phone className="w-3.5 h-3.5" />
-                                                    {cliente.telefone}
+                        <div className="overflow-x-auto min-w-full">
+                            <div className="hidden md:grid grid-cols-12 gap-4 px-4 border-b border-gray-50 dark:border-gray-700 mb-6 pb-4">
+                                <div className="col-span-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">NOME DO CLIENTE</div>
+                                <div className="col-span-3 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">CONTATO / WHATSAPP</div>
+                                <div className="col-span-1 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-center">PEDIDOS</div>
+                                <div className="col-span-2 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-right">TOTAL GASTO</div>
+                                <div className="col-span-2 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-right">AÇÕES</div>
+                            </div>
+                            <div className="space-y-4">
+                                {filteredClientes.map((cliente) => (
+                                    <div key={cliente.id} className="group flex flex-col md:grid md:grid-cols-12 gap-4 items-center p-5 rounded-3xl hover:bg-pink-50/30 dark:hover:bg-pink-900/5 transition-all duration-300 border border-transparent hover:border-pink-100 dark:hover:border-pink-900/20 shadow-sm hover:shadow-md">
+                                        <div className="col-span-4 w-full md:w-auto">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 rounded-2xl bg-[#F4C7C7]/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[#F4C7C7]/40 transition-colors">
+                                                    <span className="text-[14px] font-black text-primary">{cliente.nome.charAt(0).toUpperCase()}</span>
                                                 </div>
-                                            </td>
-                                            <td className="py-5">
-                                                <span className="inline-flex items-center bg-gray-100 text-gray-700 text-[10px] font-bold px-2.5 py-1 rounded-full">
-                                                    {cliente.totalPedidos || 0}
-                                                </span>
-                                            </td>
-                                            <td className="py-5 text-[15px] font-bold text-gray-800">
+                                                <h4 className="text-[15px] font-extrabold text-[#1E1E2F] dark:text-white truncate">{cliente.nome}</h4>
+                                            </div>
+                                        </div>
+                                        <div className="col-span-3 w-full md:w-auto flex items-center gap-2 text-[#5A5A69] dark:text-gray-400">
+                                            <div className="px-3 py-1.5 rounded-xl bg-gray-50 dark:bg-gray-700/50 flex items-center gap-2">
+                                                <span className="material-symbols-outlined text-primary text-[18px]">call</span>
+                                                <span className="text-[13px] font-black tracking-tight">{cliente.telefone}</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-span-1 w-full md:w-auto flex md:justify-center">
+                                            <span className="bg-secondary/5 dark:bg-white/10 px-3 py-1.5 rounded-xl text-[12px] font-black text-secondary dark:text-white">
+                                                {cliente.totalPedidos || 0}
+                                            </span>
+                                        </div>
+                                        <div className="col-span-2 w-full md:w-auto md:text-right">
+                                            <span className="text-[15px] font-black text-primary tracking-tighter">
                                                 {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cliente.totalGasto || 0)}
-                                            </td>
-                                            <td className="py-5 text-right">
-                                                <div className="flex items-center justify-end gap-2">
-                                                    <button
-                                                        className="p-2 text-[#25D366] hover:bg-[#25D366]/10 rounded-lg transition-colors"
-                                                        onClick={() => window.open(`https://wa.me/55${cliente.telefone.replace(/\D/g, '')}`, '_blank')}
-                                                    >
-                                                        <MessageCircle className="w-4 h-4 fill-current" />
-                                                    </button>
-                                                    <button
-                                                        className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-xl transition-all"
-                                                        onClick={() => {
-                                                            setClienteParaVisualizar(cliente);
-                                                            setShowDetalhesCliente(true);
-                                                        }}
-                                                    >
-                                                        <Eye className="w-4 h-4" />
-                                                    </button>
-                                                    <button
-                                                        className="p-2 text-gray-400 hover:text-amber-500 hover:bg-amber-50 rounded-xl transition-all"
-                                                        onClick={() => {
-                                                            setClienteParaEditar(cliente);
-                                                            setShowNovoCliente(true);
-                                                        }}
-                                                    >
-                                                        <Edit2 className="w-4 h-4" />
-                                                    </button>
-                                                    <button
-                                                        className="p-2 text-gray-400 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all"
-                                                        onClick={() => handleDeleteCliente(cliente.id, cliente.nome)}
-                                                    >
-                                                        <Trash2 className="w-4 h-4" />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                            </span>
+                                        </div>
+                                        <div className="col-span-2 w-full md:w-auto flex items-center justify-end gap-2">
+                                            <button
+                                                className="w-9 h-9 flex items-center justify-center text-emerald-500 hover:text-white rounded-full hover:bg-emerald-500 transition-all active:scale-95 shadow-soft border border-emerald-50 dark:border-emerald-900/20"
+                                                title="WhatsApp"
+                                                onClick={() => window.open(`https://wa.me/55${cliente.telefone.replace(/\D/g, '')}`, '_blank')}
+                                            >
+                                                <span className="material-symbols-outlined text-[18px] fill-1">chat</span>
+                                            </button>
+                                            <button
+                                                className="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white rounded-full hover:bg-secondary dark:hover:bg-white dark:hover:text-secondary transition-all active:scale-95 shadow-soft border border-gray-50 dark:border-gray-700"
+                                                title="Ver Detalhes"
+                                                onClick={() => {
+                                                    setClienteParaVisualizar(cliente);
+                                                    setShowDetalhesCliente(true);
+                                                }}
+                                            >
+                                                <span className="material-symbols-outlined text-[18px]">visibility</span>
+                                            </button>
+                                            <button
+                                                className="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white rounded-full hover:bg-blue-500 transition-all active:scale-95 shadow-soft border border-gray-50 dark:border-gray-700"
+                                                title="Editar"
+                                                onClick={() => {
+                                                    setClienteParaEditar(cliente);
+                                                    setShowNovoCliente(true);
+                                                }}
+                                            >
+                                                <span className="material-symbols-outlined text-[18px]">edit</span>
+                                            </button>
+                                            <button
+                                                className="w-9 h-9 flex items-center justify-center text-gray-300 hover:text-white rounded-full hover:bg-red-500 transition-all active:scale-95"
+                                                title="Excluir"
+                                                onClick={() => handleDeleteCliente(cliente.id, cliente.nome)}
+                                            >
+                                                <span className="material-symbols-outlined text-[18px]">delete</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     )}
                 </div>
@@ -368,6 +366,6 @@ export default function Clientes() {
                 onOpenChange={setShowDetalhesCliente}
                 cliente={clienteParaVisualizar}
             />
-        </>
+        </div>
     );
 }

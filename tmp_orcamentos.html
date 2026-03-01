@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DoceLab Orçamentos - SkillEx Style</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F87171", 
+                        secondary: "#1E1E2F", 
+                        "background-light": "#F5F1EB", 
+                        "background-dark": "#181824",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#232334",
+                        "text-light": "#5A5A69", 
+                        "text-dark": "#9CA3AF",
+                        accent: {
+                            green: "#E1F8E9",
+                            textGreen: "#15803D",
+                            pink: "#F4C7C7",
+                            pinkLight: "#FFF1F1"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                        'xl': '1.5rem',
+                        '2xl': '2rem',
+                        '3xl': '2.5rem',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'card': '0 10px 40px -10px rgba(0,0,0,0.05)'
+                    }
+                },
+            },
+        };
+    </script>
+<style type="text/tailwindcss">
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E5E7EB;
+            border-radius: 100vh;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #374151;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-secondary dark:text-gray-100 font-sans antialiased transition-colors duration-300 min-h-screen flex p-4 lg:p-6 overflow-hidden tracking-tight">
+<aside class="w-64 flex-shrink-0 flex flex-col justify-between pr-6 hidden lg:flex">
+<div>
+<div class="flex items-center gap-2 mb-10 pl-2">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-extrabold text-sm">D</div>
+<h1 class="text-2xl font-bold text-secondary dark:text-white tracking-tighter">Doce<span class="text-primary">Lab</span>.</h1>
+</div>
+<div class="flex flex-col items-center mb-10">
+<div class="relative mb-4">
+<div class="w-24 h-24 rounded-full p-1 border-2 border-dashed border-primary/50">
+<img alt="Ana Paula Avatar" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDQADXUxbtl9HLXmhYZ0h_yIAjL6gvfQ4P2BkPRzyi0jSNE6MDOUp0ExaANmkE_MOBmDUeiJuuFTGXfNXMYnhBNEADDYKydOl2a0rvYi0EWO93xbOUbq7nSfGN_XgAkiLbz28u7YR5Le405oujkQP1V17pECV2m8IQKXN5JzS5aSn8GMSJQZO9zbJDKBsxbfwZ6ONax39EFrAAk9bZEPRgRG2tPNFuknH_Vfgq4vXBMwy80IQDUCyINf5aH9wX6cA2wc9R_3wvaeaM"/>
+</div>
+</div>
+<h3 class="text-lg font-bold text-secondary dark:text-white tracking-tight">Ana Paula</h3>
+<div class="flex items-center gap-1 mt-2 bg-white dark:bg-card-dark px-3 py-1 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-yellow-400 text-sm">star</span>
+<span class="text-xs font-bold text-gray-500 dark:text-gray-400">4.9</span>
+</div>
+</div>
+<nav class="space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:text-secondary dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium tracking-tight">Painel</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:text-secondary dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="text-sm font-medium tracking-tight">Pedidos</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:text-secondary dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium tracking-tight">Clientes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary font-bold bg-white dark:bg-card-dark shadow-soft" href="#">
+<span class="material-symbols-outlined">request_quote</span>
+<span class="text-sm font-semibold tracking-tight">Orçamentos</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:text-secondary dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-sm font-medium tracking-tight">Estoque</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:text-secondary dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-sm font-medium tracking-tight">Finanças</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-sm font-semibold tracking-tight">Sair</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 bg-white dark:bg-card-dark rounded-[2.5rem] shadow-xl overflow-hidden flex flex-col relative font-sans">
+<div class="absolute inset-y-0 left-0 w-full bg-[#FDFBF7] dark:bg-[#1E1E2E] z-0"></div>
+<div class="relative z-10 w-full h-full flex flex-col overflow-hidden">
+<div class="w-full p-8 lg:p-10 flex flex-col h-full overflow-hidden">
+<header class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-10 flex-shrink-0">
+<div>
+<h2 class="text-3xl font-extrabold text-secondary dark:text-white leading-tight tracking-tight mb-1">Orçamentos Profissionais</h2>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-medium">Crie propostas encantadoras e envie direto pelo WhatsApp</p>
+</div>
+<button class="bg-accent-pink hover:bg-primary text-secondary hover:text-white px-6 py-3 rounded-xl font-bold text-sm tracking-wide transition shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">add</span>
+                        Novo Orçamento
+                    </button>
+</header>
+<div class="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+<section class="mb-10">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-pink-50 dark:bg-pink-900/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">layers</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-secondary dark:text-white">Meus Templates</h3>
+<p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">ORÇAMENTOS RÁPIDOS</p>
+</div>
+</div>
+<button class="flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-primary transition bg-white dark:bg-gray-800 px-4 py-2 rounded-lg border border-gray-100 dark:border-gray-700">
+<span class="material-symbols-outlined text-base">add</span>
+                                Novo Template
+                            </button>
+</div>
+<div class="w-full h-48 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-3xl flex flex-col items-center justify-center bg-white/50 dark:bg-gray-800/30">
+<div class="w-12 h-12 rounded-xl bg-gray-50 dark:bg-gray-700 flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-gray-300 dark:text-gray-600 text-3xl">inventory_2</span>
+</div>
+<p class="text-sm font-bold text-gray-400">Nenhum template criado</p>
+<p class="text-[11px] text-gray-400 mt-1 max-w-[200px] text-center">Salve configurações frequentes para criar orçamentos em segundos</p>
+</div>
+</section>
+<section>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500">
+<span class="material-symbols-outlined text-xl">description</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-secondary dark:text-white">Histórico de Orçamentos</h3>
+<p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">ENVIADOS E PENDENTES</p>
+</div>
+</div>
+<div class="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-soft border border-gray-100 dark:border-gray-700 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-md transition-shadow">
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-accent-green text-accent-textGreen text-[10px] font-extrabold rounded-full tracking-wider">APROVADO</span>
+<span class="text-xs font-bold text-gray-300">#f2a8a • 01 mar 2026</span>
+</div>
+<div>
+<h4 class="text-base font-bold text-secondary dark:text-white mb-1">Gabriel Rodrigues Alves</h4>
+<div class="flex items-center gap-4 text-gray-400">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">chat</span>
+<span class="text-xs font-semibold">21 96978 7023</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">inventory_2</span>
+<span class="text-xs font-semibold">1 item</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-right">
+<p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">VALOR TOTAL</p>
+<p class="text-xl font-extrabold text-secondary dark:text-white">R$ 16,59</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 rounded-full bg-accent-green text-accent-textGreen flex items-center justify-center hover:scale-105 transition shadow-sm">
+<span class="material-symbols-outlined text-[20px] fill-1">chat</span>
+</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+
+</body></html>

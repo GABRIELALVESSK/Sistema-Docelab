@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DoceLab Receitas - SkillEx Style</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F87171", 
+                        secondary: "#1E1E2F", 
+                        "background-light": "#F5F1EB", 
+                        "background-dark": "#181824",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#232334",
+                        "text-light": "#5A5A69", 
+                        "text-dark": "#9CA3AF",
+                        accent: {
+                            green: "#E1F8E9",
+                            textGreen: "#15803D",
+                            pink: "#F4C7C7",
+                            pinkLight: "#FFF1F1",
+                            softPink: "#FCE7E7"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                        'xl': '1.5rem',
+                        '2xl': '2rem',
+                        '3xl': '2.5rem',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'card': '0 10px 40px -10px rgba(0,0,0,0.05)'
+                    }
+                },
+            },
+        };
+    </script>
+<style type="text/tailwindcss">
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E5E7EB;
+            border-radius: 100vh;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #374151;
+        }.recipe-overlay {
+            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-secondary dark:text-gray-100 font-sans antialiased transition-colors duration-300 min-h-screen flex p-4 lg:p-6 overflow-hidden tracking-tight">
+<aside class="w-64 flex-shrink-0 flex flex-col justify-between pr-6 hidden lg:flex">
+<div>
+<div class="flex items-center gap-2 mb-10 pl-2">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-extrabold text-sm">D</div>
+<h1 class="text-2xl font-bold text-secondary dark:text-white tracking-tighter">Doce<span class="text-primary">Lab</span>.</h1>
+</div>
+<div class="flex flex-col items-center mb-10">
+<div class="relative mb-4">
+<div class="w-24 h-24 rounded-full p-1 border-2 border-dashed border-primary/50">
+<img alt="Ana Paula Avatar" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDQADXUxbtl9HLXmhYZ0h_yIAjL6gvfQ4P2BkPRzyi0jSNE6MDOUp0ExaANmkE_MOBmDUeiJuuFTGXfNXMYnhBNEADDYKydOl2a0rvYi0EWO93xbOUbq7nSfGN_XgAkiLbz28u7YR5Le405oujkQP1V17pECV2m8IQKXN5JzS5aSn8GMSJQZO9zbJDKBsxbfwZ6ONax39EFrAAk9bZEPRgRG2tPNFuknH_Vfgq4vXBMwy80IQDUCyINf5aH9wX6cA2wc9R_3wvaeaM"/>
+</div>
+</div>
+<h3 class="text-lg font-bold text-secondary dark:text-white tracking-tight">Ana Paula</h3>
+<div class="flex items-center gap-1 mt-2 bg-white dark:bg-card-dark px-3 py-1 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-yellow-400 text-sm">star</span>
+<span class="text-xs font-bold text-gray-500 dark:text-gray-400">4.9</span>
+</div>
+</div>
+<nav class="space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:text-secondary dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium tracking-tight">Painel</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:text-secondary dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="text-sm font-medium tracking-tight">Pedidos</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:text-secondary dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium tracking-tight">Clientes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:text-secondary dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">request_quote</span>
+<span class="text-sm font-medium tracking-tight">Orçamentos</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary font-bold bg-white dark:bg-card-dark shadow-soft" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-sm font-semibold tracking-tight">Receitas</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:text-secondary dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-sm font-medium tracking-tight">Estoque</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:text-secondary dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-sm font-medium tracking-tight">Finanças</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-sm font-semibold tracking-tight">Sair</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 bg-white dark:bg-card-dark rounded-[2.5rem] shadow-xl overflow-hidden flex flex-col relative font-sans">
+<div class="absolute inset-y-0 left-0 w-full bg-[#FDFBF7] dark:bg-[#1E1E2E] z-0"></div>
+<div class="relative z-10 w-full h-full flex flex-col overflow-hidden">
+<div class="w-full p-6 lg:p-8 flex flex-col h-full overflow-hidden">
+<header class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8 flex-shrink-0">
+<div>
+<h2 class="text-3xl font-extrabold text-secondary dark:text-white leading-tight tracking-tight mb-1">
+                            Minhas <span class="text-primary/70">Receitas</span>
+</h2>
+<p class="text-gray-400 dark:text-gray-500 text-xs font-bold uppercase tracking-widest">CADERNO DE DELÍCIAS · 7 RECEITAS</p>
+</div>
+<button class="bg-primary/20 hover:bg-primary text-primary hover:text-white px-6 py-3 rounded-xl font-bold text-sm tracking-wide transition shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">add</span>
+                        Nova Receita
+                    </button>
+</header>
+<div class="flex flex-col md:flex-row gap-4 mb-8 flex-shrink-0">
+<div class="flex-1 relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+<input class="w-full pl-12 pr-4 py-3 rounded-xl border-none bg-white dark:bg-card-dark shadow-sm text-sm focus:ring-2 focus:ring-primary/20 placeholder-gray-300 text-secondary dark:text-white" placeholder="Buscar pelo nome da receita..." type="text"/>
+</div>
+<button class="bg-white dark:bg-card-dark text-gray-500 dark:text-gray-300 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-wide shadow-sm flex items-center gap-2 hover:bg-gray-50 transition">
+<span class="material-symbols-outlined text-lg">filter_list</span>
+                        Categorias
+                    </button>
+</div>
+<div class="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-6 pb-6">
+<article class="bg-white dark:bg-card-dark rounded-3xl p-4 shadow-card hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-700/50 flex flex-col gap-4">
+<div class="relative h-48 w-full rounded-2xl overflow-hidden group">
+<img alt="Ovo de Colher ao Leite" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdTZKCItHSA-gbobqrk6R5GeCgDn0aXqUR-n6vkOTqugyU0EnkA4Mkgzj3-8qNvbXaXI2ntfszCFIF5TDi-_XSymd9J2Eem4CkLQ2QvbhkumstWbjjnGI7ktoG3QUTrMQRgZfeZ8P5Zj5nK062HofyD4EEGkmdwWwj8A4sOXe1QhFwE4jTLpaztfWbq3pb0U1hgsyyK3lohLh8bBiB6cCi_X53Mr2saR9m9_eAbDHO0_atDmkcJN0-X8Dge1xh9qmvwuKpLxmYrEJQ"/>
+<div class="absolute inset-0 recipe-overlay"></div>
+<div class="absolute top-3 left-3">
+<span class="px-3 py-1 bg-black/30 backdrop-blur-md text-white text-[10px] font-bold rounded-lg tracking-wider border border-white/20 uppercase">Doces</span>
+</div>
+<div class="absolute bottom-3 left-3 right-3 text-white">
+<h3 class="text-xl font-bold leading-tight drop-shadow-md">Ovo de Colher ao Leite (250g)</h3>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-2 text-xs font-medium text-gray-500">
+<div class="flex items-center gap-1 bg-gray-50 dark:bg-gray-800 px-2 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 30min
+                                </div>
+<div class="flex items-center gap-1 bg-gray-50 dark:bg-gray-800 px-2 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[16px]">package_2</span> REND: 1 UN
+                                </div>
+<div class="flex items-center gap-1 bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400 px-2 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> MARGEM ALVO: 100%
+                                </div>
+</div>
+<div class="bg-gray-50/50 dark:bg-gray-800/30 rounded-2xl p-4 grid grid-cols-2 gap-y-4 gap-x-2">
+<div>
+<p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">CMV UNITÁRIO</p>
+<p class="text-sm font-bold text-secondary dark:text-white">R$ 55,15</p>
+</div>
+<div>
+<p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">CUSTO TOTAL L/UN</p>
+<p class="text-sm font-bold text-secondary dark:text-white">R$ 82,13</p>
+</div>
+<div>
+<p class="text-[9px] font-bold text-primary/70 uppercase tracking-widest mb-1">PREÇO DE VENDA</p>
+<p class="text-lg font-extrabold text-primary">R$ 123,19</p>
+</div>
+<div>
+<p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">MARGEM DE LUCRO</p>
+<div class="flex items-center gap-1">
+<p class="text-lg font-bold text-yellow-500">33.3%</p>
+<span class="material-symbols-outlined text-yellow-500 text-sm font-bold">trending_up</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3 pt-1 border-t border-gray-100 dark:border-gray-800">
+<button class="flex-1 flex items-center justify-center gap-2 bg-accent-softPink hover:bg-pink-100 dark:bg-pink-900/20 text-primary dark:text-pink-300 py-2.5 rounded-xl font-bold text-xs tracking-wider transition">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                                    VER DETALHES
+                                </button>
+<button class="p-2 text-gray-400 hover:text-primary transition rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-2 text-gray-400 hover:text-red-500 transition rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</article>
+<article class="bg-white dark:bg-card-dark rounded-3xl p-6 shadow-card hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-700/50 flex flex-col h-full justify-between gap-4 relative overflow-hidden">
+<div class="absolute -top-6 -right-6 w-32 h-32 bg-pink-50 dark:bg-pink-900/10 rounded-full flex items-center justify-center pointer-events-none"></div>
+<div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div>
+<p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">DOCES</p>
+<h3 class="text-xl font-bold text-secondary dark:text-white leading-tight">Recheio de chocolate</h3>
+</div>
+<div class="w-10 h-10 rounded-xl bg-pink-50 dark:bg-pink-900/20 flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined">cookie</span>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-2 text-xs font-medium text-gray-500 mb-6 relative z-10">
+<div class="flex items-center gap-1 bg-gray-50 dark:bg-gray-800 px-2 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[16px]">package_2</span> REND: 1 UN
+                                    </div>
+<div class="flex items-center gap-1 bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400 px-2 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> MARGEM ALVO: 100%
+                                    </div>
+</div>
+<div class="bg-gray-50/50 dark:bg-gray-800/30 rounded-2xl p-4 grid grid-cols-2 gap-y-4 gap-x-2 relative z-10">
+<div>
+<p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">CMV UNITÁRIO</p>
+<p class="text-sm font-bold text-secondary dark:text-white">R$ 28,00</p>
+</div>
+<div>
+<p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">CUSTO TOTAL L/UN</p>
+<p class="text-sm font-bold text-secondary dark:text-white">R$ 48,72</p>
+</div>
+<div>
+<p class="text-[9px] font-bold text-primary/70 uppercase tracking-widest mb-1">PREÇO DE VENDA</p>
+<p class="text-lg font-extrabold text-primary">R$ 73,09</p>
+</div>
+<div>
+<p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">MARGEM DE LUCRO</p>
+<div class="flex items-center gap-1">
+<p class="text-lg font-bold text-yellow-500">33.3%</p>
+<span class="material-symbols-outlined text-yellow-500 text-sm font-bold">trending_up</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3 pt-1 border-t border-gray-100 dark:border-gray-800 relative z-10">
+<button class="flex-1 flex items-center justify-center gap-2 bg-accent-softPink hover:bg-pink-100 dark:bg-pink-900/20 text-primary dark:text-pink-300 py-2.5 rounded-xl font-bold text-xs tracking-wider transition">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                                    VER DETALHES
+                                </button>
+<button class="p-2 text-gray-400 hover:text-primary transition rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-2 text-gray-400 hover:text-red-500 transition rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</article>
+<article class="bg-white dark:bg-card-dark rounded-3xl p-6 shadow-card hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-700/50 flex flex-col h-full justify-between gap-4 relative overflow-hidden">
+<div class="absolute -top-6 -right-6 w-32 h-32 bg-pink-50 dark:bg-pink-900/10 rounded-full flex items-center justify-center pointer-events-none"></div>
+<div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div>
+<p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">DOCES</p>
+<h3 class="text-xl font-bold text-secondary dark:text-white leading-tight">Brigadeiro de chocolate</h3>
+</div>
+<div class="w-10 h-10 rounded-xl bg-pink-50 dark:bg-pink-900/20 flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined">cookie</span>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-2 text-xs font-medium text-gray-500 mb-6 relative z-10">
+<div class="flex items-center gap-1 bg-gray-50 dark:bg-gray-800 px-2 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 1H30MIN
+                                     </div>
+<div class="flex items-center gap-1 bg-gray-50 dark:bg-gray-800 px-2 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[16px]">package_2</span> REND: 28 UN
+                                     </div>
+<div class="flex items-center gap-1 bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400 px-2 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> MARGEM ALVO: 100%
+                                     </div>
+</div>
+<div class="bg-gray-50/50 dark:bg-gray-800/30 rounded-2xl p-4 grid grid-cols-2 gap-y-4 gap-x-2 relative z-10">
+<div>
+<p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">CMV UNITÁRIO</p>
+<p class="text-sm font-bold text-secondary dark:text-white">R$ 0,85</p>
+</div>
+<div>
+<p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">CUSTO TOTAL L/UN</p>
+<p class="text-sm font-bold text-secondary dark:text-white">R$ 1,20</p>
+</div>
+<div>
+<p class="text-[9px] font-bold text-primary/70 uppercase tracking-widest mb-1">PREÇO DE VENDA</p>
+<p class="text-lg font-extrabold text-primary">R$ 3,50</p>
+</div>
+<div>
+<p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">MARGEM DE LUCRO</p>
+<div class="flex items-center gap-1">
+<p class="text-lg font-bold text-green-500">65.7%</p>
+<span class="material-symbols-outlined text-green-500 text-sm font-bold">trending_up</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3 pt-1 border-t border-gray-100 dark:border-gray-800 relative z-10">
+<button class="flex-1 flex items-center justify-center gap-2 bg-accent-softPink hover:bg-pink-100 dark:bg-pink-900/20 text-primary dark:text-pink-300 py-2.5 rounded-xl font-bold text-xs tracking-wider transition">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                                     VER DETALHES
+                                 </button>
+<button class="p-2 text-gray-400 hover:text-primary transition rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-2 text-gray-400 hover:text-red-500 transition rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</article>
+<article class="bg-white dark:bg-card-dark rounded-3xl p-6 shadow-card hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-700/50 flex flex-col h-full justify-between gap-4 relative overflow-hidden">
+<div class="absolute -top-6 -right-6 w-32 h-32 bg-pink-50 dark:bg-pink-900/10 rounded-full flex items-center justify-center pointer-events-none"></div>
+<div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div>
+<p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">CASCA DE OVO</p>
+<h3 class="text-xl font-bold text-secondary dark:text-white leading-tight">Casca de ovo 250g</h3>
+</div>
+<div class="w-10 h-10 rounded-xl bg-pink-50 dark:bg-pink-900/20 flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined">cookie</span>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-2 text-xs font-medium text-gray-500 mb-6 relative z-10">
+<div class="flex items-center gap-1 bg-gray-50 dark:bg-gray-800 px-2 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 0H20MIN
+                                    </div>
+<div class="flex items-center gap-1 bg-gray-50 dark:bg-gray-800 px-2 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[16px]">package_2</span> REND: 1 UN
+                                    </div>
+<div class="flex items-center gap-1 bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400 px-2 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> MARGEM ALVO: 100%
+                                    </div>
+</div>
+<div class="bg-gray-50/50 dark:bg-gray-800/30 rounded-2xl p-4 grid grid-cols-2 gap-y-4 gap-x-2 relative z-10">
+<div>
+<p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">CMV UNITÁRIO</p>
+<p class="text-sm font-bold text-secondary dark:text-white">R$ 9,80</p>
+</div>
+<div>
+<p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">CUSTO TOTAL L/UN</p>
+<p class="text-sm font-bold text-secondary dark:text-white">R$ 11,50</p>
+</div>
+<div>
+<p class="text-[9px] font-bold text-primary/70 uppercase tracking-widest mb-1">PREÇO DE VENDA</p>
+<p class="text-lg font-extrabold text-primary">R$ 23,00</p>
+</div>
+<div>
+<p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">MARGEM DE LUCRO</p>
+<div class="flex items-center gap-1">
+<p class="text-lg font-bold text-green-500">50.0%</p>
+<span class="material-symbols-outlined text-green-500 text-sm font-bold">trending_up</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3 pt-1 border-t border-gray-100 dark:border-gray-800 relative z-10">
+<button class="flex-1 flex items-center justify-center gap-2 bg-accent-softPink hover:bg-pink-100 dark:bg-pink-900/20 text-primary dark:text-pink-300 py-2.5 rounded-xl font-bold text-xs tracking-wider transition">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                                    VER DETALHES
+                                </button>
+<button class="p-2 text-gray-400 hover:text-primary transition rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-2 text-gray-400 hover:text-red-500 transition rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</article>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+</body></html>
