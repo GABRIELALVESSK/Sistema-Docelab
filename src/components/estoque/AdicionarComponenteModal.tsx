@@ -36,7 +36,7 @@ export function AdicionarComponenteModal({ open, onOpenChange, onSelect, ingredi
                 id: `p:${i.id}`,
                 nome: i.nome,
                 tipo: 'ingrediente' as const,
-                categoria: i.categoria || "Estoque",
+                categoria: i.categoria || "Ingredientes",
                 rendimento: i.unidade || "un",
                 custo: i.preco_medio || 0,
                 original: i
@@ -69,39 +69,38 @@ export function AdicionarComponenteModal({ open, onOpenChange, onSelect, ingredi
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[480px] p-0 overflow-hidden rounded-[40px] border-none shadow-[var(--shadow-modal)] bg-white max-h-[90vh] flex flex-col">
-                <div className="p-8 pb-4">
-                    <DialogHeader className="mb-6">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-[20px] bg-[#EFB6BF]/10 flex items-center justify-center shadow-inner">
-                                    <Plus className="w-6 h-6 text-[#EFB6BF]" />
-                                </div>
-                                <div className="space-y-0.5">
-                                    <DialogTitle className="text-2xl font-black tracking-tighter text-gray-800">
-                                        Adicionar Item
-                                    </DialogTitle>
-                                    <p className="text-[10px] font-black text-gray-300 uppercase tracking-[0.2em]">
-                                        Composição do Produto
-                                    </p>
-                                </div>
+            <DialogContent className="sm:max-w-md p-6 md:p-8 overflow-hidden rounded-[32px] border border-white/20 shadow-2xl bg-white flex flex-col animate-in-fade" aria-describedby={undefined}>
+                <div className="flex flex-col h-full max-h-[80vh]">
+                    <DialogHeader className="mb-6 flex shrink-0">
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-full bg-accent-pink/30 flex items-center justify-center text-primary shrink-0 relative overflow-hidden">
+                                <Plus className="w-5 h-5 z-10" />
+                                <div className="absolute inset-0 bg-white/20" />
+                            </div>
+                            <div className="flex flex-col text-left">
+                                <DialogTitle className="text-xl font-bold text-gray-900 leading-[1.2]">
+                                    Adicionar Item
+                                </DialogTitle>
+                                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-none mt-1">
+                                    Composição do Produto
+                                </p>
                             </div>
                         </div>
                     </DialogHeader>
 
                     {/* Search Field */}
-                    <div className="relative mb-6">
-                        <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300" />
+                    <div className="relative mb-6 shrink-0">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-gray-400" />
                         <Input
                             placeholder="Pesquisar pelo nome..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="pl-14 h-14 bg-gray-50/50 border-none rounded-[22px] text-base font-bold text-gray-700 placeholder:text-gray-300 transition-all focus:bg-white focus:shadow-md"
+                            className="pl-11 pr-10 h-12 bg-gray-50 border-none rounded-2xl text-[13px] font-semibold text-gray-900 placeholder:text-gray-400 transition-all focus:ring-2 focus:ring-primary/20"
                         />
                         {search && (
                             <button
                                 onClick={() => setSearch("")}
-                                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-gray-300 hover:text-gray-400"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-gray-600 transition-colors"
                             >
                                 <X className="w-4 h-4" />
                             </button>
@@ -109,67 +108,67 @@ export function AdicionarComponenteModal({ open, onOpenChange, onSelect, ingredi
                     </div>
 
                     {/* Tabs */}
-                    <div className="flex p-1.5 bg-gray-50/80 rounded-[24px] mb-6">
+                    <div className="flex p-1 bg-gray-50 rounded-[18px] mb-6 shrink-0">
                         {(['ingrediente', 'receita', 'kit'] as const).map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
                                 className={cn(
-                                    "flex-1 flex items-center justify-center gap-2 py-3 text-[11px] font-black uppercase tracking-widest transition-all rounded-[18px]",
+                                    "flex-1 flex items-center justify-center gap-2 py-2.5 text-[10px] font-bold uppercase tracking-widest transition-all rounded-2xl",
                                     activeTab === tab
-                                        ? "bg-white text-gray-800 shadow-sm border border-gray-100"
-                                        : "text-gray-400 hover:text-gray-600"
+                                        ? "bg-white text-gray-900 shadow-sm border border-gray-100/50"
+                                        : "text-gray-400 hover:text-gray-700"
                                 )}
                             >
-                                {tab === 'ingrediente' && <ShoppingBag className={cn("w-4 h-4", activeTab === tab ? "text-[#EFB6BF]" : "text-gray-300")} />}
-                                {tab === 'receita' && <ChefHat className={cn("w-4 h-4", activeTab === tab ? "text-[#EFB6BF]" : "text-gray-300")} />}
-                                {tab === 'kit' && <Package className={cn("w-4 h-4", activeTab === tab ? "text-[#EFB6BF]" : "text-gray-300")} />}
+                                {tab === 'ingrediente' && <ShoppingBag className={cn("w-3.5 h-3.5", activeTab === tab ? "text-primary/70" : "")} />}
+                                {tab === 'receita' && <ChefHat className={cn("w-3.5 h-3.5", activeTab === tab ? "text-primary/70" : "")} />}
+                                {tab === 'kit' && <Package className={cn("w-3.5 h-3.5", activeTab === tab ? "text-primary/70" : "")} />}
                                 {tab === 'ingrediente' ? 'Insumos' : tab === 'receita' ? 'Receitas' : 'Kits'}
                             </button>
                         ))}
                     </div>
-                </div>
 
-                {/* Results List */}
-                <div className="flex-1 overflow-hidden px-8 pb-8">
-                    <div className="flex flex-col gap-3 max-h-[450px] overflow-y-auto pr-2 custom-scrollbar min-h-[300px]">
-                        {filteredItems.length === 0 ? (
-                            <div className="flex flex-col items-center justify-center py-20 text-center animate-in-fade">
-                                <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4">
-                                    <Search className="w-8 h-8 text-gray-200" />
+                    {/* Results List */}
+                    <div className="flex-1 overflow-y-auto custom-scrollbar -mr-4 pr-4">
+                        <div className="flex flex-col gap-3 pb-8">
+                            {filteredItems.length === 0 ? (
+                                <div className="flex flex-col items-center justify-center py-20 text-center animate-in-fade">
+                                    <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4 text-gray-300">
+                                        <Package className="w-8 h-8" />
+                                    </div>
+                                    <p className="text-xs font-black text-gray-400 uppercase tracking-widest">Nenhum resultado</p>
                                 </div>
-                                <p className="text-xs font-black text-gray-300 uppercase tracking-widest">Nenhum resultado</p>
-                            </div>
-                        ) : (
-                            filteredItems.map(item => (
-                                <button
-                                    key={item.id}
-                                    onClick={() => onSelect(item)}
-                                    className="w-full flex items-center justify-between p-5 bg-[#FDFCFB] border border-gray-50/50 rounded-[28px] text-left hover:border-[#EFB6BF]/40 hover:bg-[#EFB6BF]/5 transition-all group active:scale-[0.98] animate-in-fade"
-                                >
-                                    <div className="min-w-0 flex-1 space-y-1">
-                                        <div className="flex items-center gap-2">
-                                            <h4 className="text-[15px] font-black text-gray-700 truncate tracking-tight">{item.nome}</h4>
-                                            <span className="shrink-0 text-[8px] font-black uppercase bg-white border border-gray-100 text-gray-400 px-2 py-0.5 rounded-full shadow-sm">
-                                                {item.categoria}
-                                            </span>
+                            ) : (
+                                filteredItems.map(item => (
+                                    <button
+                                        key={item.id}
+                                        onClick={() => onSelect(item)}
+                                        className="w-full flex items-center justify-between p-4 bg-white border border-gray-100 rounded-2xl text-left hover:border-primary/30 hover:shadow-sm transition-all group animate-in-fade"
+                                    >
+                                        <div className="min-w-0 flex-1 space-y-1">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <h4 className="text-[13px] font-bold text-gray-900 truncate">{item.nome}</h4>
+                                                <span className="shrink-0 text-[8px] font-bold uppercase tracking-wider bg-gray-50 text-gray-500 px-2 py-0.5 rounded-full border border-gray-100">
+                                                    {item.categoria}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                <div className="w-1 h-1 rounded-full bg-gray-300" />
+                                                <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
+                                                    {item.tipo === 'receita' ? 'RENDIMENTO:' : item.tipo === 'kit' ? 'RENDIMENTO:' : 'UNIDADE:'} <span className="text-gray-500 font-bold">{item.rendimento}</span>
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div className="flex items-center gap-1.5 opacity-60">
-                                            <div className="w-1 h-1 rounded-full bg-gray-300" />
-                                            <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
-                                                {item.tipo === 'receita' ? 'Rendimento:' : item.tipo === 'kit' ? 'Rendimento:' : 'Unidade:'} <span className="text-gray-500 font-black">{item.rendimento}</span>
+                                        <div className="text-right shrink-0 pl-4 border-l border-gray-50 ml-4 py-1">
+                                            <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-0.5 text-right">Custo Base</p>
+                                            <p className="text-sm font-black text-gray-900 tracking-tight">
+                                                {formatarMoeda(item.custo)}
                                             </p>
                                         </div>
-                                    </div>
-                                    <div className="text-right shrink-0 pl-4 border-l border-gray-100 ml-4">
-                                        <p className="text-[9px] font-black text-gray-300 uppercase tracking-widest leading-none mb-1 text-right">Custo Base</p>
-                                        <p className="text-[16px] font-black text-gray-800 tracking-tighter">
-                                            {formatarMoeda(item.custo)}
-                                        </p>
-                                    </div>
-                                </button>
-                            ))
-                        )}
+                                    </button>
+                                ))
+                            )}
+                        </div>
                     </div>
                 </div>
             </DialogContent>

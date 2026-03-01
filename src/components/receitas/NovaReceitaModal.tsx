@@ -471,204 +471,253 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[750px] p-0 overflow-hidden rounded-[2rem] border-none shadow-[var(--shadow-modal)] bg-white max-h-[95vh] flex flex-col">
+            <DialogContent className="sm:max-w-5xl h-[85vh] p-0 overflow-hidden rounded-3xl border border-white/20 shadow-2xl bg-white flex flex-col animate-in-fade transition-all duration-300">
                 {/* Header Section */}
-                <div className="px-6 pt-6 pb-4 bg-white border-b border-gray-50 flex flex-col gap-5">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 rounded-xl bg-[#EFB6BF]/10 flex items-center justify-center">
-                                <ChefHat className="w-4.5 h-4.5 text-[#EFB6BF]" />
-                            </div>
-                            <div>
-                                <DialogTitle className="text-lg font-black tracking-tight text-gray-800">
-                                    {receitaParaEditar ? "Editar Receita" : "Nova Receita"}
-                                </DialogTitle>
-                                <p className="text-[9px] font-black text-gray-300 uppercase tracking-[0.2em]">Caderno de Delícias</p>
-                            </div>
+                <div className="px-8 py-4 border-b border-gray-50 flex items-center justify-between shrink-0 bg-white z-10">
+                    <div className="flex items-center gap-3 flex-1">
+                        <div className="w-10 h-10 rounded-full bg-accent-pink/40 flex items-center justify-center text-primary shrink-0">
+                            <span className="material-symbols-outlined text-[20px]">restaurant_menu</span>
                         </div>
-                        <div className="flex bg-gray-50/80 p-1 rounded-xl border border-gray-100/50">
+                        <div className="flex flex-col justify-center">
+                            <DialogTitle className="text-base font-black text-gray-900 leading-[1.2] mb-0.5">
+                                {receitaParaEditar ? "Editar Receita" : "Nova Receita"}
+                            </DialogTitle>
+                            <p className="text-[10px] text-gray-400 uppercase tracking-[0.1em] font-bold leading-none mt-1">Caderno de Delícias</p>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center justify-center flex-[2]">
+                        <div className="flex bg-gray-50 p-1 rounded-[14px] border border-gray-100/50">
                             {STEPS.map((s) => {
-                                const Icon = s.icon;
+                                const canProceed = !!nome;
                                 const isCurrent = step === s.number;
                                 const isPassed = step > s.number;
+
+                                const handleTabClick = () => {
+                                    if (s.number > step && !canProceed) {
+                                        toast({ title: "Nome obrigatório", variant: "destructive" });
+                                        return;
+                                    }
+                                    setStep(s.number);
+                                };
+
                                 return (
-                                    <div
+                                    <button
                                         key={s.number}
+                                        type="button"
                                         className={cn(
-                                            "flex items-center gap-2 px-4 py-2 rounded-lg transition-all cursor-pointer",
-                                            isCurrent ? "bg-white text-gray-800 shadow-sm border border-gray-100" : (isPassed ? "text-gray-400" : "text-gray-300")
+                                            "flex items-center gap-2 px-6 py-2 rounded-xl text-xs font-bold transition-all min-w-max",
+                                            isCurrent
+                                                ? "bg-white text-gray-900 shadow-[0_2px_8px_rgb(0,0,0,0.04)] ring-1 ring-gray-100/50"
+                                                : (isPassed ? "text-gray-500 hover:text-gray-900" : "text-gray-400 hover:text-gray-600"),
                                         )}
-                                        onClick={() => (s.number < step || validateStep1()) && setStep(s.number)}
+                                        onClick={handleTabClick}
                                     >
-                                        <div className={cn(
-                                            "w-6 h-6 rounded-lg flex items-center justify-center transition-colors shadow-inner",
-                                            isCurrent ? "bg-[#EFB6BF]/10 text-[#EFB6BF]" : (isPassed ? "bg-gray-100 text-[#EFB6BF]" : "bg-transparent text-gray-300")
+                                        <span className={cn(
+                                            "material-symbols-outlined text-[16px]",
+                                            isCurrent ? "text-primary" : (isPassed ? "text-gray-400" : "text-gray-300")
                                         )}>
-                                            {isPassed ? <Check className="w-3.5 h-3.5" /> : <Icon className="w-3.5 h-3.5" />}
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <span className="text-[10px] font-black uppercase tracking-widest leading-none">{s.title}</span>
-                                            {isCurrent && <span className="text-[8px] font-bold text-gray-400 uppercase mt-0.5">{s.desc}</span>}
-                                        </div>
-                                    </div>
+                                            {s.number === 1 ? 'description' : s.number === 2 ? 'inventory_2' : 'attach_money'}
+                                        </span>
+                                        {s.title}
+                                    </button>
                                 );
                             })}
                         </div>
                     </div>
+
+                    <div className="flex-1 flex justify-end">
+                        <button onClick={() => onOpenChange(false)} className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-50">
+                            <X className="w-5 h-5" />
+                        </button>
+                    </div>
                 </div>
 
                 {/* Body Area */}
-                <div className="flex-1 overflow-y-auto px-6 py-5 custom-scrollbar bg-white/50">
-                    <div className="max-w-[650px] mx-auto">
+                <div className="flex-1 overflow-y-auto px-8 py-6 custom-scrollbar bg-white dark:bg-surface-dark">
+                    <div className="max-w-4xl mx-auto">
                         {step === 1 && (
-                            <div className="space-y-6 animate-in-fade">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                    <div className="space-y-1.5 col-span-2">
-                                        <Label className="premium-label">Nome da Receita</Label>
-                                        <Input
-                                            placeholder="Ex: Brownie de Nutella"
-                                            value={nome}
-                                            onChange={(e) => setNome(e.target.value)}
-                                            className="h-10 rounded-xl border-none bg-gray-50/50 px-5 text-sm font-black text-gray-800 shadow-sm transition-all focus:bg-white focus:shadow-md"
-                                        />
-                                    </div>
+                            <div className="space-y-6 animate-in-fade pt-4">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                    <div className="md:col-span-2 space-y-6">
+                                        <div className="space-y-2">
+                                            <Label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Nome da Receita</Label>
+                                            <Input
+                                                placeholder="Ex: Brownie de Nutella"
+                                                value={nome}
+                                                onChange={(e) => setNome(e.target.value)}
+                                                className="w-full h-12 bg-white border border-gray-100 rounded-2xl px-4 py-3 text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-400 placeholder:font-medium shadow-[0_2px_8px_rgb(0,0,0,0.02)]"
+                                            />
+                                        </div>
 
-                                    <div className="space-y-1.5">
-                                        <Label className="premium-label">Categoria</Label>
-                                        <div className="relative">
-                                            {isCreatingCategory ? (
-                                                <div className="flex gap-2">
-                                                    <Input value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} className="h-10 rounded-xl" placeholder="Nova..." />
-                                                    <Button onClick={handleSaveNewCategory} className="h-10 w-10 rounded-xl bg-green-500 hover:bg-green-600"><Check className="w-4 h-4" /></Button>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="space-y-2">
+                                                <Label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Categoria</Label>
+                                                <div className="relative">
+                                                    {isCreatingCategory ? (
+                                                        <div className="flex gap-2">
+                                                            <Input value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} className="h-12 bg-white border border-gray-100 rounded-2xl px-4 py-3 text-sm font-semibold focus:ring-2 focus:ring-primary/20 transition-all shadow-[0_2px_8px_rgb(0,0,0,0.02)]" placeholder="Nova..." />
+                                                            <Button onClick={handleSaveNewCategory} className="h-12 w-12 rounded-2xl bg-accent-green text-accent-textGreen hover:bg-green-100 transition shadow-sm"><span className="material-symbols-outlined text-base">check</span></Button>
+                                                        </div>
+                                                    ) : (
+                                                        <Select value={categoria} onValueChange={(v) => v === "new" ? setIsCreatingCategory(true) : setCategoria(v)}>
+                                                            <SelectTrigger className="w-full h-12 bg-white border border-gray-100 rounded-2xl px-4 py-3 text-sm font-semibold text-gray-600 focus:ring-2 focus:ring-primary/20 transition-all shadow-[0_2px_8px_rgb(0,0,0,0.02)]">
+                                                                <SelectValue placeholder="Selecione..." />
+                                                            </SelectTrigger>
+                                                            <SelectContent className="rounded-2xl border border-gray-100 shadow-xl">
+                                                                {availableCategories.map(c => <SelectItem key={c} value={c} className="rounded-lg font-medium cursor-pointer">{c}</SelectItem>)}
+                                                                <div className="p-1">
+                                                                    <SelectItem value="new" className="text-primary font-bold cursor-pointer rounded-lg bg-primary/5 mt-1 hover:bg-primary/10">
+                                                                        <span className="flex items-center gap-2"><span className="material-symbols-outlined text-sm">add</span> Nova Categoria</span>
+                                                                    </SelectItem>
+                                                                </div>
+                                                            </SelectContent>
+                                                        </Select>
+                                                    )}
                                                 </div>
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <Label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Tempo de Preparo</Label>
+                                                <div className="relative">
+                                                    <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-[18px]">schedule</span>
+                                                    <Input
+                                                        placeholder="Ex: 45 min"
+                                                        value={tempoPreparo}
+                                                        onChange={(e) => setTempoPreparo(e.target.value)}
+                                                        className="w-full h-12 bg-white border border-gray-100 rounded-2xl pl-11 pr-4 py-3 text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-400 shadow-[0_2px_8px_rgb(0,0,0,0.02)]"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <Label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Rendimento do Lote</Label>
+                                                <div className="flex gap-3">
+                                                    <Input
+                                                        type="number"
+                                                        value={rendimentoUnidades}
+                                                        onChange={(e) => setRendimentoUnidades(parseFloat(e.target.value) || 1)}
+                                                        className="h-12 w-1/2 rounded-2xl border border-gray-100 bg-white font-bold text-center text-sm shadow-[0_2px_8px_rgb(0,0,0,0.02)] focus:ring-2 focus:ring-primary/20"
+                                                    />
+                                                    <Select value={unidadeRendimento} onValueChange={setUnidadeRendimento}>
+                                                        <SelectTrigger className="h-12 w-1/2 rounded-2xl border border-gray-100 bg-white font-bold text-gray-600 text-xs shadow-[0_2px_8px_rgb(0,0,0,0.02)] focus:ring-2 focus:ring-primary/20">
+                                                            <SelectValue />
+                                                        </SelectTrigger>
+                                                        <SelectContent className="rounded-2xl border border-gray-100 shadow-xl min-w-[100px]">
+                                                            {['un', 'g', 'kg', 'ml', 'L'].map(u => <SelectItem key={u} value={u} className="rounded-lg font-medium">{u}</SelectItem>)}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <Label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Foto da Receita</Label>
+                                                <div
+                                                    onClick={() => fileInputRef.current?.click()}
+                                                    className="h-12 rounded-2xl bg-white border-[1.5px] border-dashed border-gray-300 flex items-center justify-center cursor-pointer hover:border-primary/40 group transition-all shadow-[0_2px_8px_rgb(0,0,0,0.02)]"
+                                                >
+                                                    <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
+                                                    {fotoPreview ? (
+                                                        <div className="flex items-center gap-2 text-accent-textGreen font-bold text-[10px] uppercase tracking-widest"><span className="material-symbols-outlined text-sm">check_circle</span> Imagem Carregada</div>
+                                                    ) : (
+                                                        <div className="flex items-center gap-2 text-gray-500 group-hover:text-primary font-bold transition-colors"><span className="material-symbols-outlined text-sm">cloud_upload</span> <span className="text-[10px] uppercase tracking-widest">Clique para Upload</span></div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="md:col-span-1">
+                                        <div className="h-full w-full bg-white border border-gray-100/50 rounded-[32px] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col items-center justify-center text-center gap-6">
+                                            {fotoPreview ? (
+                                                <img src={fotoPreview} alt="Preview" className="w-[120px] h-[120px] rounded-full object-cover shadow-sm border-4 border-white" />
                                             ) : (
-                                                <Select value={categoria} onValueChange={(v) => v === "new" ? setIsCreatingCategory(true) : setCategoria(v)}>
-                                                    <SelectTrigger className="h-10 rounded-xl border-none bg-gray-50/50 px-4 font-bold text-sm text-gray-700">
-                                                        <SelectValue placeholder="Selecione..." />
-                                                    </SelectTrigger>
-                                                    <SelectContent className="rounded-xl">
-                                                        {availableCategories.map(c => <SelectItem key={c} value={c} className="rounded-lg">{c}</SelectItem>)}
-                                                        <SelectItem value="new" className="text-[#EFB6BF] font-black">+ Nova Categoria</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
+                                                <div className="w-[120px] h-[120px] rounded-full bg-gray-50 flex items-center justify-center text-gray-300">
+                                                    <span className="material-symbols-outlined text-5xl">landscape</span>
+                                                </div>
                                             )}
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-1.5">
-                                        <Label className="premium-label">Tempo de Preparo</Label>
-                                        <div className="relative">
-                                            <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-300" />
-                                            <Input
-                                                placeholder="Ex: 45 min"
-                                                value={tempoPreparo}
-                                                onChange={(e) => setTempoPreparo(e.target.value)}
-                                                className="h-10 rounded-xl border-none bg-gray-50/50 pl-10 font-bold text-sm text-gray-700"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-1.5">
-                                        <Label className="premium-label">Rendimento do Lote</Label>
-                                        <div className="flex gap-2 bg-gray-50/50 p-1 rounded-xl">
-                                            <Input
-                                                type="number"
-                                                value={rendimentoUnidades}
-                                                onChange={(e) => setRendimentoUnidades(parseFloat(e.target.value) || 1)}
-                                                className="h-9 flex-1 rounded-lg border-none bg-white font-black text-center text-sm shadow-sm"
-                                            />
-                                            <Select value={unidadeRendimento} onValueChange={setUnidadeRendimento}>
-                                                <SelectTrigger className="h-9 w-20 rounded-lg border-none bg-white font-black text-[#EFB6BF] text-xs shadow-sm">
-                                                    <SelectValue />
-                                                </SelectTrigger>
-                                                <SelectContent className="rounded-xl">
-                                                    {['un', 'g', 'kg', 'ml', 'L'].map(u => <SelectItem key={u} value={u} className="rounded-lg">{u}</SelectItem>)}
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-1.5">
-                                        <Label className="premium-label">Foto da Receita</Label>
-                                        <div
-                                            onClick={() => fileInputRef.current?.click()}
-                                            className="h-[50px] rounded-xl bg-gray-50/50 border-2 border-dashed border-gray-100 flex items-center justify-center cursor-pointer hover:border-[#EFB6BF]/40 group transition-all"
-                                        >
-                                            <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
-                                            {fotoPreview ? <div className="flex items-center gap-2 text-green-500 font-black text-[10px] uppercase"><Check className="w-4 h-4" /> Foto Pronta</div> : <div className="flex items-center gap-3 text-gray-300 group-hover:text-gray-400 font-black"><Upload className="w-5 h-5" /> <span className="text-[10px] uppercase tracking-widest">Clique para Upload</span></div>}
+                                            <p className="text-xs font-medium text-gray-400 max-w-[180px] leading-relaxed">
+                                                {fotoPreview ? "Clique no botão ao lado para alterar a sua foto." : "Adicione uma foto para deixar sua receita mais atraente."}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         )}
 
                         {step === 2 && (
-                            <div className="space-y-10 animate-in-fade">
+                            <div className="space-y-8 animate-in-fade">
                                 <div className="space-y-6">
-                                    <div className="flex items-center justify-between px-2">
-                                        <div className="space-y-1">
-                                            <h3 className="text-xl font-black text-gray-800 tracking-tight">Composição Técnica</h3>
-                                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Vincule itens do estoque para o cálculo de CMV</p>
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center">
+                                                <span className="material-symbols-outlined text-gray-400 text-sm">inventory_2</span>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-sm font-bold text-gray-900 uppercase tracking-wider">Composição Técnica</h4>
+                                                <p className="text-[10px] text-gray-400 font-semibold tracking-wide">VINCULE ITENS PARA CÁLCULO DE CMV</p>
+                                            </div>
                                         </div>
                                         <Button
                                             onClick={() => setShowSelector(true)}
-                                            className="h-12 px-6 rounded-full bg-[#EFB6BF] hover:bg-[#EFB6BF]/90 text-white font-black text-xs gap-2 shadow-lg shadow-[#EFB6BF]/20"
+                                            className="h-10 px-5 rounded-xl bg-accent-pink hover:bg-primary text-gray-900 hover:text-white font-bold text-xs gap-2 shadow-sm transition-colors"
                                         >
-                                            <Plus className="w-4 h-4" /> Adicionar Item
+                                            <span className="material-symbols-outlined text-sm">add</span> Adicionar Item
                                         </Button>
                                     </div>
 
                                     <div className="space-y-3 min-h-[300px]">
                                         {ingredientesVinculados.length === 0 ? (
-                                            <div className="h-60 flex flex-col items-center justify-center bg-gray-50/50 rounded-[40px] border-2 border-dashed border-gray-50 p-10 text-center opacity-40">
-                                                <Box className="w-12 h-12 mb-4 text-gray-300" />
-                                                <p className="text-xs font-black uppercase text-gray-400 tracking-widest">Nenhum ingrediente vinculado ainda</p>
+                                            <div className="h-48 flex flex-col items-center justify-center bg-gray-50/50 rounded-[28px] border-2 border-dashed border-gray-100 p-8 text-center">
+                                                <span className="material-symbols-outlined w-10 h-10 text-gray-300 text-4xl mb-3">category</span>
+                                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Nenhum ingrediente vinculado</p>
                                             </div>
                                         ) : (
                                             ingredientesVinculados.map((item, idx) => {
                                                 const itemId = item.produtoId || item.receitaComponenteId || item.kitComponenteId || `idx-${idx}`;
                                                 return (
-                                                    <div key={itemId} className="bg-white rounded-[28px] p-2 border border-gray-100 shadow-sm hover:shadow-md transition-all flex items-center justify-between group">
-                                                        <div className="flex items-center gap-4 flex-1 pr-4">
+                                                    <div key={itemId} className="bg-white rounded-[24px] p-2 border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between group gap-4">
+                                                        <div className="flex items-center gap-4 flex-1 px-2">
                                                             <div className={cn(
-                                                                "w-12 h-12 rounded-[20px] flex items-center justify-center shadow-inner",
-                                                                item.tipo === 'ingrediente' ? "bg-[#EFB6BF]/10 text-[#EFB6BF]" : "bg-gray-800/5 text-gray-800"
+                                                                "w-10 h-10 rounded-[14px] flex items-center justify-center shadow-inner",
+                                                                item.tipo === 'ingrediente' ? "bg-accent-pink text-primary" : "bg-gray-100 text-gray-700"
                                                             )}>
-                                                                {item.tipo === 'ingrediente' ? <ShoppingBag className="w-5 h-5" /> : <ChefHat className="w-5 h-5" />}
+                                                                <span className="material-symbols-outlined text-base">{item.tipo === 'ingrediente' ? 'shopping_bag' : 'restaurant'}</span>
                                                             </div>
                                                             <div className="flex-1 min-w-0">
-                                                                <h4 className="text-sm font-black text-gray-700 truncate">{item.nome}</h4>
-                                                                <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{item.tipo}</p>
+                                                                <h4 className="text-sm font-bold text-gray-900 truncate">{item.nome}</h4>
+                                                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{item.tipo}</p>
                                                             </div>
                                                         </div>
 
-                                                        <div className="flex items-center gap-2 bg-gray-50/80 p-1.5 rounded-[20px]">
-                                                            <div className="bg-white rounded-[16px] flex items-center px-4 h-10 shadow-sm border border-gray-50">
+                                                        <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto bg-gray-50 p-1.5 rounded-[18px]">
+                                                            <div className="bg-white rounded-[14px] flex items-center justify-between px-3 h-10 shadow-sm border border-gray-100 flex-1 sm:w-28">
                                                                 <Input
                                                                     type="number"
                                                                     value={item.quantidade}
                                                                     onChange={(e) => updateStockItemQuantity(itemId, item.tipo, parseFloat(e.target.value) || 0)}
-                                                                    className="w-16 h-full border-none bg-transparent p-0 text-center font-black text-gray-800"
+                                                                    className="w-12 h-full border-none bg-transparent p-0 text-center font-bold text-gray-900 focus:ring-0"
                                                                 />
-                                                                <span className="text-[10px] font-black text-gray-400 uppercase border-l pl-3 ml-3">{item.unidade}</span>
+                                                                <span className="text-[10px] font-bold text-gray-400 uppercase border-l pl-2 ml-1">{item.unidade}</span>
                                                             </div>
                                                             <Select value={item.modo_custo} onValueChange={(v) => updateStockItemModo(itemId, item.tipo, v)}>
-                                                                <SelectTrigger className="h-10 w-32 rounded-[16px] border-none bg-transparent font-black text-[9px] uppercase tracking-wider text-gray-500">
+                                                                <SelectTrigger className="h-10 w-[110px] sm:w-[130px] rounded-[14px] border border-gray-100 bg-white font-bold text-[10px] uppercase tracking-wider text-gray-600 focus:ring-0">
                                                                     <SelectValue />
                                                                 </SelectTrigger>
-                                                                <SelectContent className="rounded-[20px]">
-                                                                    <SelectItem value="proporcional" className="text-[10px] font-black uppercase">Proporcional</SelectItem>
-                                                                    {item.tipo === 'ingrediente' && <SelectItem value="inteiro" className="text-[10px] font-black uppercase">Emb. Inteira</SelectItem>}
+                                                                <SelectContent className="rounded-[16px] border-none shadow-lg">
+                                                                    <SelectItem value="proporcional" className="text-[10px] font-bold uppercase">Proporcional</SelectItem>
+                                                                    {item.tipo === 'ingrediente' && <SelectItem value="inteiro" className="text-[10px] font-bold uppercase">Emb. Inteira</SelectItem>}
                                                                 </SelectContent>
                                                             </Select>
-                                                        </div>
 
-                                                        <button
-                                                            onClick={() => handleRemoveStockItem(itemId, item.tipo)}
-                                                            className="w-10 h-10 rounded-[18px] flex items-center justify-center text-gray-300 hover:text-red-400 hover:bg-red-50 transition-all ml-2"
-                                                        >
-                                                            <Trash2 className="w-4 h-4" />
-                                                        </button>
+                                                            <button
+                                                                onClick={() => handleRemoveStockItem(itemId, item.tipo)}
+                                                                className="w-10 h-10 rounded-[14px] flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0"
+                                                            >
+                                                                <span className="material-symbols-outlined text-lg">delete</span>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 )
                                             })
@@ -676,23 +725,23 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <Label className="premium-label">Ingredientes Extras</Label>
+                                        <Label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">Ingredientes Extras</Label>
                                         <Textarea
                                             placeholder="Outros itens não pesáveis..."
                                             value={ingredientesTexto}
                                             onChange={(e) => setIngredientesTexto(e.target.value)}
-                                            className="min-h-[140px] rounded-[28px] border-none bg-gray-50/50 p-6 text-sm font-medium"
+                                            className="min-h-[140px] rounded-[24px] border-none bg-gray-50 p-6 text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-400"
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label className="premium-label">Modo de Preparo</Label>
+                                        <Label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">Modo de Preparo</Label>
                                         <Textarea
                                             placeholder="Passo a passo da receita..."
                                             value={modoPreparo}
                                             onChange={(e) => setModoPreparo(e.target.value)}
-                                            className="min-h-[140px] rounded-[28px] border-none bg-gray-50/50 p-6 text-sm font-medium"
+                                            className="min-h-[140px] rounded-[24px] border-none bg-gray-50 p-6 text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-400"
                                         />
                                     </div>
                                 </div>
@@ -700,158 +749,173 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                         )}
 
                         {step === 3 && (
-                            <div className="space-y-10 animate-in-fade">
-                                <div className="bg-[#EFB6BF]/5 rounded-[40px] p-8 border border-[#EFB6BF]/10">
-                                    <div className="flex items-center gap-4 mb-8">
-                                        <div className="w-12 h-12 rounded-[22px] bg-[#EFB6BF] flex items-center justify-center shadow-lg shadow-[#EFB6BF]/30">
-                                            <Calculator className="w-6 h-6 text-white" />
-                                        </div>
-                                        <div>
-                                            <h3 className="text-xl font-black text-gray-800 tracking-tight">Precificação Inteligente</h3>
-                                            <p className="text-[10px] font-bold text-[#EFB6BF] uppercase tracking-[0.2em]">Sua Margem de Lucro Real</p>
+                            <div className="space-y-8 animate-in-fade">
+                                <div className="bg-white dark:bg-gray-800 rounded-[28px] p-6 border border-gray-100 dark:border-gray-700 shadow-sm">
+                                    <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-8">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 rounded-[18px] bg-accent-pink flex items-center justify-center text-primary shadow-sm">
+                                                <span className="material-symbols-outlined text-2xl">calculate</span>
+                                            </div>
+                                            <div>
+                                                <h3 className="text-lg font-bold text-gray-900 leading-tight">Precificação Inteligente</h3>
+                                                <p className="text-[10px] font-bold text-primary uppercase tracking-widest mt-0.5">SUA MARGEM DE LUCRO REAL</p>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
                                         {[
-                                            { label: 'Custos Fixos', val: '40% Fixo', active: usarBlocoMaoObra, toggle: () => setUsarBlocoMaoObra(!usarBlocoMaoObra) },
-                                            { label: 'Utensílios', val: '3% Reparos', active: usarBlocoUtensilios, toggle: () => setUsarBlocoUtensilios(!usarBlocoUtensilios) },
-                                            { label: 'Imprevistos', val: '20% Segur.', active: true, persistent: true }
+                                            { label: 'Custos Fixos', val: '40% Fixo', active: usarBlocoMaoObra, toggle: () => setUsarBlocoMaoObra(!usarBlocoMaoObra), icon: 'home' },
+                                            { label: 'Utensílios', val: '3% Reparos', active: usarBlocoUtensilios, toggle: () => setUsarBlocoUtensilios(!usarBlocoUtensilios), icon: 'kitchen' },
+                                            { label: 'Imprevistos', val: '20% Segur.', active: true, persistent: true, icon: 'shield' }
                                         ].map((tool, i) => (
                                             <button
                                                 key={i}
                                                 onClick={tool.toggle}
                                                 disabled={tool.persistent}
                                                 className={cn(
-                                                    "p-5 rounded-[28px] border flex flex-col items-center gap-3 transition-all",
-                                                    tool.active ? "bg-white border-[#EFB6BF]/30 shadow-sm" : "bg-gray-50/50 border-gray-100 opacity-60 grayscale"
+                                                    "p-4 rounded-2xl border flex flex-col items-center gap-2 transition-all",
+                                                    tool.active ? "bg-white border-primary/20 shadow-sm ring-1 ring-primary/10" : "bg-gray-50 border-gray-100 opacity-60 grayscale"
                                                 )}
                                             >
-                                                <div className={cn("w-6 h-6 rounded-lg flex items-center justify-center transition-colors", tool.active ? "bg-[#EFB6BF] text-white" : "bg-gray-200 text-gray-400")}>
-                                                    <Check className="w-3.5 h-3.5" />
+                                                <div className={cn("w-8 h-8 rounded-full flex items-center justify-center transition-colors mb-1", tool.active ? "bg-accent-pink text-primary" : "bg-gray-200 text-gray-500")}>
+                                                    <span className="material-symbols-outlined text-sm">{tool.active ? 'check' : tool.icon}</span>
                                                 </div>
                                                 <div className="text-center">
-                                                    <p className="text-[10px] font-black uppercase text-gray-700 leading-none mb-1">{tool.label}</p>
-                                                    <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest">{tool.val}</p>
+                                                    <p className="text-xs font-bold text-gray-800 leading-none mb-1">{tool.label}</p>
+                                                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{tool.val}</p>
                                                 </div>
                                             </button>
                                         ))}
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div className="bg-white rounded-[32px] p-6 border border-gray-100 shadow-sm">
-                                            <Label className="premium-label !text-amber-500 flex items-center gap-1.5 mb-4">
-                                                <Clock className="w-3 h-3" /> Tempo de Produção
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-3xl p-5 border border-gray-100 dark:border-gray-700">
+                                            <Label className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
+                                                <span className="material-symbols-outlined text-orange-400 text-sm">schedule</span> Tempo de Produção
                                             </Label>
                                             <div className="flex items-center gap-3">
                                                 <Input
                                                     type="number"
                                                     value={tempoProducaoMinutos}
                                                     onChange={(e) => setTempoProducaoMinutos(parseInt(e.target.value) || 0)}
-                                                    className="h-14 flex-1 rounded-[20px] bg-gray-50/80 border-none font-black text-2xl text-center text-gray-700"
+                                                    className="h-12 flex-1 rounded-xl bg-white border-gray-100 font-bold text-xl text-center text-gray-900 shadow-sm focus:ring-2 focus:ring-primary/20"
                                                 />
-                                                <span className="text-sm font-black text-gray-400 uppercase">Minutos</span>
+                                                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Minutos</span>
                                             </div>
                                         </div>
 
-                                        <div className="bg-white rounded-[32px] p-6 border border-gray-100 shadow-sm">
-                                            <Label className="premium-label !text-[#EFB6BF] flex items-center gap-1.5 mb-4">
-                                                <DollarSign className="w-3 h-3" /> Preço de Venda (Unitário)
+                                        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-3xl p-5 border border-gray-100 dark:border-gray-700">
+                                            <Label className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
+                                                <span className="material-symbols-outlined text-primary text-sm">payments</span> Preço de Venda (Unitário)
                                             </Label>
-                                            <div className="flex items-center gap-3">
-                                                <div className="absolute left-6 text-xl font-bold text-[#EFB6BF]/50">R$</div>
+                                            <div className="relative">
+                                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-extrabold text-primary/40">R$</span>
                                                 <Input
                                                     type="number"
                                                     step="0.01"
                                                     value={precoVenda}
                                                     onChange={(e) => setPrecoVenda(parseFloat(e.target.value) || 0)}
-                                                    className="h-14 flex-1 rounded-[20px] bg-[#EFB6BF]/5 border-none font-black text-2xl text-center text-[#EFB6BF] pl-10"
+                                                    className="w-full h-12 bg-white border-gray-100 rounded-xl pl-10 px-4 text-xl font-bold text-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm"
                                                 />
                                             </div>
-                                            {precoVenda > 0 && rendimentoUnidades > 0 && (
-                                                <div className="mt-3 p-3 bg-green-50/80 rounded-xl border border-green-100/50">
-                                                    <p className="text-[8px] font-black text-green-600 uppercase tracking-widest mb-0.5">💰 Venda Total do Lote ({rendimentoUnidades} {unidadeRendimento})</p>
-                                                    <p className="text-lg font-black text-green-600 tracking-tighter">{formatarMoeda(precoVenda * rendimentoUnidades)}</p>
-                                                </div>
-                                            )}
                                         </div>
                                     </div>
 
-                                    {/* Resumo Detalhado de Custos */}
-                                    <div className="mt-8 pt-8 border-t border-[#EFB6BF]/10 space-y-6 px-4">
-                                        <div className="flex items-center gap-3 mb-2">
-                                            <div className="w-8 h-8 rounded-[12px] bg-gray-100 flex items-center justify-center">
-                                                <Info className="w-4 h-4 text-gray-500" />
+                                    {precoVenda > 0 && rendimentoUnidades > 0 && (
+                                        <div className="mt-4 p-4 bg-accent-green/30 rounded-2xl border border-accent-green flex items-center justify-between">
+                                            <div>
+                                                <p className="text-[10px] font-bold text-accent-textGreen uppercase tracking-widest mb-0.5">💰 Faturamento Total do Lote</p>
+                                                <p className="text-[9px] font-bold text-green-600/70 uppercase tracking-widest">
+                                                    {formatarMoeda(precoVenda)} × {rendimentoUnidades} {unidadeRendimento}
+                                                </p>
                                             </div>
-                                            <p className="text-sm font-black text-gray-800 tracking-tight">Detalhamento Completo</p>
+                                            <div className="text-right">
+                                                <p className="text-2xl font-black text-accent-textGreen tracking-tight">{formatarMoeda(precoVenda * rendimentoUnidades)}</p>
+                                                {calculo && (
+                                                    <p className="text-[9px] font-bold text-green-600/70 uppercase tracking-widest mt-0.5">
+                                                        Lucro Bruto: {formatarMoeda((precoVenda * rendimentoUnidades) - (calculo.custo_operacional_total || 0))}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Resumo Detalhado de Custos */}
+                                    <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700 space-y-6">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center">
+                                                <span className="material-symbols-outlined text-sm text-gray-400">analytics</span>
+                                            </div>
+                                            <p className="text-sm font-bold text-gray-900 tracking-tight uppercase tracking-wider">Detalhamento Completo</p>
                                         </div>
 
                                         {/* Custos Detalhados Grid */}
-                                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                            {/* CMV */}
-                                            <div className="bg-white rounded-[20px] p-4 border border-gray-100 shadow-sm">
-                                                <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-1">CMV Total (Lote)</p>
-                                                <p className="text-lg font-black text-gray-800 tracking-tighter">{formatarMoeda(calculo?.cmv_total || 0)}</p>
-                                                <p className="text-[8px] font-bold text-gray-300 uppercase tracking-widest mt-1">
-                                                    Unitário: {formatarMoeda(calculo?.cmv_unitario || 0)}
-                                                </p>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                            <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
+                                                <div className="flex items-center gap-2 text-gray-500">
+                                                    <span className="material-symbols-outlined text-sm text-blue-400">engineering</span>
+                                                    <span className="text-[10px] font-bold uppercase tracking-wide">CMV Total (Lote)</span>
+                                                </div>
+                                                <div className="text-2xl font-bold text-gray-900">{formatarMoeda(calculo?.cmv_total || 0)}</div>
+                                                <div className="text-[10px] text-gray-400">Unitário: {formatarMoeda(calculo?.cmv_unitario || 0)}</div>
                                             </div>
 
-                                            {/* Gás */}
-                                            <div className="bg-white rounded-[20px] p-4 border border-gray-100 shadow-sm">
-                                                <p className="text-[8px] font-black text-amber-500 uppercase tracking-widest mb-1">⛽ Custo Gás</p>
-                                                <p className="text-lg font-black text-gray-800 tracking-tighter">{formatarMoeda(calculo?.custo_gas || 0)}</p>
-                                                <p className="text-[8px] font-bold text-gray-300 uppercase tracking-widest mt-1">
-                                                    Botijão R${pricingSettings?.preco_botijao_gas || 120} / {pricingSettings?.duracao_botijao_horas || 50}h
-                                                </p>
+                                            <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
+                                                <div className="flex items-center gap-2 text-gray-500">
+                                                    <span className="material-symbols-outlined text-sm text-orange-400">local_fire_department</span>
+                                                    <span className="text-[10px] font-bold uppercase tracking-wide">Gás</span>
+                                                </div>
+                                                <div className="text-2xl font-bold text-gray-900">{formatarMoeda(calculo?.custo_gas || 0)}</div>
+                                                <div className="text-[10px] text-gray-400">Botijão R${pricingSettings?.preco_botijao_gas || 120} / {pricingSettings?.duracao_botijao_horas || 50}h</div>
                                             </div>
 
-                                            {/* Mão de Obra */}
-                                            <div className="bg-white rounded-[20px] p-4 border border-gray-100 shadow-sm">
-                                                <p className="text-[8px] font-black text-blue-500 uppercase tracking-widest mb-1">👷 Mão de Obra</p>
-                                                <p className="text-lg font-black text-gray-800 tracking-tighter">{formatarMoeda(calculo?.custo_mao_obra || 0)}</p>
-                                                <p className="text-[8px] font-bold text-gray-300 uppercase tracking-widest mt-1">
-                                                    R${pricingSettings?.custo_hora_mao_obra || 20}/hora × {tempoProducaoMinutos}min
-                                                </p>
+                                            <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
+                                                <div className="flex items-center gap-2 text-gray-500">
+                                                    <span className="material-symbols-outlined text-sm text-yellow-400">bolt</span>
+                                                    <span className="text-[10px] font-bold uppercase tracking-wide">Mão de Obra</span>
+                                                </div>
+                                                <div className="text-2xl font-bold text-gray-900">{formatarMoeda(calculo?.custo_mao_obra || 0)}</div>
+                                                <div className="text-[10px] text-gray-400">R${pricingSettings?.custo_hora_mao_obra || 20}/h x {tempoProducaoMinutos} min</div>
                                             </div>
 
-                                            {/* Custos Fixos Rateio */}
-                                            <div className="bg-white rounded-[20px] p-4 border border-gray-100 shadow-sm">
-                                                <p className="text-[8px] font-black text-purple-500 uppercase tracking-widest mb-1">🏠 Custos Fixos (Rateio)</p>
-                                                <p className="text-lg font-black text-gray-800 tracking-tighter">{formatarMoeda(calculo?.custo_fixo_rateio || 0)}</p>
-                                                <p className="text-[8px] font-bold text-gray-300 uppercase tracking-widest mt-1">
-                                                    {formatarMoeda(calculo?.custo_por_minuto || 0)}/min × {tempoProducaoMinutos}min
-                                                </p>
+                                            <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
+                                                <div className="flex items-center gap-2 text-gray-500">
+                                                    <span className="material-symbols-outlined text-sm text-purple-400">storefront</span>
+                                                    <span className="text-[10px] font-bold uppercase tracking-wide">Custos Fixos (Rateio)</span>
+                                                </div>
+                                                <div className="text-2xl font-bold text-gray-900">{formatarMoeda(calculo?.custo_fixo_rateio || 0)}</div>
+                                                <div className="text-[10px] text-gray-400">R${(calculo?.custo_por_minuto || 0).toFixed(2)}/min x {tempoProducaoMinutos} min</div>
                                             </div>
 
-                                            {/* Custo com Segurança */}
-                                            <div className="bg-white rounded-[20px] p-4 border border-gray-100 shadow-sm">
-                                                <p className="text-[8px] font-black text-orange-500 uppercase tracking-widest mb-1">🛡️ CMV + Segurança</p>
-                                                <p className="text-lg font-black text-gray-800 tracking-tighter">{formatarMoeda(calculo?.cmv_com_seguranca || 0)}</p>
-                                                <p className="text-[8px] font-bold text-gray-300 uppercase tracking-widest mt-1">
-                                                    +{pricingSettings?.percentual_seguranca || 20}% imprevistos
-                                                </p>
+                                            <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
+                                                <div className="flex items-center gap-2 text-gray-500">
+                                                    <span className="material-symbols-outlined text-sm text-blue-500">shield</span>
+                                                    <span className="text-[10px] font-bold uppercase tracking-wide">CMV + Segurança</span>
+                                                </div>
+                                                <div className="text-2xl font-bold text-gray-900">{formatarMoeda(calculo?.cmv_com_seguranca || 0)}</div>
+                                                <div className="text-[10px] text-gray-400">+{pricingSettings?.percentual_seguranca || 20}% Imprevistos</div>
                                             </div>
 
-                                            {/* Custo Operacional Total */}
-                                            <div className="bg-white rounded-[20px] p-4 border border-gray-100 shadow-sm">
-                                                <p className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1">📊 Custo Operacional</p>
-                                                <p className="text-lg font-black text-gray-800 tracking-tighter">{formatarMoeda(calculo?.custo_operacional_total || 0)}</p>
-                                                <p className="text-[8px] font-bold text-gray-300 uppercase tracking-widest mt-1">
-                                                    CMV + Gás + MO
-                                                </p>
+                                            <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
+                                                <div className="flex items-center gap-2 text-gray-500">
+                                                    <span className="material-symbols-outlined text-sm text-green-500">account_balance_wallet</span>
+                                                    <span className="text-[10px] font-bold uppercase tracking-wide">Custo Operacional</span>
+                                                </div>
+                                                <div className="text-2xl font-bold text-gray-900">{formatarMoeda(calculo?.custo_operacional_total || 0)}</div>
+                                                <div className="text-[10px] text-gray-400">CMV + Gás + MO</div>
                                             </div>
                                         </div>
 
                                         {/* Custo Unitário Final (destaque) */}
-                                        <div className="p-5 bg-[#EFB6BF]/10 rounded-[24px] border border-[#EFB6BF]/20 flex items-center justify-between">
+                                        <div className="bg-accent-pink/30 border border-primary/20 rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between shadow-sm gap-4">
                                             <div>
-                                                <p className="text-[9px] font-black text-[#EFB6BF] uppercase tracking-[0.2em] mb-1">Custo Unitário Final</p>
-                                                <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest">
-                                                    Custo Base / {rendimentoUnidades} {unidadeRendimento}
-                                                </p>
+                                                <h3 className="text-xs font-bold text-primary uppercase tracking-wider mb-1">Custo Unitário Final</h3>
+                                                <p className="text-[10px] font-semibold text-primary/70 uppercase">Custo Base / {rendimentoUnidades} {unidadeRendimento}</p>
                                             </div>
-                                            <p className="text-3xl font-black text-[#EFB6BF] tracking-tighter">{formatarMoeda(calculo?.custo_unidade_final || 0)}</p>
+                                            <div className="text-4xl font-black text-primary tracking-tight">
+                                                {formatarMoeda(calculo?.custo_unidade_final || 0)}
+                                            </div>
                                         </div>
 
                                         {/* VALOR TOTAL DE VENDA DO LOTE (destaque verde) */}
@@ -876,23 +940,23 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
 
                                         {/* Detalhamento por Ingrediente */}
                                         {calculo?.detalhamento_custos && calculo.detalhamento_custos.length > 0 && (
-                                            <div className="space-y-3">
-                                                <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Custo por Ingrediente</p>
-                                                <div className="space-y-2">
+                                            <div className="space-y-4">
+                                                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1 mt-6">Custo Por Ingrediente</h3>
+                                                <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-1 divide-y divide-gray-50 dark:divide-gray-700/50">
                                                     {calculo.detalhamento_custos.map((item: any, idx: number) => (
-                                                        <div key={idx} className="flex items-center justify-between p-3 bg-white rounded-[16px] border border-gray-50">
-                                                            <div className="flex items-center gap-3">
-                                                                <div className="w-2 h-2 rounded-full bg-[#EFB6BF]" />
+                                                        <div key={idx} className="flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-lg group">
+                                                            <div className="flex items-center gap-4">
+                                                                <div className="w-2 h-2 rounded-full bg-primary" />
                                                                 <div>
-                                                                    <p className="text-xs font-bold text-gray-700">{item.insumo_nome}</p>
-                                                                    <p className="text-[9px] text-gray-400">
+                                                                    <div className="font-bold text-gray-900 text-sm">{item.insumo_nome}</div>
+                                                                    <div className="text-xs text-gray-400">
                                                                         {item.quantidade_usada} {item.unidade_usada} · {item.modo_custo}
-                                                                    </p>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div className="text-right">
-                                                                <p className="text-sm font-black text-gray-700 tracking-tight">{formatarMoeda(item.custo_total)}</p>
-                                                                <p className="text-[9px] font-bold text-[#EFB6BF]">{item.percentual_do_cmv?.toFixed(1)}%</p>
+                                                                <div className="font-bold text-gray-900 text-sm">{formatarMoeda(item.custo_total)}</div>
+                                                                <div className="text-[10px] font-medium text-primary">{item.percentual_do_cmv?.toFixed(1)}%</div>
                                                             </div>
                                                         </div>
                                                     ))}
@@ -903,45 +967,44 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
 
                                     {/* Sugestões de Preço por Margem de Lucro */}
                                     {calculo?.precos_sugeridos && calculo.precos_sugeridos.length > 0 && (
-                                        <div className="mt-8 pt-8 border-t border-[#EFB6BF]/10 px-4">
-                                            <div className="flex items-center gap-3 mb-6">
-                                                <div className="w-10 h-10 rounded-[14px] bg-green-50 flex items-center justify-center">
-                                                    <TrendingUp className="w-5 h-5 text-green-500" />
+                                        <div className="mt-8 pt-8 border-t border-gray-100 dark:border-gray-700">
+                                            <div className="space-y-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center">
+                                                        <span className="material-symbols-outlined text-lg">trending_up</span>
+                                                    </div>
+                                                    <div>
+                                                        <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100">Sugestões de Preço</h3>
+                                                        <p className="text-[10px] text-gray-500 font-medium uppercase">Clique para definir o preço de venda</p>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <p className="text-sm font-black text-gray-800 tracking-tight">Sugestões de Preço</p>
-                                                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Clique para definir o preço de venda</p>
+                                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                                    {calculo.precos_sugeridos.map((s: any, idx: number) => (
+                                                        <button
+                                                            key={idx}
+                                                            onClick={() => setPrecoVenda(parseFloat(s.valor.toFixed(2)))}
+                                                            className={cn(
+                                                                "bg-white dark:bg-gray-800 border rounded-xl p-4 text-center hover:shadow-md transition-all group",
+                                                                precoVenda === parseFloat(s.valor.toFixed(2))
+                                                                    ? "border-primary bg-primary/5 shadow-sm"
+                                                                    : "border-gray-100 dark:border-gray-700 hover:border-primary/50"
+                                                            )}
+                                                        >
+                                                            <div className={cn(
+                                                                "text-[10px] font-bold uppercase mb-2 transition-colors",
+                                                                precoVenda === parseFloat(s.valor.toFixed(2)) ? "text-primary" : "text-gray-400 group-hover:text-primary/70"
+                                                            )}>
+                                                                Lucro {s.margem}%
+                                                            </div>
+                                                            <div className="text-xl font-bold text-gray-900 mb-1">
+                                                                {formatarMoeda(s.valor)}
+                                                            </div>
+                                                            <div className="text-[10px] text-gray-400">
+                                                                Lote: {formatarMoeda(s.valor * rendimentoUnidades)}
+                                                            </div>
+                                                        </button>
+                                                    ))}
                                                 </div>
-                                            </div>
-                                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                                {calculo.precos_sugeridos.map((s: any, idx: number) => (
-                                                    <button
-                                                        key={idx}
-                                                        onClick={() => setPrecoVenda(parseFloat(s.valor.toFixed(2)))}
-                                                        className={cn(
-                                                            "p-5 rounded-[20px] border-2 text-center transition-all hover:scale-[1.02] active:scale-[0.98] flex flex-col items-center gap-2",
-                                                            precoVenda === parseFloat(s.valor.toFixed(2))
-                                                                ? "border-[#EFB6BF] bg-[#EFB6BF]/10 shadow-md"
-                                                                : "border-gray-100 bg-white hover:border-[#EFB6BF]/40 hover:shadow-sm"
-                                                        )}
-                                                    >
-                                                        <span className={cn(
-                                                            "text-[10px] font-black uppercase tracking-widest",
-                                                            precoVenda === parseFloat(s.valor.toFixed(2)) ? "text-[#EFB6BF]" : "text-gray-400"
-                                                        )}>
-                                                            Lucro {s.margem}%
-                                                        </span>
-                                                        <span className={cn(
-                                                            "text-xl font-black tracking-tighter",
-                                                            precoVenda === parseFloat(s.valor.toFixed(2)) ? "text-[#EFB6BF]" : "text-gray-700"
-                                                        )}>
-                                                            {formatarMoeda(s.valor)}
-                                                        </span>
-                                                        <span className="text-[8px] font-bold text-gray-400 uppercase tracking-wider">
-                                                            Lote: {formatarMoeda(s.valor * rendimentoUnidades)}
-                                                        </span>
-                                                    </button>
-                                                ))}
                                             </div>
                                         </div>
                                     )}
@@ -952,21 +1015,23 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                 </div>
 
                 {/* Footer Section */}
-                <div className="px-6 py-4 border-t border-gray-50 bg-white flex items-center justify-between">
-                    <Button
-                        variant="ghost"
+                <div className="px-8 py-6 border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-surface-dark shrink-0 flex items-center justify-between rounded-b-[32px]">
+                    <button
                         onClick={step === 1 ? () => onOpenChange(false) : handleBack}
-                        className="h-10 px-6 rounded-xl text-gray-400 font-black text-[10px] uppercase tracking-widest gap-2"
+                        className="text-xs font-bold text-gray-400 hover:text-gray-700 uppercase tracking-widest px-4 py-2 transition-colors"
                     >
                         {step === 1 ? "Cancelar" : "Voltar"}
-                    </Button>
-                    <Button
+                    </button>
+                    <button
                         onClick={step === 3 ? handleSubmitInternal : handleNext}
-                        className="h-10 px-8 rounded-xl bg-gray-800 hover:bg-gray-900 text-white font-black text-[10px] uppercase tracking-[0.2em] gap-2 shadow-xl transition-all"
+                        className={cn(
+                            "bg-gray-900 dark:bg-primary hover:bg-black dark:hover:bg-primary/90 text-white rounded-xl px-6 py-3 flex items-center gap-2 shadow-sm transition-all transform hover:-translate-y-0.5",
+                            step === 3 ? "bg-accent-pink text-primary hover:bg-accent-pink/90" : ""
+                        )}
                     >
-                        {step === 3 ? "Finalizar Receita" : "Próximo Passo"}
-                        <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                    </Button>
+                        <span className="text-xs font-bold uppercase tracking-wider">{step === 3 ? "Finalizar Receita" : "Próximo Passo"}</span>
+                        <span className="material-symbols-outlined text-sm">{step === 3 ? 'check_circle' : 'arrow_forward'}</span>
+                    </button>
                 </div>
 
                 <AdicionarComponenteModal

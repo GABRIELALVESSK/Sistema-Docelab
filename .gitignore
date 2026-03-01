@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Temporary files and assets
+tmp_*.html
+docelab_redesign.html
+docelab_screenshot.png
+build_error.txt
+build_output.txt

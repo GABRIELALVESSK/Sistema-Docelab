@@ -443,359 +443,374 @@ export default function Estoque() {
 
   return (
     <>
-      <div className="p-6 max-w-[1400px] mx-auto space-y-5">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <h1 className="text-[28px] font-bold tracking-tight text-gray-800">Estoque de <span className="text-[#EFB6BF]">Produtos</span></h1>
-          <Button
-            onClick={() => {
-              if (activeTab === "Insumos") setShowNovoInsumo(true);
-              else if (activeTab === "Custos Fixos") setShowNovoCustoFixo(true);
-              else if (activeTab === "Kits") setShowNovoKit(true);
-              else setShowNovoProduto(true);
-            }}
-            className="bg-[#EFB6BF] hover:bg-[#EFB6BF]/90 text-white font-black rounded-full h-9 px-6 shadow-lg shadow-[#EFB6BF]/20 flex items-center gap-2 text-xs transition-all active:scale-[0.98]"
-          >
-            <Plus className="w-4 h-4" />
-            {activeTab === "Insumos" ? "Novo insumo" : activeTab === "Custos Fixos" ? "Novo custo mensal" : activeTab === "Kits" ? "Novo kit" : "Novo produto"}
-          </Button>
-        </div>
-
-        {/* Top Summaries */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-white rounded-2xl p-5 border border-gray-100/50 shadow-sm flex flex-col justify-between min-h-[110px] relative overflow-hidden group hover:shadow-md transition-all">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-amber-50 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-110 duration-500" />
-            <div className="flex items-center gap-2 text-amber-500/60 text-sm font-medium uppercase tracking-[0.2em] relative z-10">
-              <Beaker className="w-3.5 h-3.5" /> Insumos
-            </div>
-            <div className="relative z-10 flex items-baseline gap-1.5">
-              <span className="text-2xl font-bold text-gray-800 tracking-tighter">{stats.insumos}</span>
+      <div className="p-8 max-w-[1600px] mx-auto space-y-8 animate-in-fade">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-1">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-accent-pink/40 flex items-center justify-center text-primary shrink-0 relative overflow-hidden">
+                <span className="material-symbols-outlined text-[24px]">inventory_2</span>
+                <div className="absolute inset-0 bg-white/10" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-black text-gray-900 tracking-tight">
+                  Estoque de <span className="text-primary">Produtos</span>
+                </h1>
+                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                  Controle de Insumos e Materiais • {produtos.length} Itens
+                </p>
+              </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-5 border border-gray-100/50 shadow-sm flex flex-col justify-between min-h-[110px] relative overflow-hidden group hover:shadow-md transition-all">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-green-50 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-110 duration-500" />
-            <div className="flex items-center gap-2 text-green-500/60 text-sm font-medium uppercase tracking-[0.2em] relative z-10">
-              <Package className="w-3.5 h-3.5" /> Finalizados
-            </div>
-            <div className="relative z-10 flex items-baseline gap-1.5">
-              <span className="text-2xl font-bold text-gray-800 tracking-tighter">{stats.acabados}</span>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl p-5 border border-gray-100/50 shadow-sm flex flex-col justify-between min-h-[110px] relative overflow-hidden group hover:shadow-md transition-all">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-pink-50 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-110 duration-500" />
-            <div className="flex items-center gap-2 text-[#EFB6BF] text-sm font-medium uppercase tracking-[0.2em] relative z-10">
-              <ShoppingBag className="w-3.5 h-3.5" /> Kits
-            </div>
-            <div className="relative z-10 flex items-baseline gap-1.5">
-              <span className="text-2xl font-bold text-gray-800 tracking-tighter">{stats.kits}</span>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl p-5 border border-gray-100/50 shadow-sm flex flex-col justify-between min-h-[110px] relative overflow-hidden group hover:shadow-md transition-all">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-rose-50 rounded-full -mr-12 -mt-12" />
-            <div className="flex items-center gap-2 text-rose-500/60 text-sm font-medium uppercase tracking-[0.2em] relative z-10">
-              <AlertTriangle className="w-3.5 h-3.5" /> Críticos
-            </div>
-            <div className="relative z-10 flex items-baseline gap-1.5">
-              <span className="text-2xl font-bold text-rose-500 tracking-tighter">{stats.baixo}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Tabs Selector */}
-        <div className="bg-gray-100/50 p-1.5 rounded-full flex max-w-fit flex-wrap">
-          {["Insumos", "Produtos Acabados", "Kits", "Custos Fixos"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={cn(
-                "px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all",
-                activeTab === tab ? "bg-white text-gray-800 shadow-sm border border-gray-100/50" : "text-gray-400 hover:text-gray-600"
-              )}
+          <div className="flex items-center gap-3">
+            <Button
+              onClick={() => {
+                if (activeTab === "Insumos") setShowNovoInsumo(true);
+                else if (activeTab === "Custos Fixos") setShowNovoCustoFixo(true);
+                else if (activeTab === "Kits") setShowNovoKit(true);
+                else setShowNovoProduto(true);
+              }}
+              className="bg-gray-900 hover:bg-black text-white font-black rounded-2xl h-12 px-8 flex items-center gap-2 text-xs transition-all active:scale-[0.98] shadow-lg shadow-gray-200"
             >
-              {tab}
-            </button>
+              <span className="material-symbols-outlined text-[18px]">add</span>
+              {activeTab === "Insumos" ? "Novo Insumo" : activeTab === "Custos Fixos" ? "Novo Custo Mensal" : activeTab === "Kits" ? "Novo Kit" : "Novo Produto"}
+            </Button>
+          </div>
+        </div>
+
+        {/* Stats Summary Section */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { label: "Insumos", value: stats.insumos, icon: "beaker", color: "bg-amber-50 text-amber-500", sub: "Disponíveis" },
+            { label: "Finalizados", value: stats.acabados, icon: "package_2", color: "bg-green-50 text-green-500", sub: "Prontos" },
+            { label: "Kits", value: stats.kits, icon: "shopping_bag", color: "bg-pink-50 text-primary", sub: "Cadastrados" },
+            { label: "Críticos", value: stats.baixo, icon: "warning", color: "bg-rose-50 text-rose-500", sub: "Reposição", urgent: stats.baixo > 0 },
+          ].map((stat, i) => (
+            <div key={i} className="bg-white rounded-[28px] p-6 border border-gray-100/60 shadow-sm flex items-center gap-5 hover:shadow-md transition-all group">
+              <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105", stat.color)}>
+                <span className="material-symbols-outlined text-[28px]">{stat.icon}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-2xl font-black text-gray-900 tracking-tight">{stat.value}</span>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{stat.label}</p>
+              </div>
+            </div>
           ))}
         </div>
 
-        {/* Search Bar */}
-        <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
-          <Input
-            placeholder="O que você está procurando?..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-white border-none h-10 pl-11 rounded-xl text-sm font-semibold text-gray-700 placeholder:text-gray-300 shadow-sm focus:shadow-md transition-all"
-          />
-        </div>
+        {/* Filters & Control Section */}
+        <div className="bg-white rounded-[32px] p-6 border border-gray-100/50 shadow-sm space-y-6">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            {/* Tabs Selector */}
+            <div className="bg-gray-50/80 p-1 rounded-2xl flex flex-wrap gap-1 border border-gray-100/30">
+              {["Insumos", "Produtos Acabados", "Kits", "Custos Fixos"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={cn(
+                    "px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                    activeTab === tab
+                      ? "bg-white text-gray-900 shadow-sm border border-gray-100 ring-1 ring-black/5"
+                      : "text-gray-400 hover:text-gray-600"
+                  )}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
 
-        <div className="bg-white p-2 rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <Table>
-            <TableHeader>
-              <TableRow className="hover:bg-transparent border-b border-gray-50">
-                <TableHead className="font-bold text-[12px] uppercase tracking-wider text-gray-400 pl-6 h-10">Item & Categoria</TableHead>
-                {activeTab === "Custos Fixos" ? (
-                  <>
-                    <TableHead className="font-bold text-[12px] uppercase tracking-wider text-gray-400">Valor Mensal</TableHead>
-                    <TableHead className="font-bold text-[12px] uppercase tracking-wider text-gray-400">Status</TableHead>
-                  </>
-                ) : (
-                  <>
-                    <TableHead className="font-bold text-[12px] uppercase tracking-wider text-gray-400">Estoque Atual</TableHead>
-                    <TableHead className="font-bold text-[12px] uppercase tracking-wider text-gray-400">Mínimo</TableHead>
-                    <TableHead className="font-bold text-[12px] uppercase tracking-wider text-gray-400 text-right pr-8">Valores (Unit / Compra)</TableHead>
-                  </>
-                )}
-                <TableHead className="text-right font-bold text-[12px] uppercase tracking-wider text-gray-400 pr-8">Ações</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {loading ? (
-                <TableRow>
-                  <TableCell colSpan={7} className="text-center h-48 text-gray-300 font-bold uppercase tracking-widest text-xs">
-                    Carregando estoque...
-                  </TableCell>
+            {/* Search Bar */}
+            <div className="relative flex-1 max-w-md">
+              <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[20px] text-gray-300">search</span>
+              <Input
+                placeholder="O que você está procurando?..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="bg-gray-50/50 border-gray-100 h-11 pl-12 rounded-2xl text-[13px] font-semibold text-gray-900 placeholder:text-gray-300 focus:bg-white focus:ring-primary/20 transition-all border-none shadow-inner"
+              />
+            </div>
+          </div>
+
+          {/* Table Container */}
+          <div className="overflow-hidden rounded-2xl border border-gray-100/50">
+            <Table>
+              <TableHeader>
+                <TableRow className="hover:bg-transparent border-b border-gray-50 bg-gray-50/30">
+                  <TableHead className="font-bold text-[10px] uppercase tracking-[0.1em] text-gray-400 pl-8 h-12">Item & Categoria</TableHead>
+                  {activeTab === "Custos Fixos" ? (
+                    <>
+                      <TableHead className="font-bold text-[10px] uppercase tracking-[0.1em] text-gray-400">Valor Mensal</TableHead>
+                      <TableHead className="font-bold text-[10px] uppercase tracking-[0.1em] text-gray-400">Status</TableHead>
+                    </>
+                  ) : (
+                    <>
+                      <TableHead className="font-bold text-[10px] uppercase tracking-[0.1em] text-gray-400">Estoque Atual</TableHead>
+                      <TableHead className="font-bold text-[10px] uppercase tracking-[0.1em] text-gray-400">Mínimo</TableHead>
+                      <TableHead className="font-bold text-[10px] uppercase tracking-[0.1em] text-gray-400 text-right pr-12">Valores (Unit / Compra)</TableHead>
+                    </>
+                  )}
+                  <TableHead className="text-right font-bold text-[10px] uppercase tracking-[0.1em] text-gray-400 pr-10">Ações</TableHead>
                 </TableRow>
-              ) : activeTab === "Custos Fixos" ? (
-                custosFixos.length === 0 ? (
+              </TableHeader>
+              <TableBody>
+                {loading ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center h-48 text-gray-300 font-bold uppercase tracking-widest text-xs">
-                      Nenhum custo fixo cadastrado.
+                    <TableCell colSpan={7} className="text-center h-64">
+                      <div className="flex flex-col items-center justify-center gap-3">
+                        <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+                        <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">Carregando estoque...</p>
+                      </div>
                     </TableCell>
                   </TableRow>
-                ) : (
-                  custosFixos.map((custo) => (
-                    <TableRow key={custo.id} className="hover:bg-gray-50/30 border-b border-gray-50 group transition-colors">
-                      <TableCell className="pl-8 py-5">
-                        <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-[14px] bg-blue-50 text-blue-400 flex items-center justify-center shadow-sm">
-                            <Clock className="w-5 h-5" />
-                          </div>
-                          <div className="flex flex-col">
-                            <span className="font-black text-gray-700 tracking-tight">{custo.nome}</span>
-                            <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">{custo.categoria}</span>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-base font-black text-foreground tracking-tight">
-                          {custo.valor_mensal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          <div className={cn(
-                            "w-2 h-2 rounded-full animate-pulse",
-                            custo.ativo ? "bg-green-500" : "bg-gray-300"
-                          )} />
-                          <span className={cn(
-                            "text-[10px] font-black uppercase tracking-widest",
-                            custo.ativo ? "text-green-600" : "text-gray-400"
-                          )}>
-                            {custo.ativo ? "Ativo" : "Inativo"}
-                          </span>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right pr-8">
-                        <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-9 w-9 rounded-xl text-muted-foreground hover:text-primary hover:bg-primary/5"
-                            onClick={() => {
-                              setCustoFixoParaEditar(custo);
-                              setShowNovoCustoFixo(true);
-                            }}
-                          >
-                            <Edit2 className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-9 w-9 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/5"
-                            onClick={() => handleDeleteCustoFixo(custo.id)}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
+                ) : activeTab === "Custos Fixos" ? (
+                  custosFixos.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={5} className="text-center h-64">
+                        <div className="flex flex-col items-center justify-center opacity-30">
+                          <span className="material-symbols-outlined text-[48px] mb-2 font-light">receipt_long</span>
+                          <p className="text-[10px] font-bold uppercase tracking-widest">Nenhum custo fixo</p>
                         </div>
                       </TableCell>
                     </TableRow>
-                  ))
-                )
-              ) : activeTab === "Kits" ? (
-                kits.length === 0 ? (
+                  ) : (
+                    custosFixos.map((custo) => (
+                      <TableRow key={custo.id} className="hover:bg-gray-50/30 border-b border-gray-50 group transition-colors">
+                        <TableCell className="pl-8 py-5">
+                          <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 rounded-xl bg-blue-50/50 text-blue-500 flex items-center justify-center shadow-sm">
+                              <span className="material-symbols-outlined text-[20px]">schedule</span>
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="font-bold text-gray-800 tracking-tight text-[14px]">{custo.nome}</span>
+                              <span className="text-[9px] font-bold text-gray-300 uppercase tracking-widest">{custo.categoria}</span>
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <span className="text-sm font-black text-gray-900 tracking-tight">
+                            {custo.valor_mensal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <div className={cn(
+                              "w-1.5 h-1.5 rounded-full shadow-sm",
+                              custo.ativo ? "bg-green-500 animate-pulse" : "bg-gray-300"
+                            )} />
+                            <span className={cn(
+                              "text-[9px] font-bold uppercase tracking-widest",
+                              custo.ativo ? "text-green-600" : "text-gray-400"
+                            )}>
+                              {custo.ativo ? "Ativo" : "Inativo"}
+                            </span>
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right pr-10">
+                          <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 rounded-lg text-gray-400 hover:text-primary hover:bg-primary/5"
+                              onClick={() => {
+                                setCustoFixoParaEditar(custo);
+                                setShowNovoCustoFixo(true);
+                              }}
+                            >
+                              <span className="material-symbols-outlined text-[18px]">edit</span>
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 rounded-lg text-gray-400 hover:text-rose-500 hover:bg-rose-50"
+                              onClick={() => handleDeleteCustoFixo(custo.id)}
+                            >
+                              <span className="material-symbols-outlined text-[18px]">delete</span>
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )
+                ) : activeTab === "Kits" ? (
+                  kits.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={7} className="text-center h-64 text-muted-foreground">
+                        <div className="flex flex-col items-center justify-center opacity-30">
+                          <span className="material-symbols-outlined text-[48px] mb-2 font-light">shopping_bag</span>
+                          <p className="text-[10px] font-bold uppercase tracking-widest">Nenhum kit criado</p>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    kits.filter(k => k.nome.toLowerCase().includes(searchTerm.toLowerCase())).map((kit) => (
+                      <TableRow key={kit.id} className="hover:bg-gray-50/50 border-b border-gray-50 group transition-colors">
+                        <TableCell className="pl-8 py-5">
+                          <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 rounded-xl bg-accent-pink/50 text-primary flex items-center justify-center shadow-sm">
+                              <span className="material-symbols-outlined text-[20px]">shopping_bag</span>
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="font-bold text-gray-800 tracking-tight text-[14px]">{kit.nome}</span>
+                              <span className="text-[9px] font-bold text-gray-300 uppercase tracking-widest truncate max-w-[200px]">
+                                {kit.descricao || "Sem descrição"}
+                              </span>
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell colSpan={2}>
+                          <div className="flex flex-wrap gap-1">
+                            {(kit.itens || []).slice(0, 3).map((item, idx) => (
+                              <span key={idx} className="px-2 py-0.5 bg-gray-100 text-gray-500 text-[8px] font-bold rounded-md border border-gray-200/50 uppercase tracking-wider">
+                                {item.nome}
+                              </span>
+                            ))}
+                            {(kit.itens || []).length > 3 && (
+                              <span className="px-2 py-0.5 bg-gray-50 text-gray-400 text-[8px] font-bold rounded-md border border-gray-100/50 uppercase">
+                                +{kit.itens.length - 3} itens
+                              </span>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right pr-12">
+                          <div className="flex flex-col items-end">
+                            <span className="text-sm font-black text-gray-900 tracking-tight">
+                              {kit.preco_venda.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            </span>
+                            <span className="text-[8px] font-bold text-gray-300 uppercase tracking-widest mt-0.5">Preço de Venda</span>
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right pr-10">
+                          <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 rounded-lg text-gray-400 hover:text-primary hover:bg-primary/5"
+                              onClick={() => {
+                                setKitParaEditar(kit);
+                                setShowNovoKit(true);
+                              }}
+                            >
+                              <span className="material-symbols-outlined text-[18px]">edit</span>
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 rounded-lg text-gray-400 hover:text-rose-500 hover:bg-rose-50"
+                              onClick={() => handleDeleteKit(kit.id)}
+                            >
+                              <span className="material-symbols-outlined text-[18px]">delete</span>
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )
+                ) : filteredProdutos.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center h-24 text-muted-foreground">
-                      Nenhum kit criado ainda.
+                    <TableCell colSpan={7} className="text-center h-64">
+                      <div className="flex flex-col items-center justify-center opacity-30">
+                        <span className="material-symbols-outlined text-[48px] mb-2 font-light">search_off</span>
+                        <p className="text-[10px] font-bold uppercase tracking-widest">Nenhum item encontrado</p>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ) : (
-                  kits.filter(k => k.nome.toLowerCase().includes(searchTerm.toLowerCase())).map((kit) => (
-                    <TableRow key={kit.id} className="hover:bg-gray-50/50 border-b border-border/5 group transition-colors">
-                      <TableCell className="pl-8 py-4">
+                  filteredProdutos.map((produto) => (
+                    <TableRow key={produto.id} className="hover:bg-gray-50/50 border-b border-gray-50 group transition-colors">
+                      <TableCell className="pl-8 py-5">
                         <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-2xl bg-pink-50 text-pink-500 flex items-center justify-center shadow-sm border border-border/10">
-                            <ShoppingBag className="w-5 h-5" />
+                          <div className={cn(
+                            "w-10 h-10 rounded-xl flex items-center justify-center shadow-sm relative overflow-hidden",
+                            activeTab === "Insumos" ? "bg-amber-50 text-amber-500" : "bg-green-50 text-green-500"
+                          )}>
+                            <span className="material-symbols-outlined text-[20px]">
+                              {activeTab === "Insumos" ? "beaker" : "package_2"}
+                            </span>
+                            <div className="absolute inset-0 bg-white/20" />
                           </div>
                           <div className="flex flex-col">
-                            <span className="font-black text-gray-800 tracking-tight">{kit.nome}</span>
-                            <span className="text-[10px] font-bold text-muted-foreground/50 uppercase tracking-widest truncate max-w-[200px]">
-                              {kit.descricao || "Sem descrição"}
-                            </span>
+                            <span className="font-bold text-gray-800 tracking-tight text-[14px]">{produto.nome}</span>
+                            <span className="text-[9px] font-bold text-gray-300 uppercase tracking-widest">{produto.categoria}</span>
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell colSpan={2}>
-                        <div className="flex flex-wrap gap-1">
-                          {(kit.itens || []).slice(0, 3).map((item, idx) => (
-                            <span key={idx} className="px-2 py-1 bg-gray-100 text-gray-600 text-[9px] font-black rounded-lg border border-border/5 uppercase tracking-tighter">
-                              {item.nome}
+                      <TableCell>
+                        <div className="flex flex-col">
+                          <div className="flex items-baseline gap-1">
+                            <span className={cn(
+                              "text-lg font-black tracking-tight",
+                              produto.quantidade <= produto.minimo ? "text-rose-500" : "text-green-600"
+                            )}>
+                              {produto.quantidade}
                             </span>
-                          ))}
-                          {(kit.itens || []).length > 3 && (
-                            <span className="px-2 py-1 bg-gray-50 text-gray-400 text-[9px] font-black rounded-lg border border-border/5 uppercase tracking-tighter">
-                              +{kit.itens.length - 3} itens
-                            </span>
+                            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{produto.unidade}</span>
+                          </div>
+                          {produto.quantidade <= produto.minimo && (
+                            <span className="text-[8px] font-black text-rose-400 uppercase tracking-tighter bg-rose-50 px-1.5 py-0.5 rounded inline-block w-fit">Crítico</span>
                           )}
                         </div>
                       </TableCell>
-                      <TableCell className="text-right pr-8">
-                        <div className="flex flex-col items-end">
-                          <span className="text-base font-black text-foreground tracking-tight">
-                            {kit.preco_venda.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                          </span>
-                          <span className="text-[9px] font-bold text-muted-foreground/50 uppercase tracking-widest">Preço de Venda</span>
+                      <TableCell>
+                        <div className="flex items-baseline gap-1 opacity-50">
+                          <span className="text-sm font-bold text-gray-500">{produto.minimo}</span>
+                          <span className="text-[8px] font-bold uppercase tracking-widest text-gray-400">{produto.unidade}</span>
                         </div>
                       </TableCell>
-                      <TableCell className="text-right pr-8">
+                      <TableCell className="text-right pr-12">
+                        <div className="flex flex-col items-end">
+                          <span className="text-[13px] font-black text-gray-900 tracking-tight">
+                            {produto.unidade === 'g' || produto.unidade === 'ml'
+                              ? (produto.preco_medio || 0).toLocaleString('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 4
+                              })
+                              : produto.preco_medio?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) || 'R$ 0,00'
+                            } <span className="text-[8px] text-gray-300 font-bold ml-0.5">/ {produto.unidade.toUpperCase()}</span>
+                          </span>
+                          <span className="text-[8px] font-bold text-gray-300 uppercase tracking-widest mt-0.5">
+                            COMPRA: {produto.preco_embalagem?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) || 'R$ 0,00'}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-right pr-10">
                         <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-9 w-9 rounded-xl text-muted-foreground hover:text-primary hover:bg-primary/5"
+                            className="h-8 w-8 rounded-lg text-gray-400 hover:text-primary hover:bg-primary/5"
                             onClick={() => {
-                              setKitParaEditar(kit);
-                              setShowNovoKit(true);
+                              if (activeTab === "Insumos") {
+                                setInsumoParaEditar(produto);
+                                setShowNovoInsumo(true);
+                              } else {
+                                setProdutoParaEditar(produto);
+                                setShowNovoProduto(true);
+                              }
                             }}
                           >
-                            <Edit2 className="w-4 h-4" />
+                            <span className="material-symbols-outlined text-[18px]">edit</span>
                           </Button>
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-9 w-9 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/5"
-                            onClick={() => handleDeleteKit(kit.id)}
+                            className="h-8 w-8 rounded-lg text-gray-400 hover:text-rose-500 hover:bg-rose-50"
+                            onClick={() => handleDeleteProduto(produto.id)}
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <span className="material-symbols-outlined text-[18px]">delete</span>
                           </Button>
                         </div>
                       </TableCell>
                     </TableRow>
-                  ))
-                )
-              ) : filteredProdutos.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={7} className="text-center h-24 text-muted-foreground">
-                    Nenhum item encontrado.
-                  </TableCell>
-                </TableRow>
-              ) : (
-                filteredProdutos.map((produto) => (
-                  <TableRow key={produto.id} className="hover:bg-gray-50/50 border-b border-border/5 group transition-colors">
-                    <TableCell className="pl-8 py-4">
-                      <div className="flex items-center gap-4">
-                        <div className={cn(
-                          "w-10 h-10 rounded-2xl flex items-center justify-center shadow-sm border border-border/10",
-                          activeTab === "Insumos" ? "bg-amber-50 text-amber-500" : "bg-green-50 text-green-500"
-                        )}>
-                          {activeTab === "Insumos" ? <Beaker className="w-5 h-5" /> : <Package className="w-5 h-5" />}
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="font-black text-gray-800 tracking-tight">{produto.nome}</span>
-                          <span className="text-[10px] font-bold text-muted-foreground/50 uppercase tracking-widest">{produto.categoria}</span>
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex flex-col">
-                        <div className="flex items-baseline gap-1">
-                          <span className={cn(
-                            "text-lg font-black",
-                            produto.quantidade <= produto.minimo ? "text-red-500" : "text-green-600"
-                          )}>
-                            {produto.quantidade}
-                          </span>
-                          <span className="text-[10px] font-bold text-muted-foreground uppercase">{produto.unidade}</span>
-                        </div>
-                        {produto.quantidade <= produto.minimo && (
-                          <span className="text-[9px] font-black text-red-400 uppercase tracking-tighter">Estoque Crítico</span>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-baseline gap-1 opacity-40">
-                        <span className="text-sm font-bold text-foreground">{produto.minimo}</span>
-                        <span className="text-[9px] font-bold uppercase">{produto.unidade}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right pr-8">
-                      <div className="flex flex-col items-end">
-                        <span className="text-[11px] font-black text-foreground tracking-tight">
-                          {produto.unidade === 'g' || produto.unidade === 'ml'
-                            ? (produto.preco_medio || 0).toLocaleString('pt-BR', {
-                              style: 'currency',
-                              currency: 'BRL',
-                              minimumFractionDigits: 2,
-                              maximumFractionDigits: 5
-                            })
-                            : produto.preco_medio?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) || 'R$ 0,00'
-                          } <span className="text-[8px] text-muted-foreground/40 font-bold">/ {produto.unidade.toUpperCase()}</span>
-                        </span>
-                        <span className="text-[9px] font-bold text-muted-foreground/50 uppercase">
-                          Compra: {produto.preco_embalagem?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) || 'R$ 0,00'}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right pr-8">
-                      <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-9 w-9 rounded-xl text-muted-foreground hover:text-primary hover:bg-primary/5"
-                          onClick={() => {
-                            if (activeTab === "Insumos") {
-                              setInsumoParaEditar(produto);
-                              setShowNovoInsumo(true);
-                            } else {
-                              setProdutoParaEditar(produto);
-                              setShowNovoProduto(true);
-                            }
-                          }}
-                        >
-                          <Edit2 className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-9 w-9 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/5"
-                          onClick={() => handleDeleteProduto(produto.id)}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
+                  )
+                  ))}
+              </TableBody>
+            </Table>
+          </div>
         </div>
-
       </div>
-
-      {/* MODAIS PARCIALMENTE ATIVOS */}
 
       <NovoProdutoModal
         open={showNovoProduto}
