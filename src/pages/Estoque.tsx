@@ -418,11 +418,10 @@ export default function Estoque() {
       (p.unidade_compra !== undefined && p.unidade_compra !== null)
     ).length;
 
-    const acabados = produtos.filter(p => p.categoria === "Produtos Acabados").length;
     const kitsTotal = kits.length;
     const baixo = produtos.filter(p => p.quantidade <= p.minimo).length;
     const custoFixoTotal = custosFixos.reduce((total, item) => total + (item.ativo ? Number(item.valor_mensal) : 0), 0);
-    return { insumos: insumosTotal, acabados, kits: kitsTotal, baixo, custoFixoTotal };
+    return { insumos: insumosTotal, kits: kitsTotal, baixo, custoFixoTotal };
   }, [produtos, custosFixos, kits]);
 
   const filteredProdutos = useMemo(() => {
@@ -469,21 +468,19 @@ export default function Estoque() {
                 if (activeTab === "Insumos") setShowNovoInsumo(true);
                 else if (activeTab === "Custos Fixos") setShowNovoCustoFixo(true);
                 else if (activeTab === "Kits") setShowNovoKit(true);
-                else setShowNovoProduto(true);
               }}
               className="bg-gray-900 hover:bg-black text-white font-black rounded-2xl h-12 px-8 flex items-center gap-2 text-[13px] transition-all active:scale-[0.98] shadow-lg shadow-gray-200"
             >
               <Plus className="w-5 h-5" />
-              {activeTab === "Insumos" ? "Novo Insumo" : activeTab === "Custos Fixos" ? "Novo Custo Mensal" : activeTab === "Kits" ? "Novo Kit" : "Novo Produto"}
+              {activeTab === "Insumos" ? "Novo Insumo" : activeTab === "Custos Fixos" ? "Novo Custo Mensal" : "Novo Kit"}
             </Button>
           </div>
         </div>
 
         {/* Stats Summary Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
             { label: "Insumos", value: stats.insumos, icon: <Beaker className="w-7 h-7" />, color: "bg-amber-50 text-amber-500", sub: "Disponíveis" },
-            { label: "Finalizados", value: stats.acabados, icon: <Package className="w-7 h-7" />, color: "bg-green-50 text-green-500", sub: "Prontos" },
             { label: "Kits", value: stats.kits, icon: <ShoppingBag className="w-7 h-7" />, color: "bg-pink-50 text-primary", sub: "Cadastrados" },
             { label: "Críticos", value: stats.baixo, icon: <AlertTriangle className="w-7 h-7" />, color: "bg-rose-50 text-rose-500", sub: "Reposição", urgent: stats.baixo > 0 },
           ].map((stat, i) => (
@@ -504,7 +501,7 @@ export default function Estoque() {
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             {/* Tabs Selector */}
             <div className="bg-gray-50/80 p-1 rounded-2xl flex flex-wrap gap-1 border border-gray-100/30">
-              {["Insumos", "Produtos Acabados", "Kits", "Custos Fixos"].map((tab) => (
+              {["Insumos", "Kits", "Custos Fixos"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
