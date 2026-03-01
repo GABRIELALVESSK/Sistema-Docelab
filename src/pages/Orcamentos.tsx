@@ -251,8 +251,8 @@ export default function Orcamentos() {
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
                     <div>
-                        <h1 className="text-3xl font-black text-gray-900 tracking-tight">Orçamentos Profissionais</h1>
-                        <p className="text-gray-500 font-medium">Crie propostas encantadoras e envie direto pelo WhatsApp</p>
+                        <h1 className="text-[28px] font-bold text-gray-900 tracking-tight">Orçamentos Profissionais</h1>
+                        <p className="text-[15px] font-normal text-gray-500">Crie propostas encantadoras e envie direto pelo WhatsApp</p>
                     </div>
                     <Button
                         onClick={() => setShowCriarOrcamento(true)}
@@ -271,8 +271,8 @@ export default function Orcamentos() {
                                 <Package className="w-5 h-5 text-[#EFB6BF]" />
                             </div>
                             <div>
-                                <h2 className="text-lg font-black text-gray-800 tracking-tight">Meus Templates</h2>
-                                <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Orçamentos Rápidos</p>
+                                <h2 className="text-[20px] font-medium text-gray-800 tracking-tight">Meus Templates</h2>
+                                <p className="text-[12px] text-gray-400 font-bold uppercase tracking-wider">Orçamentos Rápidos</p>
                             </div>
                         </div>
                         <Button

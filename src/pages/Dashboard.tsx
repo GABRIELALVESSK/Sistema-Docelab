@@ -120,8 +120,8 @@ export default function Dashboard() {
         <span className={cn("material-icons-round text-2xl", iconColorClass)}>{icon}</span>
       </div>
       <div>
-        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">{title}</p>
-        <p className="text-xl font-extrabold text-[#1E1E2F] tracking-tight">
+        <p className="text-sm text-gray-400 font-medium uppercase tracking-widest mb-1">{title}</p>
+        <p className="text-2xl font-bold text-[#1E1E2F] tracking-tight">
           {hideValues ? "R$ ••••" : value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
         </p>
       </div>
@@ -134,7 +134,7 @@ export default function Dashboard() {
       <div className="flex-1 p-8 lg:p-10 z-10 overflow-hidden custom-scrollbar">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-6">
           <div className="flex-1">
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-[#1E1E2F] leading-tight tracking-tight mb-2">
+            <h2 className="text-xl font-medium text-[#1E1E2F] leading-tight tracking-tight mb-2">
               Bom dia,<br />Ana Paula! 👋
             </h2>
             <p className="text-[#5A5A69] text-sm font-medium max-w-md leading-relaxed opacity-70">
@@ -169,7 +169,7 @@ export default function Dashboard() {
         {/* Quick Actions */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-8">
-            <h3 className="text-xl font-extrabold text-[#1E1E2F] tracking-tight">Ações Rápidas</h3>
+            <h3 className="text-[26px] font-bold text-[#1E1E2F] tracking-tight">Ações Rápidas</h3>
             <MoreHorizontal className="text-gray-300 cursor-pointer hover:text-gray-500 transition w-6 h-6" />
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -203,7 +203,7 @@ export default function Dashboard() {
         {/* Dynamic Billing Chart */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-10">
-            <h3 className="text-xl font-extrabold text-[#1E1E2F] tracking-tight">Faturamento Dinâmico</h3>
+            <h3 className="text-[26px] font-bold text-[#1E1E2F] tracking-tight">Faturamento Dinâmico</h3>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl text-[9px] font-extrabold uppercase tracking-widest text-gray-400 border border-gray-100 cursor-pointer hover:border-gray-200 transition group">
@@ -378,7 +378,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="grid grid-cols-7 text-center gap-1">
-            {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map(d => <span key={d} className="text-[10px] font-black uppercase tracking-widest text-gray-200 py-2">{d}</span>)}
+            {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map(d => <span key={d} className="text-[12px] font-bold uppercase tracking-wider text-gray-200 py-2">{d}</span>)}
             {/* Dynamic monthly grid mockup */}
             {(() => {
               const days = [];

@@ -122,8 +122,8 @@ export default function Financas() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <h1 className="text-4xl font-black tracking-tighter text-gray-800">Cofre <span className="text-[#EFB6BF]">Financeiro</span></h1>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Controle total das suas entradas e saídas</p>
+            <h1 className="text-[28px] font-bold tracking-tighter text-gray-800">Cofre <span className="text-[#EFB6BF]">Financeiro</span></h1>
+            <p className="text-[13px] font-normal text-gray-400 uppercase tracking-widest">Controle total das suas entradas e saídas</p>
           </div>
           <div className="flex gap-4">
             <Button variant="outline" className="h-12 px-6 rounded-full border-gray-100 text-gray-400 font-bold text-xs uppercase tracking-widest gap-2 bg-white/50 hover:bg-white transition-all">
@@ -146,10 +146,10 @@ export default function Financas() {
                 <div className="w-12 h-12 rounded-[18px] bg-green-50 flex items-center justify-center">
                   <TrendingUp className="w-6 h-6 text-green-500" />
                 </div>
-                <span className="text-[11px] font-black uppercase text-gray-400 tracking-widest">Receitas Totais</span>
+                <span className="text-sm font-medium text-gray-400 uppercase tracking-widest">Receitas Totais</span>
               </div>
             </div>
-            <p className="text-4xl font-black text-green-500 tracking-tighter">R$ {totalReceitas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+            <p className="text-2xl font-bold text-green-500 tracking-tighter">R$ {totalReceitas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
           </div>
 
           <div className="bg-white rounded-[32px] p-10 border border-gray-100/50 shadow-sm flex flex-col justify-between group hover:shadow-md transition-all">
@@ -161,7 +161,7 @@ export default function Financas() {
                 <span className="text-[11px] font-black uppercase text-gray-400 tracking-widest">Despesas Totais</span>
               </div>
             </div>
-            <p className="text-4xl font-black text-rose-400 tracking-tighter">R$ {totalDespesas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+            <p className="text-2xl font-bold text-rose-400 tracking-tighter">R$ {totalDespesas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
           </div>
 
           <div className="bg-[#EFB6BF]/5 rounded-[32px] p-10 border border-[#EFB6BF]/10 shadow-sm flex flex-col justify-between">
@@ -171,7 +171,7 @@ export default function Financas() {
               </div>
               <span className="text-[11px] font-black uppercase text-[#EFB6BF] tracking-widest">Lucro Líquido</span>
             </div>
-            <p className="text-4xl font-black text-[#EFB6BF] tracking-tighter">R$ {lucro.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+            <p className="text-2xl font-bold text-[#EFB6BF] tracking-tighter">R$ {lucro.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
           </div>
         </div>
 

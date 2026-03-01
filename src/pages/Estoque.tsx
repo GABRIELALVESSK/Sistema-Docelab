@@ -446,7 +446,7 @@ export default function Estoque() {
       <div className="p-6 max-w-[1400px] mx-auto space-y-5">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-black tracking-tight text-gray-800">Estoque de <span className="text-[#EFB6BF]">Produtos</span></h1>
+          <h1 className="text-[28px] font-bold tracking-tight text-gray-800">Estoque de <span className="text-[#EFB6BF]">Produtos</span></h1>
           <Button
             onClick={() => {
               if (activeTab === "Insumos") setShowNovoInsumo(true);
@@ -465,45 +465,41 @@ export default function Estoque() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="bg-white rounded-2xl p-5 border border-gray-100/50 shadow-sm flex flex-col justify-between min-h-[110px] relative overflow-hidden group hover:shadow-md transition-all">
             <div className="absolute top-0 right-0 w-24 h-24 bg-amber-50 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-110 duration-500" />
-            <div className="flex items-center gap-2 text-amber-500/60 text-[10px] font-black uppercase tracking-[0.2em] relative z-10">
+            <div className="flex items-center gap-2 text-amber-500/60 text-sm font-medium uppercase tracking-[0.2em] relative z-10">
               <Beaker className="w-3.5 h-3.5" /> Insumos
             </div>
             <div className="relative z-10 flex items-baseline gap-1.5">
-              <span className="text-3xl font-black text-gray-800 tracking-tighter">{stats.insumos}</span>
-              <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest leading-none">itens</span>
+              <span className="text-2xl font-bold text-gray-800 tracking-tighter">{stats.insumos}</span>
             </div>
           </div>
 
           <div className="bg-white rounded-2xl p-5 border border-gray-100/50 shadow-sm flex flex-col justify-between min-h-[110px] relative overflow-hidden group hover:shadow-md transition-all">
             <div className="absolute top-0 right-0 w-24 h-24 bg-green-50 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-110 duration-500" />
-            <div className="flex items-center gap-2 text-green-500/60 text-[10px] font-black uppercase tracking-[0.2em] relative z-10">
+            <div className="flex items-center gap-2 text-green-500/60 text-sm font-medium uppercase tracking-[0.2em] relative z-10">
               <Package className="w-3.5 h-3.5" /> Finalizados
             </div>
             <div className="relative z-10 flex items-baseline gap-1.5">
-              <span className="text-3xl font-black text-gray-800 tracking-tighter">{stats.acabados}</span>
-              <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest leading-none">itens</span>
+              <span className="text-2xl font-bold text-gray-800 tracking-tighter">{stats.acabados}</span>
             </div>
           </div>
 
           <div className="bg-white rounded-2xl p-5 border border-gray-100/50 shadow-sm flex flex-col justify-between min-h-[110px] relative overflow-hidden group hover:shadow-md transition-all">
             <div className="absolute top-0 right-0 w-24 h-24 bg-pink-50 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-110 duration-500" />
-            <div className="flex items-center gap-2 text-[#EFB6BF] text-[10px] font-black uppercase tracking-[0.2em] relative z-10">
+            <div className="flex items-center gap-2 text-[#EFB6BF] text-sm font-medium uppercase tracking-[0.2em] relative z-10">
               <ShoppingBag className="w-3.5 h-3.5" /> Kits
             </div>
             <div className="relative z-10 flex items-baseline gap-1.5">
-              <span className="text-3xl font-black text-gray-800 tracking-tighter">{stats.kits}</span>
-              <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest leading-none">unid.</span>
+              <span className="text-2xl font-bold text-gray-800 tracking-tighter">{stats.kits}</span>
             </div>
           </div>
 
           <div className="bg-white rounded-2xl p-5 border border-gray-100/50 shadow-sm flex flex-col justify-between min-h-[110px] relative overflow-hidden group hover:shadow-md transition-all">
             <div className="absolute top-0 right-0 w-24 h-24 bg-rose-50 rounded-full -mr-12 -mt-12" />
-            <div className="flex items-center gap-2 text-rose-500/60 text-[10px] font-black uppercase tracking-[0.2em] relative z-10">
+            <div className="flex items-center gap-2 text-rose-500/60 text-sm font-medium uppercase tracking-[0.2em] relative z-10">
               <AlertTriangle className="w-3.5 h-3.5" /> Críticos
             </div>
             <div className="relative z-10 flex items-baseline gap-1.5">
-              <span className="text-3xl font-black text-rose-500 tracking-tighter">{stats.baixo}</span>
-              <span className="text-[10px] font-bold text-rose-200 uppercase tracking-widest leading-none">repor</span>
+              <span className="text-2xl font-bold text-rose-500 tracking-tighter">{stats.baixo}</span>
             </div>
           </div>
         </div>
@@ -539,20 +535,20 @@ export default function Estoque() {
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent border-b border-gray-50">
-                <TableHead className="font-black text-[10px] uppercase tracking-[0.2em] text-gray-400 pl-6 h-10">Item & Categoria</TableHead>
+                <TableHead className="font-bold text-[12px] uppercase tracking-wider text-gray-400 pl-6 h-10">Item & Categoria</TableHead>
                 {activeTab === "Custos Fixos" ? (
                   <>
-                    <TableHead className="font-black text-[10px] uppercase tracking-[0.2em] text-gray-400">Valor Mensal</TableHead>
-                    <TableHead className="font-black text-[10px] uppercase tracking-[0.2em] text-gray-400">Status</TableHead>
+                    <TableHead className="font-bold text-[12px] uppercase tracking-wider text-gray-400">Valor Mensal</TableHead>
+                    <TableHead className="font-bold text-[12px] uppercase tracking-wider text-gray-400">Status</TableHead>
                   </>
                 ) : (
                   <>
-                    <TableHead className="font-black text-[10px] uppercase tracking-[0.2em] text-gray-400">Estoque Atual</TableHead>
-                    <TableHead className="font-black text-[10px] uppercase tracking-[0.2em] text-gray-400">Mínimo</TableHead>
-                    <TableHead className="font-black text-[10px] uppercase tracking-[0.2em] text-gray-400 text-right pr-8">Valores (Unit / Compra)</TableHead>
+                    <TableHead className="font-bold text-[12px] uppercase tracking-wider text-gray-400">Estoque Atual</TableHead>
+                    <TableHead className="font-bold text-[12px] uppercase tracking-wider text-gray-400">Mínimo</TableHead>
+                    <TableHead className="font-bold text-[12px] uppercase tracking-wider text-gray-400 text-right pr-8">Valores (Unit / Compra)</TableHead>
                   </>
                 )}
-                <TableHead className="text-right font-black text-[10px] uppercase tracking-[0.2em] text-gray-400 pr-8">Ações</TableHead>
+                <TableHead className="text-right font-bold text-[12px] uppercase tracking-wider text-gray-400 pr-8">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

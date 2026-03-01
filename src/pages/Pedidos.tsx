@@ -275,7 +275,7 @@ export default function Pedidos() {
       <header className="relative z-10 w-full p-8 lg:px-10 lg:py-8 border-b border-gray-100 dark:border-gray-800 bg-white/90 dark:bg-card-dark/90 backdrop-blur-md sticky top-0 flex-shrink-0">
         <div className="flex flex-col xl:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-8 w-full xl:w-auto">
-            <h2 className="text-3xl font-extrabold text-[#1E1E2F] dark:text-white tracking-tight">Pedidos</h2>
+            <h2 className="text-[28px] font-bold text-[#1E1E2F] dark:text-white tracking-tight">Pedidos</h2>
             <div className="flex items-center bg-gray-50 dark:bg-gray-800 rounded-xl p-1 gap-1 shadow-inner-soft">
               <button
                 onClick={() => setViewMode("lista")}
@@ -290,7 +290,7 @@ export default function Pedidos() {
               <button
                 onClick={() => setViewMode("calendario")}
                 className={cn(
-                  "px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition-all",
+                  "px-4 py-2 rounded-lg text-[12px] font-bold flex items-center gap-2 transition-all",
                   viewMode === "calendario" ? "bg-white dark:bg-gray-700 shadow-sm text-secondary dark:text-white" : "text-gray-400 hover:text-secondary dark:hover:text-white"
                 )}
               >

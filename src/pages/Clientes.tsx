@@ -196,8 +196,8 @@ export default function Clientes() {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-2">
                     <div className="space-y-0.5">
-                        <h1 className="text-3xl font-black tracking-tighter text-gray-900">Clientes</h1>
-                        <p className="text-sm font-medium text-gray-500">Gerencie sua base de clientes</p>
+                        <h1 className="text-[28px] font-bold tracking-tighter text-gray-900">Clientes</h1>
+                        <p className="text-[15px] font-normal text-gray-500">Gerencie sua base de clientes</p>
                     </div>
                     <Button
                         onClick={() => setShowNovoCliente(true)}
@@ -214,29 +214,29 @@ export default function Clientes() {
                         <div className="w-9 h-9 rounded-xl bg-pink-100 flex items-center justify-center mb-2">
                             <Users className="w-5 h-5 text-pink-600" />
                         </div>
-                        <p className="text-sm font-semibold text-gray-600">Total de Clientes</p>
-                        <p className="text-xl font-black text-gray-900 mt-1">{clientes.length}</p>
+                        <p className="text-sm font-medium text-gray-400">Total de Clientes</p>
+                        <p className="text-2xl font-bold text-gray-900 mt-1">{clientes.length}</p>
                     </div>
                     <div className="dashboard-card p-4 flex flex-col items-center justify-center text-center">
                         <div className="w-9 h-9 rounded-xl bg-rose-100 flex items-center justify-center mb-2">
                             <ShoppingBag className="w-5 h-5 text-rose-600" />
                         </div>
-                        <p className="text-sm font-semibold text-gray-600">Total de Pedidos</p>
-                        <p className="text-xl font-black text-gray-900 mt-1">0</p>
+                        <p className="text-sm font-medium text-gray-400">Total de Pedidos</p>
+                        <p className="text-2xl font-bold text-gray-900 mt-1">0</p>
                     </div>
                     <div className="dashboard-card p-4 flex flex-col items-center justify-center text-center">
                         <div className="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center mb-2">
                             <DollarSign className="w-5 h-5 text-emerald-600" />
                         </div>
-                        <p className="text-sm font-semibold text-gray-600">Receita Total</p>
-                        <p className="text-xl font-black text-gray-900 mt-1">R$ 0,00</p>
+                        <p className="text-sm font-medium text-gray-400">Receita Total</p>
+                        <p className="text-2xl font-bold text-gray-900 mt-1">R$ 0,00</p>
                     </div>
                     <div className="dashboard-card p-4 flex flex-col items-center justify-center text-center">
                         <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center mb-2">
                             <Cake className="w-5 h-5 text-amber-600" />
                         </div>
-                        <p className="text-sm font-semibold text-gray-600">Aniversários</p>
-                        <p className="text-xl font-black text-gray-900 mt-1">0</p>
+                        <p className="text-sm font-medium text-gray-400">Aniversários</p>
+                        <p className="text-2xl font-bold text-gray-900 mt-1">0</p>
                     </div>
                 </div>
 
@@ -246,7 +246,7 @@ export default function Clientes() {
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <Input
                             placeholder="Pesquisar por nome ou telefone..."
-                            className="pl-10 h-10 border-gray-200"
+                            className="pl-10 h-10 border-gray-200 text-[13px] font-normal"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -255,7 +255,7 @@ export default function Clientes() {
 
                 {/* Clientes List */}
                 <div className="dashboard-card p-8">
-                    <h2 className="text-xl font-black text-gray-900 mb-6 flex items-center gap-2">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                         <Users className="w-5 h-5 text-gray-600" /> Lista de Clientes ({filteredClientes.length})
                     </h2>
 
@@ -278,7 +278,7 @@ export default function Clientes() {
                         <div className="overflow-x-auto">
                             <table className="w-full text-left">
                                 <thead>
-                                    <tr className="text-xs font-extrabold text-gray-400 uppercase tracking-widest border-b border-gray-100">
+                                    <tr className="text-[12px] font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100">
                                         <th className="pb-4">Nome</th>
                                         <th className="pb-4">Telefone / WhatsApp</th>
                                         <th className="pb-4">Pedidos</th>
@@ -289,19 +289,19 @@ export default function Clientes() {
                                 <tbody className="divide-y divide-gray-100">
                                     {filteredClientes.map((cliente) => (
                                         <tr key={cliente.id} className="group transition-colors hover:bg-gray-50/50">
-                                            <td className="py-5 font-bold text-gray-800">{cliente.nome}</td>
+                                            <td className="py-5 font-medium text-[15px] text-gray-800">{cliente.nome}</td>
                                             <td className="py-5">
-                                                <div className="flex items-center gap-2 text-sm font-medium text-gray-500">
+                                                <div className="flex items-center gap-2 text-sm font-normal text-gray-500">
                                                     <Phone className="w-3.5 h-3.5" />
                                                     {cliente.telefone}
                                                 </div>
                                             </td>
                                             <td className="py-5">
-                                                <span className="inline-flex items-center bg-gray-100 text-gray-700 text-[10px] font-black px-2.5 py-1 rounded-full">
+                                                <span className="inline-flex items-center bg-gray-100 text-gray-700 text-[10px] font-bold px-2.5 py-1 rounded-full">
                                                     {cliente.totalPedidos || 0}
                                                 </span>
                                             </td>
-                                            <td className="py-5 text-sm font-black text-gray-800">
+                                            <td className="py-5 text-[15px] font-bold text-gray-800">
                                                 {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cliente.totalGasto || 0)}
                                             </td>
                                             <td className="py-5 text-right">

@@ -163,8 +163,8 @@ export default function Receitas() {
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                        <h1 className="text-2xl font-black tracking-tight text-gray-800">Minhas <span className="text-[#EFB6BF]">Receitas</span></h1>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Caderno de delícias · {receitas.length} receita{receitas.length !== 1 ? 's' : ''}</p>
+                        <h1 className="text-[28px] font-bold tracking-tight text-gray-800">Minhas <span className="text-[#EFB6BF]">Receitas</span></h1>
+                        <p className="text-[13px] font-normal text-gray-400 uppercase tracking-widest">Caderno de delícias · {receitas.length} receita{receitas.length !== 1 ? 's' : ''}</p>
                     </div>
                     <Button
                         onClick={() => { setReceitaParaEditar(null); setShowNovaReceita(true); }}
@@ -225,19 +225,19 @@ export default function Receitas() {
                                             <img src={receita.foto_url} alt={receita.nome} className="w-full h-full object-cover" />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                                             <div className="absolute bottom-4 left-6 right-6">
-                                                <span className="inline-block text-[9px] font-black uppercase text-white/80 tracking-[0.2em] bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full mb-2">
+                                                <span className="inline-block text-[9px] font-bold uppercase text-white/80 tracking-[0.2em] bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full mb-2">
                                                     {receita.categoria || 'Sem categoria'}
                                                 </span>
-                                                <h3 className="text-xl font-black text-white tracking-tight line-clamp-2 drop-shadow-md">{receita.nome}</h3>
+                                                <h3 className="text-[20px] font-medium text-white tracking-tight line-clamp-2 drop-shadow-md">{receita.nome}</h3>
                                             </div>
                                         </div>
                                     ) : (
                                         <div className="p-8 pb-4 flex items-start justify-between">
                                             <div className="space-y-2">
-                                                <span className="text-[9px] font-black uppercase text-gray-400 tracking-[0.2em]">
+                                                <span className="text-[9px] font-bold uppercase text-gray-400 tracking-[0.2em]">
                                                     {receita.categoria || 'Sem categoria'}
                                                 </span>
-                                                <h3 className="text-xl font-black text-gray-800 tracking-tight group-hover:text-[#EFB6BF] transition-colors line-clamp-2">{receita.nome}</h3>
+                                                <h3 className="text-[20px] font-medium text-gray-800 tracking-tight group-hover:text-[#EFB6BF] transition-colors line-clamp-2">{receita.nome}</h3>
                                             </div>
                                             <div className="w-14 h-14 rounded-[18px] bg-[#EFB6BF]/10 flex items-center justify-center shrink-0">
                                                 <ChefHat className="w-7 h-7 text-[#EFB6BF]" />
