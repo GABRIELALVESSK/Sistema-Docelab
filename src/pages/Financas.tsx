@@ -118,219 +118,187 @@ export default function Financas() {
 
   return (
     <>
-      <div className="p-8 max-w-[1600px] mx-auto space-y-8 animate-in-fade">
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-1">
+      <div className="p-4 h-full overflow-hidden animate-in-fade">
+        <div className="bg-white w-full h-full rounded-[2.5rem] shadow-soft overflow-y-auto p-8 relative">
+          {/* Header Section */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Cofre <span className="text-[#FDA4AF]">Financeiro</span>
+              </h1>
+              <p className="text-gray-400 text-[10px] font-bold tracking-widest mt-1 uppercase">
+                Controle total das suas entradas e saídas
+              </p>
+            </div>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#EFB6BF]/20 flex items-center justify-center text-primary shrink-0 relative overflow-hidden">
-                <Wallet className="w-6 h-6" />
-                <div className="absolute inset-0 bg-white/10" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-black text-gray-900 tracking-tight">
-                  Cofre <span className="text-primary">Financeiro</span>
-                </h1>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                  Controle total das suas entradas e saídas
-                </p>
-              </div>
+              <Button
+                variant="outline"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-100 text-gray-400 hover:bg-gray-50 transition-colors text-[11px] font-bold uppercase tracking-widest"
+              >
+                <FileText className="w-4 h-4" />
+                RELATÓRIOS
+              </Button>
+              <Button
+                onClick={() => setShowNovaTransacao(true)}
+                className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#F87171] text-white hover:opacity-90 transition-all text-sm font-bold shadow-md shadow-pink-100"
+              >
+                <Plus className="w-5 h-5" />
+                Nova Transação
+              </Button>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <Button
-              variant="outline"
-              className="h-12 px-6 rounded-2xl border-gray-100/50 text-gray-400 font-bold text-xs uppercase tracking-widest gap-2 bg-white/50 hover:bg-white transition-all shadow-sm"
-            >
-              <FileText className="w-4 h-4" /> Relatórios
-            </Button>
-            <Button
-              onClick={() => setShowNovaTransacao(true)}
-              className="h-12 px-8 rounded-full bg-gray-900 hover:bg-black text-white font-black text-sm gap-2 shadow-lg shadow-gray-200 transition-all active:scale-[0.98]"
-            >
-              <Plus className="w-5 h-5" /> Nova Transação
-            </Button>
-          </div>
-        </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Receitas Totais */}
-          <div className="bg-white rounded-[32px] p-8 border border-gray-100/60 shadow-sm flex flex-col justify-between h-44 group hover:shadow-md transition-all relative overflow-hidden">
-            <div className="absolute -right-4 -top-4 w-24 h-24 bg-green-50/50 rounded-full blur-2xl group-hover:bg-green-100/50 transition-colors" />
-            <div className="flex items-center justify-between relative z-10">
-              <div className="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-green-500" />
+          {/* Stats Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            {/* Receitas Card */}
+            <div className="bg-gray-50/50 rounded-[2rem] p-6 flex flex-col justify-between h-40 border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+              <div className="flex items-start justify-between">
+                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-500">
+                  <TrendingUp className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Receitas Totais</span>
               </div>
-              <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest">Receitas Totais</span>
-            </div>
-            <div className="relative z-10">
-              <p className="text-3xl font-black text-green-500 tracking-tighter">
+              <div className="text-3xl font-bold text-green-500">
                 {totalReceitas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-              </p>
-            </div>
-          </div>
-
-          {/* Despesas Totais */}
-          <div className="bg-white rounded-[32px] p-8 border border-gray-100/60 shadow-sm flex flex-col justify-between h-44 group hover:shadow-md transition-all relative overflow-hidden">
-            <div className="absolute -right-4 -top-4 w-24 h-24 bg-rose-50/50 rounded-full blur-2xl group-hover:bg-rose-100/50 transition-colors" />
-            <div className="flex items-center justify-between relative z-10">
-              <div className="w-12 h-12 rounded-2xl bg-rose-50 flex items-center justify-center">
-                <TrendingDown className="w-6 h-6 text-rose-400" />
               </div>
-              <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest">Despesas Totais</span>
             </div>
-            <div className="relative z-10">
-              <p className="text-3xl font-black text-rose-400 tracking-tighter">
+
+            {/* Despesas Card */}
+            <div className="bg-gray-50/50 rounded-[2rem] p-6 flex flex-col justify-between h-40 border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+              <div className="flex items-start justify-between">
+                <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-[#F87171]">
+                  <TrendingDown className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Despesas Totais</span>
+              </div>
+              <div className="text-3xl font-bold text-[#F87171]">
                 {totalDespesas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-              </p>
-            </div>
-          </div>
-
-          {/* Lucro Líquido */}
-          <div className="bg-white rounded-[32px] p-8 border border-gray-100/60 shadow-sm flex flex-col justify-between h-44 group hover:shadow-md transition-all relative overflow-hidden">
-            <div className="absolute -right-4 -top-4 w-24 h-24 bg-amber-50/50 rounded-full blur-2xl group-hover:bg-amber-100/50 transition-colors" />
-            <div className="flex items-center justify-between relative z-10">
-              <div className="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center">
-                <Coins className="w-6 h-6 text-amber-500" />
               </div>
-              <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest">Lucro Líquido</span>
             </div>
-            <div className="relative z-10">
-              <p className="text-3xl font-black text-primary tracking-tighter">
+
+            {/* Lucro Card */}
+            <div className="bg-gray-50/50 rounded-[2rem] p-6 flex flex-col justify-between h-40 border border-gray-100 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden">
+              <div className="absolute -right-4 -top-4 w-24 h-24 bg-pink-100/30 rounded-full blur-xl"></div>
+              <div className="flex items-start justify-between relative z-10">
+                <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-400">
+                  <Coins className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Lucro Líquido</span>
+              </div>
+              <div className="text-3xl font-bold text-[#FDA4AF] relative z-10">
                 {lucro.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Content Section */}
-        <div className="bg-white rounded-[32px] border border-gray-100/60 shadow-sm overflow-hidden p-8 min-h-[500px]">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
-            {/* Filter Tabs */}
-            <div className="bg-gray-50/80 p-1 rounded-2xl flex flex-wrap gap-1 border border-gray-100/30">
-              {[
-                { value: "todas", label: "Tudo" },
-                { value: "receitas", label: "Entradas" },
-                { value: "despesas", label: "Saídas" },
-              ].map((f) => (
-                <button
-                  key={f.value}
-                  onClick={() => setFilter(f.value as FilterTipo)}
-                  className={cn(
-                    "px-8 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
-                    filter === f.value
-                      ? "bg-white text-gray-900 shadow-sm border border-gray-100 ring-1 ring-black/5"
-                      : "text-gray-400 hover:text-gray-600"
-                  )}
-                >
-                  {f.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Search Input */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300" />
-              <Input
-                placeholder="Filtrar lançamentos..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="bg-gray-50/50 border-none h-11 pl-12 rounded-2xl text-[14px] font-semibold text-gray-900 placeholder:text-gray-300 focus:bg-white focus:ring-primary/20 transition-all shadow-inner"
-              />
+              </div>
             </div>
           </div>
 
-          <div className="space-y-10">
+          {/* Content Area */}
+          <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-6 min-h-[400px]">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+              <div className="bg-gray-50 p-1.5 rounded-full flex gap-1">
+                {[
+                  { value: "todas", label: "Tudo" },
+                  { value: "receitas", label: "Entradas" },
+                  { value: "despesas", label: "Saídas" },
+                ].map((f) => (
+                  <button
+                    key={f.value}
+                    onClick={() => setFilter(f.value as FilterTipo)}
+                    className={cn(
+                      "px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all",
+                      filter === f.value
+                        ? "bg-white text-gray-900 shadow-sm"
+                        : "text-gray-400 hover:bg-gray-100"
+                    )}
+                  >
+                    {f.label}
+                  </button>
+                ))}
+              </div>
+              <div className="relative w-full md:w-72">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 w-4 h-4" />
+                <Input
+                  className="w-full pl-11 pr-4 py-2.5 bg-gray-50 border-none rounded-full text-sm text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-[#F87171]/20"
+                  placeholder="Filtrar lançamentos..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+            </div>
+
             {loading ? (
-              <div className="py-32 text-center flex flex-col items-center justify-center">
-                <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-4" />
-                <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Buscando transações...</p>
+              <div className="py-20 text-center flex flex-col items-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#F87171] mb-4"></div>
+                <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">Buscando transações...</p>
               </div>
             ) : Object.keys(groupedTransacoes).length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-32 text-center opacity-40">
-                <div className="w-20 h-20 rounded-[32px] bg-gray-50 flex items-center justify-center mb-6">
-                  <Wallet className="w-10 h-10 text-gray-300" />
+              <div className="flex flex-col items-center justify-center py-24 text-center opacity-40">
+                <div className="w-16 h-16 rounded-3xl bg-gray-50 flex items-center justify-center mb-4">
+                  <Wallet className="w-8 h-8 text-gray-300" />
                 </div>
-                <h3 className="text-xl font-black text-gray-700 tracking-tight">Sem movimentos por aqui</h3>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-2">Clique em Nova Transação para começar</p>
+                <h3 className="text-lg font-bold text-gray-700 tracking-tight">Sem movimentos</h3>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Clique em Nova Transação</p>
               </div>
             ) : (
               Object.entries(groupedTransacoes).map(([categoria, transacoes]) => (
-                <div key={categoria} className="space-y-4">
-                  <div className="flex items-center justify-between px-2">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center">
-                        <Building2 className="w-4 h-4 text-gray-400" />
-                      </div>
-                      <h3 className="text-xs font-black text-gray-800 uppercase tracking-widest">{categoria}</h3>
-                      <span className="text-[10px] bg-gray-50 text-gray-400 font-bold px-2 py-0.5 rounded-lg border border-gray-100">
+                <div key={categoria} className="mb-8">
+                  <div className="flex justify-between items-center px-4 mb-4 text-[10px] font-bold text-gray-900 uppercase tracking-widest">
+                    <div className="flex items-center gap-2">
+                      <span>{categoria}</span>
+                      <span className="bg-gray-100 text-gray-500 px-2 py-0.5 rounded-md text-[9px]">
                         {transacoes.length}
                       </span>
                     </div>
-                    <div className="h-px flex-1 bg-gray-50 mx-6" />
-                    <span className="text-[15px] font-black text-gray-900 tracking-tight">
+                    <span>
                       {transacoes.reduce((sum, t) => sum + t.valor, 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 gap-3">
+                  <div className="space-y-3">
                     {transacoes.map((t) => (
                       <div
                         key={t.id}
-                        className="group flex items-center justify-between p-5 rounded-[28px] bg-gray-50/40 border border-transparent hover:bg-white hover:border-gray-100 hover:shadow-md transition-all"
+                        className="group flex items-center justify-between p-4 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-colors"
                       >
-                        <div className="flex items-center gap-5">
+                        <div className="flex items-center gap-4">
                           <div className={cn(
-                            "w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm relative overflow-hidden",
-                            t.tipo === "receita" ? "bg-green-50 text-green-500" : "bg-rose-50 text-rose-400"
+                            "w-12 h-12 rounded-xl flex items-center justify-center shadow-sm",
+                            t.tipo === "receita" ? "bg-green-100 text-green-500" : "bg-red-100 text-[#F87171]"
                           )}>
                             {t.tipo === "receita" ? <TrendingUp className="w-6 h-6" /> : <TrendingDown className="w-6 h-6" />}
-                            <div className="absolute inset-0 bg-white/20" />
                           </div>
                           <div>
-                            <h4 className="font-bold text-gray-800 tracking-tight text-[15px]">{t.descricao}</h4>
-                            <div className="flex items-center gap-3 mt-1.5">
-                              <div className="flex items-center gap-1.5">
-                                <Clock className="w-3.5 h-3.5 text-gray-300" />
-                                <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">{t.data}</span>
-                              </div>
-                              <span className="w-1 h-1 rounded-full bg-gray-200" />
-                              <div className="flex items-center gap-1.5 bg-gray-100 px-2 py-0.5 rounded-lg">
-                                <span className="text-[10px] font-black text-primary uppercase tracking-wider">{t.metodo}</span>
-                              </div>
+                            <h4 className="font-bold text-gray-800 text-sm tracking-tight">{t.descricao}</h4>
+                            <div className="flex items-center gap-3 mt-1">
+                              <span className="text-[10px] text-gray-400 uppercase tracking-wider">{t.data}</span>
+                              <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+                              <span className="text-[9px] font-bold text-[#F87171] bg-[#F87171]/10 px-2 py-0.5 rounded uppercase">
+                                {t.metodo}
+                              </span>
                               {t.cliente && (
                                 <>
-                                  <span className="w-1 h-1 rounded-full bg-gray-200" />
-                                  <div className="flex items-center gap-1.5">
-                                    <Search className="w-3.5 h-3.5 text-gray-300" />
-                                    <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest truncate max-w-[150px]">{t.cliente}</span>
-                                  </div>
+                                  <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+                                  <span className="text-[10px] text-gray-400 truncate max-w-[150px]">{t.cliente}</span>
                                 </>
                               )}
                             </div>
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-8">
-                          <div className="text-right">
-                            <p className={cn(
-                              "text-xl font-black tracking-tight",
-                              t.tipo === "receita" ? "text-green-500" : "text-rose-400"
-                            )}>
-                              {t.tipo === "receita" ? "+" : "-"}{t.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => handleDelete(t.id)}
-                              className="h-10 w-10 rounded-xl text-gray-300 hover:text-rose-500 hover:bg-rose-50 transition-all"
-                            >
-                              <Trash2 className="w-5 h-5" />
-                            </Button>
-                          </div>
+                        <div className="flex items-center gap-6">
+                          <span className={cn(
+                            "font-bold text-lg tracking-tight",
+                            t.tipo === "receita" ? "text-green-500" : "text-[#F87171]"
+                          )}>
+                            {t.tipo === "receita" ? "+" : "-"}{t.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                          </span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleDelete(t.id)}
+                            className="text-gray-300 hover:text-red-400 transition-colors"
+                          >
+                            <Trash2 className="w-5 h-5" />
+                          </Button>
                         </div>
                       </div>
                     ))}
