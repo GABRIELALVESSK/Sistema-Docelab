@@ -18,7 +18,7 @@ export function MainLayout({ children }: MainLayoutProps) {
         {/* Decorative Background covers full width */}
         <div className="absolute inset-y-0 left-0 w-full bg-[#FDFBF7] z-0"></div>
 
-        <div className="relative z-10 flex flex-col h-full">
+        <div className="relative z-10 flex flex-col h-full overflow-y-auto custom-scrollbar">
           {children}
         </div>
       </main>
