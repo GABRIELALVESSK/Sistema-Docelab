@@ -8,7 +8,9 @@ import {
   Receipt,
   Trash2,
   ChevronRight,
-  Search
+  Search,
+  CheckCircle,
+  Clock
 } from "lucide-react";
 import { NovoItemCompraModal, ItemCompraData } from "@/components/lista-compras/NovoItemCompraModal";
 import { supabase } from "@/lib/supabase";
@@ -125,7 +127,6 @@ export default function ListaCompras() {
     try {
       setLoading(true);
 
-      // 1. Fetch current stock to see what we need to update
       const { data: currentStock, error: stockError } = await supabase
         .from('produtos')
         .select('*');
@@ -138,9 +139,6 @@ export default function ListaCompras() {
         );
 
         if (existingProduct) {
-          // Se for ingrediente (unidade g ou ml), e o valor unitário da lista parece um preço de EMBALAGEM (kg/L),
-          // tentamos manter o valor mas o ideal é que o preco_medio seja o preço por unidade básica (g/ml).
-
           const { error: updateError } = await supabase
             .from('produtos')
             .update({
@@ -152,9 +150,7 @@ export default function ListaCompras() {
 
           if (updateError) throw updateError;
         } else {
-          // Create new product
           const category = item.tipo_estoque === "acabado" ? "Produtos Acabados" : "Ingredientes";
-          // Se for ingrediente, melhor assumir Unidade (un) e o usuário ajusta no estoque para gramas/litros
           const unit = item.tipo_estoque === "acabado" ? "un" : "un";
 
           const { error: insertError } = await supabase
@@ -173,7 +169,6 @@ export default function ListaCompras() {
           if (insertError) throw insertError;
         }
 
-        // Delete from shopping list
         await supabase.from('lista_compras').delete().eq('id', item.id);
       }
 
@@ -207,151 +202,153 @@ export default function ListaCompras() {
   }, [itens, searchTerm]);
 
   return (
-    <>
-      <div className="p-6 max-w-[1400px] mx-auto space-y-5">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold text-foreground font-display tracking-tight">Lista de Compras</h1>
-          <div className="flex items-center gap-2">
+    <div className="p-4 h-full overflow-hidden animate-in-fade">
+      <div className="bg-white dark:bg-card-dark w-full h-full rounded-[2.5rem] shadow-soft overflow-y-auto p-8 relative">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Lista de Compras</h2>
+          </div>
+          <div className="flex items-center gap-3">
             <Button
-              variant="outline"
+              variant="ghost"
               onClick={handleFinalizarCompra}
-              className="bg-[#F2EDE4]/60 border-none hover:bg-[#EAE4D8] text-foreground font-bold rounded-xl h-9 px-5 text-xs transition-all flex items-center gap-2 opacity-50"
+              className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 px-5 py-2.5 rounded-xl text-sm font-medium transition-colors flex items-center gap-2"
             >
-              <Receipt className="w-4 h-4" />
+              <CheckCircle className="w-5 h-5" />
               Finalizar Compra
             </Button>
             <Button
               onClick={() => setShowNovoItem(true)}
-              className="bg-[#EFB6BF] hover:bg-[#EFB6BF]/90 text-foreground font-bold rounded-xl h-9 px-5 text-xs shadow-sm flex items-center gap-2"
+              className="bg-[#FF8A96] hover:bg-red-400 text-white px-6 py-2.5 rounded-xl text-sm font-medium transition-colors shadow-md shadow-red-200 dark:shadow-none flex items-center gap-2"
             >
-              <Plus className="w-4 h-4" />
-              Adicionar item
+              <Plus className="w-5 h-5" />
+              Adicionar Item
             </Button>
           </div>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-white rounded-2xl p-4 border border-border/40 shadow-sm flex flex-col justify-between min-h-[100px]">
-            <div className="text-muted-foreground text-[10px] font-bold uppercase tracking-wider opacity-60">A Comprar</div>
-            <div className="text-2xl font-black text-foreground">{stats.aComprar}</div>
-          </div>
-
-          <div className="bg-white rounded-2xl p-4 border border-border/40 shadow-sm flex flex-col justify-between min-h-[100px]">
-            <div className="flex items-center gap-2 text-[#4ADE80] text-[10px] font-bold uppercase tracking-wider opacity-80">
-              <Check className="w-3.5 h-3.5" /> Comprados
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-5 shadow-sm">
+            <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide">
+              A Comprar
             </div>
-            <div className="text-2xl font-black text-[#4ADE80]">{stats.comprados}</div>
+            <div className="text-3xl font-bold text-gray-800 dark:text-white">{stats.aComprar}</div>
           </div>
-
-          <div className="bg-white rounded-2xl p-4 border border-border/40 shadow-sm flex flex-col justify-between min-h-[100px]">
-            <div className="flex items-center gap-2 text-despesa text-[10px] font-bold uppercase tracking-wider opacity-70">
-              <FileText className="w-3.5 h-3.5" /> Total Pendente
+          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-5 shadow-sm">
+            <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-[#2ECC71] uppercase tracking-wide">
+              <Check className="w-4 h-4" /> Comprados
             </div>
-            <div className="text-xl font-black text-despesa">
+            <div className="text-3xl font-bold text-[#2ECC71]">{stats.comprados}</div>
+          </div>
+          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-5 shadow-sm">
+            <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-[#FF5C5C] uppercase tracking-wide">
+              <Receipt className="w-4 h-4" /> Total Pendente
+            </div>
+            <div className="text-3xl font-bold text-[#FF5C5C]">
               R$ {stats.totalPendente.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
             </div>
           </div>
-
-          <div className="bg-white rounded-2xl p-4 border border-border/40 shadow-sm flex flex-col justify-between min-h-[100px]">
-            <div className="flex items-center gap-2 text-muted-foreground text-[10px] font-bold uppercase tracking-wider opacity-60">
-              <FileText className="w-3.5 h-3.5" /> Total Geral
+          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-5 shadow-sm">
+            <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide">
+              <FileText className="w-4 h-4" /> Total Geral
             </div>
-            <div className="text-xl font-black text-foreground">
+            <div className="text-3xl font-bold text-gray-800 dark:text-white">
               R$ {stats.totalGeral.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
             </div>
           </div>
         </div>
 
         {/* Main Content Area */}
-        <div className="bg-white rounded-2xl border border-border/40 p-6 shadow-sm min-h-[300px]">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm min-h-[450px]">
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-16 opacity-30">
-              <div className="w-8 h-8 border-3 border-[#EFB6BF] border-t-transparent rounded-full animate-spin mb-3" />
-              <p className="font-bold text-xs">Sincronizando lista...</p>
+            <div className="flex flex-col items-center justify-center py-20 opacity-30">
+              <div className="w-10 h-10 border-4 border-[#FF8A96] border-t-transparent rounded-full animate-spin mb-4" />
+              <p className="font-bold text-sm text-gray-400 uppercase tracking-widest">Sincronizando lista...</p>
             </div>
-          ) : itens.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center max-w-sm mx-auto">
-              <div className="w-14 h-14 rounded-2xl bg-[#FDFCFB] flex items-center justify-center mb-4 border border-border/10 shadow-sm">
-                <ShoppingCart className="w-7 h-7 text-muted-foreground/60" />
+          ) : filteredItens.length === 0 ? (
+            <div className="bg-gray-50 dark:bg-gray-800/50 border border-dashed border-gray-200 dark:border-gray-700 rounded-3xl h-[400px] flex flex-col items-center justify-center text-center p-8">
+              <div className="w-16 h-16 bg-white dark:bg-gray-700 rounded-2xl shadow-sm flex items-center justify-center mb-6">
+                <ShoppingCart className="w-8 h-8 text-gray-400 dark:text-gray-300" />
               </div>
-              <h3 className="text-sm font-bold text-foreground mb-1">Lista de compras vazia.</h3>
-              <p className="text-xs text-muted-foreground font-medium opacity-60">Adicione os itens que você precisa comprar para sua produção.</p>
+              <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2">Lista de compras vazia.</h3>
+              <p className="text-gray-500 dark:text-gray-400 text-sm max-w-sm">
+                Adicione os itens que você precisa comprar para sua produção.
+              </p>
             </div>
           ) : (
             <div className="space-y-3">
-              {itens.map((item) => (
+              {filteredItens.map((item) => (
                 <div
                   key={item.id}
                   className={cn(
-                    "group flex items-center justify-between p-4 rounded-xl border transition-all",
+                    "group flex items-center justify-between p-5 rounded-2xl border transition-all",
                     item.comprado
                       ? "bg-gray-50/50 border-gray-100 opacity-60"
-                      : "bg-[#FDFCFB]/50 border-border/20 hover:bg-white hover:shadow-md hover:scale-[1.005]"
+                      : "bg-white border-gray-100 hover:border-gray-200 hover:shadow-md"
                   )}
                 >
-                  <div className="flex items-center gap-3">
-                    {/* Custom Checkbox */}
+                  <div className="flex items-center gap-4">
                     <button
                       onClick={() => handleToggleComprado(item.id, item.comprado)}
                       className={cn(
-                        "w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all",
+                        "w-7 h-7 rounded-xl border-2 flex items-center justify-center transition-all shadow-sm",
                         item.comprado
-                          ? "bg-[#4ADE80] border-[#4ADE80]"
-                          : "border-border/60 hover:border-[#EFB6BF]"
+                          ? "bg-[#2ECC71] border-[#2ECC71]"
+                          : "border-gray-200 hover:border-[#FF8A96]"
                       )}
                     >
-                      {item.comprado && <Check className="w-3.5 h-3.5 text-white" />}
+                      {item.comprado && <Check className="w-4 h-4 text-white" />}
                     </button>
-
                     <div>
-                      <h3 className={cn(
-                        "text-sm font-bold",
-                        item.comprado ? "text-muted-foreground line-through" : "text-foreground"
+                      <h4 className={cn(
+                        "font-bold text-gray-800 dark:text-white text-base tracking-tight",
+                        item.comprado && "line-through opacity-50"
                       )}>
                         {item.nome}
-                      </h3>
-                      <p className="text-[10px] font-semibold text-muted-foreground">
-                        {item.quantidade} unidade(s) • R$ {item.valor_unitario.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                        {item.fornecedor && ` • ${item.fornecedor}`}
-                      </p>
+                      </h4>
+                      <div className="flex items-center gap-3 mt-1">
+                        <span className="text-xs font-medium text-gray-400">
+                          {item.quantidade} un • R$ {item.valor_unitario.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                        </span>
+                        {item.fornecedor && (
+                          <>
+                            <span className="w-1 h-1 rounded-full bg-gray-300" />
+                            <span className="text-xs font-medium text-gray-400">{item.fornecedor}</span>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-5">
+                  <div className="flex items-center gap-6">
                     <div className="text-right">
-                      <div className={cn(
-                        "text-base font-black mb-0.5",
-                        item.comprado ? "text-muted-foreground" : "text-foreground"
+                      <p className={cn(
+                        "text-lg font-black tracking-tight",
+                        item.comprado ? "text-gray-400" : "text-gray-900 dark:text-white"
                       )}>
                         R$ {Number(item.valor_total).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                      </div>
-                      <div className="flex items-center justify-end gap-2">
-                        <span className={cn(
-                          "text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full",
-                          item.prioridade === "alta"
-                            ? "bg-[#FEF2F2] text-despesa"
-                            : item.prioridade === "media"
-                              ? "bg-[#FDF2F2]/10 text-orange-400"
-                              : "bg-gray-100 text-gray-400"
-                        )}>
-                          Prioridade {item.prioridade}
-                        </span>
-                      </div>
+                      </p>
+                      <span className={cn(
+                        "text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-lg",
+                        item.prioridade === "alta" ? "bg-red-50 text-red-400" :
+                          item.prioridade === "media" ? "bg-orange-50 text-orange-400" :
+                            "bg-green-50 text-green-400"
+                      )}>
+                        {item.prioridade}
+                      </span>
                     </div>
-
-                    <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="w-8 h-8 rounded-lg hover:bg-despesa-light hover:text-despesa transition-colors"
                         onClick={() => handleDelete(item.id)}
+                        className="h-10 w-10 rounded-xl text-gray-300 hover:text-[#FF5C5C] hover:bg-red-50 transition-all"
                       >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <Trash2 className="w-5 h-5" />
                       </Button>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-muted-foreground/20" />
                   </div>
                 </div>
               ))}
@@ -365,6 +362,6 @@ export default function ListaCompras() {
         onOpenChange={setShowNovoItem}
         onSubmit={handleNovoItem}
       />
-    </>
+    </div>
   );
 }
