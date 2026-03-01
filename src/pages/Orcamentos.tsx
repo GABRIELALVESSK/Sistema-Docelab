@@ -143,14 +143,15 @@ export default function Orcamentos() {
             // We map 'itens' from budget to 'itens' in orders
             // pedals table uses 'cliente', 'telefone', 'produto', 'quantidade', 'preco', 'itens'
             const firstItem = orc.itens[0] || { nome: "Personalizado", quantidade: 1, precoUnitario: orc.valor_total };
+            const fotoBudget = orc.itens?.find((it: any) => it.fotoUrl)?.fotoUrl || null;
 
             const { error: pedidoError } = await supabase.from('pedidos').insert([{
-                user_id: user?.id,
                 cliente: orc.cliente_nome,
                 telefone: orc.cliente_telefone,
                 produto: firstItem.nome,
                 quantidade: firstItem.quantidade,
                 preco: firstItem.precoUnitario,
+                imagem_inspiracao: fotoBudget,
                 itens: orc.itens.map((it: any) => ({
                     produto: it.nome,
                     quantidade: it.quantidade,

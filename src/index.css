@@ -29,15 +29,23 @@
     --radius: 24px;
 
     /* SkillEx V2 Colors */
-    --skillex-primary: 0 91% 71%; /* #F87171 */
-    --skillex-secondary: 240 22% 15%; /* #1E1E2F */
-    --skillex-bg-light: 40 33% 94%; /* #F5F1EB */
-    --skillex-text-light: 240 8% 38%; /* #5A5A69 */
-    
-    --skillex-accent-green: 122 41% 75%; /* #A3D9A5 */
-    --skillex-accent-orange: 29 91% 79%; /* #FBC899 */
-    --skillex-accent-purple: 268 89% 85%; /* #D8B4FE */
-    --skillex-accent-yellow: 48 94% 77%; /* #FDE68A */
+    --skillex-primary: 0 91% 71%;
+    /* #F87171 */
+    --skillex-secondary: 240 22% 15%;
+    /* #1E1E2F */
+    --skillex-bg-light: 40 33% 94%;
+    /* #F5F1EB */
+    --skillex-text-light: 240 8% 38%;
+    /* #5A5A69 */
+
+    --skillex-accent-green: 122 41% 75%;
+    /* #A3D9A5 */
+    --skillex-accent-orange: 29 91% 79%;
+    /* #FBC899 */
+    --skillex-accent-purple: 268 89% 85%;
+    /* #D8B4FE */
+    --skillex-accent-yellow: 48 94% 77%;
+    /* #FDE68A */
 
     /* Semantic Compatibility */
     --receita: 142 70% 45%;
@@ -51,6 +59,12 @@
     --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
     --shadow-elevated: 0 8px 30px rgba(0, 0, 0, 0.10), 0 0 0 1px rgba(0, 0, 0, 0.04);
     --shadow-modal: 0 24px 64px -12px rgba(0, 0, 0, 0.15);
+  }
+
+  html,
+  body {
+    overflow: hidden;
+    height: 100%;
   }
 
   body {

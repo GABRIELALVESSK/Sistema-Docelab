@@ -7,7 +7,7 @@ interface MainLayoutProps {
 
 export function MainLayout({ children }: MainLayoutProps) {
   return (
-    <div className="flex min-h-screen bg-[#F5F1EB] p-4 lg:p-6 overflow-hidden">
+    <div className="flex h-screen bg-[#F5F1EB] p-4 lg:p-6 overflow-hidden">
       {/* Sidebar - Fixed width */}
       <div className="w-64 flex-shrink-0 sticky top-0 h-[calc(100vh-3rem)]">
         <Sidebar />
