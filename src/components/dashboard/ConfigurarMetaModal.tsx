@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Settings2, Info } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ConfigurarMetaModalProps {
     open: boolean;
@@ -15,6 +16,7 @@ interface ConfigurarMetaModalProps {
 
 export function ConfigurarMetaModal({ open, onOpenChange, onSaved }: ConfigurarMetaModalProps) {
     const { toast } = useToast();
+    const { user } = useAuth();
     const [gastosFixos, setGastosFixos] = useState(0);
     const [gastosVariaveis, setGastosVariaveis] = useState(0);
     const [salario, setSalario] = useState(0);
@@ -25,16 +27,18 @@ export function ConfigurarMetaModal({ open, onOpenChange, onSaved }: ConfigurarM
     const metaSugerida = gastosFixos + gastosVariaveis + salario + outrosGastos;
 
     useEffect(() => {
-        if (open) {
+        if (open && user?.id) {
             loadMeta();
         }
-    }, [open]);
+    }, [open, user?.id]);
 
     const loadMeta = async () => {
+        if (!user?.id) return;
         try {
             const { data, error } = await supabase
                 .from('metas')
                 .select('*')
+                .eq('user_id', user.id)
                 .order('criado_em', { ascending: false })
                 .limit(1)
                 .single();
@@ -60,9 +64,11 @@ export function ConfigurarMetaModal({ open, onOpenChange, onSaved }: ConfigurarM
     };
 
     const handleSave = async () => {
+        if (!user?.id) return;
         try {
             setSaving(true);
             const payload = {
+                user_id: user.id,
                 gastos_fixos: gastosFixos,
                 gastos_variaveis: gastosVariaveis,
                 salario,
@@ -76,12 +82,17 @@ export function ConfigurarMetaModal({ open, onOpenChange, onSaved }: ConfigurarM
             const { data: existing } = await supabase
                 .from('metas')
                 .select('id')
+                .eq('user_id', user.id)
                 .eq('mes_referencia', mesRef)
                 .limit(1)
                 .single();
 
             if (existing) {
-                await supabase.from('metas').update(payload).eq('id', existing.id);
+                await supabase
+                    .from('metas')
+                    .update(payload)
+                    .eq('id', existing.id)
+                    .eq('user_id', user.id);
             } else {
                 await supabase.from('metas').insert([payload]);
             }

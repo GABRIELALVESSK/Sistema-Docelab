@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
 import { formatarMoeda } from "@/lib/precificacao-calculator";
 import { AdicionarComponenteModal } from "./AdicionarComponenteModal";
+import { useAuth } from "@/contexts/AuthContext";
 
 const PAPEIS = ["Casca", "Recheio", "Finalização", "Embalagem", "Decoração", "Outro"];
 
@@ -50,6 +51,7 @@ interface NovoKitModalProps {
 }
 
 export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: NovoKitModalProps) {
+    const { user } = useAuth();
     const [nome, setNome] = useState("");
     const [descricao, setDescricao] = useState("");
     const [precoVenda, setPrecoVenda] = useState("");
@@ -65,10 +67,11 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
     const [showSelector, setShowSelector] = useState(false);
 
     const fetchData = async () => {
+        if (!user?.id) return;
         const [receitasRes, produtosRes, kitsRes] = await Promise.all([
-            supabase.from("receitas").select("id, nome, preco_venda, rendimento_unidades, unidade_rendimento, custo_unitario, cmv_unitario").order("nome", { ascending: true }),
-            supabase.from("produtos").select("id, nome, preco_medio, unidade").order("nome", { ascending: true }),
-            supabase.from("kits_receitas").select("id, nome, preco_venda").order("nome", { ascending: true })
+            supabase.from("receitas").select("id, nome, preco_venda, rendimento_unidades, unidade_rendimento, custo_unitario, cmv_unitario").eq("user_id", user.id).order("nome", { ascending: true }),
+            supabase.from("produtos").select("id, nome, preco_medio, unidade").eq("user_id", user.id).order("nome", { ascending: true }),
+            supabase.from("kits_receitas").select("id, nome, preco_venda").eq("user_id", user.id).order("nome", { ascending: true })
         ]);
 
         const fetchedReceitas = receitasRes.data?.map(r => ({ ...r, tipo: 'receita' as const })) || [];
@@ -110,10 +113,10 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
     };
 
     useEffect(() => {
-        if (open) {
+        if (open && user?.id) {
             fetchData();
         }
-    }, [open, kitParaEditar]);
+    }, [open, kitParaEditar, user?.id]);
 
     const resetFormStates = () => {
         setNome("");

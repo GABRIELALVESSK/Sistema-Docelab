@@ -62,7 +62,7 @@
     --shadow-modal: 0 24px 64px -12px rgba(0, 0, 0, 0.15);
   }
 
-  html,
+  html { font-size: var(--html-font-size, 16px); } html,
   body {
     overflow: hidden;
     height: 100%;

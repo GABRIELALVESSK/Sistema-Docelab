@@ -16,6 +16,7 @@ import {
     ReceitaIngrediente
 } from "@/lib/precificacao-calculator";
 
+import { useAuth } from "@/contexts/AuthContext";
 import { AdicionarComponenteModal } from "@/components/estoque/AdicionarComponenteModal";
 
 interface NovaReceitaModalProps {
@@ -63,6 +64,7 @@ const STEPS = [
 ];
 
 export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEditar }: NovaReceitaModalProps) {
+    const { user } = useAuth();
     const { toast } = useToast();
     const [step, setStep] = useState(1);
 
@@ -100,7 +102,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
     const isInitializedRef = useRef(false);
 
     useEffect(() => {
-        if (open) {
+        if (open && user?.id) {
             const isDifferentRecipe = receitaParaEditar?.id && receitaParaEditar.id !== isInitializedRef.current;
 
             if (!isInitializedRef.current || isDifferentRecipe) {
@@ -133,11 +135,12 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
         } else {
             isInitializedRef.current = false;
         }
-    }, [open, receitaParaEditar?.id]);
+    }, [open, receitaParaEditar?.id, user?.id]);
 
     const fetchCustosFixosTotal = async () => {
         try {
-            const { data, error } = await supabase.from('custos_fixos').select('valor_mensal, ativo');
+            if (!user?.id) return;
+            const { data, error } = await supabase.from('custos_fixos').select('valor_mensal, ativo').eq('user_id', user.id);
             if (error) throw error;
             const total = (data || []).filter((item: any) => item.ativo).reduce((acc: number, item: any) => acc + Number(item.valor_mensal), 0);
             setTotalCustosFixos(total);
@@ -148,19 +151,24 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
 
     const fetchPricingSettings = async () => {
         try {
-            const { data, error } = await supabase.from("configuracoes_precificacao").select("*").limit(1).single();
+            if (!user?.id) return;
+            const { data, error } = await supabase.from("configuracoes_precificacao").select("*").eq("user_id", user.id).limit(1).maybeSingle();
             if (error) throw error;
-            setPricingSettings(data);
+            if (data) {
+                setPricingSettings(data);
+            } else {
+                // If user doesn't have settings, set defaults
+                setPricingSettings({
+                    preco_botijao_gas: 120,
+                    duracao_botijao_horas: 50,
+                    custo_hora_mao_obra: 20,
+                    percentual_seguranca: 20,
+                    multiplicador_fixos_mao_obra: 2,
+                    margens_lucro: [30, 50, 70]
+                });
+            }
         } catch (error) {
             console.error("Erro ao carregar configurações:", error);
-            setPricingSettings({
-                preco_botijao_gas: 120,
-                duracao_botijao_horas: 50,
-                custo_hora_mao_obra: 20,
-                percentual_seguranca: 20,
-                multiplicador_fixos_mao_obra: 2,
-                margens_lucro: [30, 50, 70]
-            });
         }
     };
 
@@ -235,10 +243,11 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
     };
 
     const fetchStockItems = async () => {
+        if (!user?.id) return;
         const [produtosRes, receitasRes, kitsRes] = await Promise.all([
-            supabase.from('produtos').select('*'),
-            supabase.from('receitas').select('*'),
-            supabase.from('kits_receitas').select('*')
+            supabase.from('produtos').select('*').eq('user_id', user.id),
+            supabase.from('receitas').select('*').eq('user_id', user.id),
+            supabase.from('kits_receitas').select('*').eq('user_id', user.id)
         ]);
         if (produtosRes.data) setStockItems(produtosRes.data);
         if (receitasRes.data) setAllReceitas(receitasRes.data.filter(r => r.id !== receitaParaEditar?.id));
@@ -247,7 +256,8 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
 
     const fetchReceitaCategories = async () => {
         try {
-            const { data, error } = await supabase.from('receitas').select('categoria').not('categoria', 'is', null);
+            if (!user?.id) return;
+            const { data, error } = await supabase.from('receitas').select('categoria').eq('user_id', user.id).not('categoria', 'is', null);
             if (error) throw error;
             if (data) {
                 const uniqueCats = Array.from(new Set([...CATEGORIAS_PADRAO, ...data.map((r: any) => r.categoria).filter(Boolean)])).sort();

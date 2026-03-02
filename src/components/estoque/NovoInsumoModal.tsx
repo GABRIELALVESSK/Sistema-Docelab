@@ -9,6 +9,7 @@ import { Calculator, Info, Plus, Check, X, ShoppingBag } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 
 export interface InsumoData {
     nome: string;
@@ -47,6 +48,7 @@ const CATEGORIAS_PADRAO = ["Ingredientes", "Embalagem", "Decoração", "Descart�
 
 export function NovoInsumoModal({ open, onOpenChange, onSubmit, insumo }: NovoInsumoModalProps) {
     const { toast } = useToast();
+    const { user } = useAuth();
     const [loading, setLoading] = useState(false);
 
     // Form state
@@ -66,7 +68,7 @@ export function NovoInsumoModal({ open, onOpenChange, onSubmit, insumo }: NovoIn
     const [newCategoryName, setNewCategoryName] = useState("");
 
     useEffect(() => {
-        if (open) {
+        if (open && user?.id) {
             fetchInsumoCategories();
         }
         if (insumo && open) {
@@ -102,10 +104,12 @@ export function NovoInsumoModal({ open, onOpenChange, onSubmit, insumo }: NovoIn
     }, [insumo, open]);
 
     const fetchInsumoCategories = async () => {
+        if (!user?.id) return;
         try {
             const { data, error } = await supabase
                 .from('produtos')
                 .select('categoria')
+                .eq('user_id', user.id)
                 .not('categoria', 'is', null);
 
             if (error) throw error;

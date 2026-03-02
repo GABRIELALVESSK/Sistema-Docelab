@@ -15,9 +15,11 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Orcamentos() {
     const { toast } = useToast();
+    const { user } = useAuth();
     const [showNovoTemplate, setShowNovoTemplate] = useState(false);
     const [showCriarOrcamento, setShowCriarOrcamento] = useState(false);
 
@@ -26,15 +28,18 @@ export default function Orcamentos() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (user?.id) {
+            fetchData();
+        }
+    }, [user?.id]);
 
     const fetchData = async () => {
+        if (!user?.id) return;
         setLoading(true);
         try {
             const [orcRes, tempRes] = await Promise.all([
-                supabase.from('orcamentos').select('*').order('created_at', { ascending: false }),
-                supabase.from('templates_orcamento').select('*').order('created_at', { ascending: false })
+                supabase.from('orcamentos').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
+                supabase.from('templates_orcamento').select('*').eq('user_id', user.id).order('created_at', { ascending: false })
             ]);
 
             if (orcRes.data) setOrcamentos(orcRes.data);
@@ -47,11 +52,10 @@ export default function Orcamentos() {
     };
 
     const handleCreateTemplate = async (data: any) => {
+        if (!user?.id) return;
         try {
-            const { data: { user } } = await supabase.auth.getUser();
-
             const { error } = await supabase.from('templates_orcamento').insert([{
-                user_id: user?.id,
+                user_id: user.id,
                 nome_template: data.nomeTemplate,
                 descricao: data.descricao,
                 tipo_encomenda: data.tipoEncomenda,
@@ -83,11 +87,10 @@ export default function Orcamentos() {
     };
 
     const handleCreateOrcamento = async (data: OrcamentoData) => {
+        if (!user?.id) return;
         try {
-            const { data: { user } } = await supabase.auth.getUser();
-
             const { error } = await supabase.from('orcamentos').insert([{
-                user_id: user?.id,
+                user_id: user.id,
                 cliente_nome: data.clienteNome,
                 cliente_endereco: data.clienteEndereco,
                 cliente_telefone: data.clienteTelefone,
@@ -113,9 +116,14 @@ export default function Orcamentos() {
     };
 
     const handleDeleteOrcamento = async (id: string) => {
+        if (!user?.id) return;
         if (!confirm("Tem certeza que deseja excluir este orçamento?")) return;
         try {
-            const { error } = await supabase.from('orcamentos').delete().eq('id', id);
+            const { error } = await supabase
+                .from('orcamentos')
+                .delete()
+                .eq('id', id)
+                .eq('user_id', user.id);
             if (error) throw error;
             toast({ title: "Orçamento excluído" });
             fetchData();
@@ -125,8 +133,13 @@ export default function Orcamentos() {
     };
 
     const handleStatusUpdate = async (id: string, status: string) => {
+        if (!user?.id) return;
         try {
-            const { error } = await supabase.from('orcamentos').update({ status }).eq('id', id);
+            const { error } = await supabase
+                .from('orcamentos')
+                .update({ status })
+                .eq('id', id)
+                .eq('user_id', user.id);
             if (error) throw error;
             toast({ title: `Status atualizado para ${status}` });
             fetchData();
@@ -136,13 +149,13 @@ export default function Orcamentos() {
     };
 
     const handleAprovarOrcamento = async (orc: any) => {
+        if (!user?.id) return;
         try {
-            const { data: { user } } = await supabase.auth.getUser();
-
             const firstItem = orc.itens[0] || { nome: "Personalizado", quantidade: 1, precoUnitario: orc.valor_total };
             const fotoBudget = orc.itens?.find((it: any) => it.fotoUrl)?.fotoUrl || null;
 
             const { error: pedidoError } = await supabase.from('pedidos').insert([{
+                user_id: user.id,
                 cliente: orc.cliente_nome,
                 telefone: orc.cliente_telefone,
                 produto: firstItem.nome,
@@ -164,7 +177,8 @@ export default function Orcamentos() {
             const { error: orcError } = await supabase
                 .from('orcamentos')
                 .update({ status: 'aprovado' })
-                .eq('id', orc.id);
+                .eq('id', orc.id)
+                .eq('user_id', user.id);
 
             if (orcError) throw orcError;
 

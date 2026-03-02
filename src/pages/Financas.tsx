@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 import { format, parseISO } from "date-fns";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/contexts/AuthContext";
 
 type TransacaoTipo = "receita" | "despesa";
 type FilterTipo = "todas" | "receitas" | "despesas";
@@ -20,10 +21,12 @@ interface Transacao {
   data: string;
   cliente: string;
   metodo: string;
+  user_id?: string;
 }
 
 export default function Financas() {
   const { toast } = useToast();
+  const { user } = useAuth();
   const [showNovaTransacao, setShowNovaTransacao] = useState(false);
   const [filter, setFilter] = useState<FilterTipo>("todas");
   const [transacoes, setTransacoes] = useState<Transacao[]>([]);
@@ -31,15 +34,19 @@ export default function Financas() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetchTransacoes();
-  }, []);
+    if (user?.id) {
+      fetchTransacoes();
+    }
+  }, [user?.id]);
 
   const fetchTransacoes = async () => {
+    if (!user?.id) return;
     try {
       setLoading(true);
       const { data, error } = await supabase
         .from('transacoes')
         .select('*')
+        .eq('user_id', user.id)
         .order('data', { ascending: false });
 
       if (error) throw error;
@@ -65,10 +72,11 @@ export default function Financas() {
   };
 
   const handleNovaTransacao = async (transacao: TransacaoData) => {
+    if (!user?.id) return;
     try {
       const { data, error } = await supabase
         .from('transacoes')
-        .insert([{ ...transacao }])
+        .insert([{ ...transacao, user_id: user.id }])
         .select();
 
       if (error) throw error;
@@ -88,8 +96,14 @@ export default function Financas() {
   };
 
   const handleDelete = async (id: string) => {
+    if (!user?.id) return;
     try {
-      const { error } = await supabase.from('transacoes').delete().eq('id', id);
+      const { error } = await supabase
+        .from('transacoes')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', user.id);
+
       if (error) throw error;
       setTransacoes(transacoes.filter(t => t.id !== id));
       toast({ title: "Transação excluída", description: "O registro foi removido." });

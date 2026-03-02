@@ -29,6 +29,7 @@ import { ptBR } from "date-fns/locale";
 import { supabase } from "@/lib/supabase";
 import { formatarMoeda } from "@/lib/precificacao-calculator";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 export interface OrcamentoItemData {
     receitaId: string;
@@ -59,6 +60,7 @@ interface CriarOrcamentoModalProps {
 
 export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcamentoModalProps) {
     const { toast } = useToast();
+    const { user } = useAuth();
 
     // Client data
     const [clienteNome, setClienteNome] = useState("");
@@ -97,9 +99,10 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
     }, [open]);
 
     const fetchData = async () => {
+        if (!user?.id) return;
         const [recRes, cliRes] = await Promise.all([
-            supabase.from('receitas').select('id, nome, preco_venda, foto_url').order('nome'),
-            supabase.from('clientes').select('nome, telefone, email, endereco').order('nome')
+            supabase.from('receitas').select('id, nome, preco_venda, foto_url').eq('user_id', user.id).order('nome'),
+            supabase.from('clientes').select('nome, telefone, email, endereco').eq('user_id', user.id).order('nome')
         ]);
         if (recRes.data) setReceitas(recRes.data);
         if (cliRes.data) setClientes(cliRes.data);

@@ -13,6 +13,7 @@ import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
 import { formatarMoeda } from "@/lib/precificacao-calculator";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface NovaEncomendaModalProps {
   open: boolean;
@@ -49,6 +50,7 @@ const estadoOptions = [
 ];
 
 export function NovaEncomendaModal({ open, onOpenChange, onSubmit, encomenda }: NovaEncomendaModalProps) {
+  const { user } = useAuth();
   const [nomeCliente, setNomeCliente] = useState("");
   const [telefone, setTelefone] = useState("");
   const [itens, setItens] = useState<EncomendaItem[]>([{ produto: "", quantidade: 1, preco: 0 }]);
@@ -66,10 +68,11 @@ export function NovaEncomendaModal({ open, onOpenChange, onSubmit, encomenda }: 
   const isEditing = !!encomenda;
 
   const fetchData = async () => {
+    if (!user?.id) return;
     console.log("[NovaEncomendaModal] Buscando receitas e clientes...");
     const [recRes, cliRes] = await Promise.all([
-      supabase.from('receitas').select('id, nome, preco_venda, foto_url').order('nome'),
-      supabase.from('clientes').select('nome, telefone').order('nome')
+      supabase.from('receitas').select('id, nome, preco_venda, foto_url').eq('user_id', user.id).order('nome'),
+      supabase.from('clientes').select('nome, telefone').eq('user_id', user.id).order('nome')
     ]);
 
     if (recRes.error) console.error("[NovaEncomendaModal] Erro ao buscar receitas:", recRes.error);
@@ -81,10 +84,10 @@ export function NovaEncomendaModal({ open, onOpenChange, onSubmit, encomenda }: 
 
   // Carrega dados iniciais e ao abrir
   useEffect(() => {
-    if (open) {
+    if (open && user?.id) {
       fetchData();
     }
-  }, [open]);
+  }, [open, user?.id]);
 
   // Sincroniza estado com a encomenda ao editar
   useEffect(() => {

@@ -11,6 +11,7 @@ import { supabase } from "@/lib/supabase";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface NovoProdutoModalProps {
   open: boolean;
@@ -46,6 +47,7 @@ const unidades = [
 ];
 
 export function NovoProdutoModal({ open, onOpenChange, onSubmit, produto }: NovoProdutoModalProps) {
+  const { user } = useAuth();
   const [nome, setNome] = useState("");
   const [categoria, setCategoria] = useState("");
   const [isCreatingCategoria, setIsCreatingCategoria] = useState(false);
@@ -92,16 +94,18 @@ export function NovoProdutoModal({ open, onOpenChange, onSubmit, produto }: Novo
       setTipoProduto("ingrediente");
     }
 
-    if (open) {
+    if (open && user?.id) {
       fetchProdutoCategories();
     }
-  }, [produto, open]);
+  }, [produto, open, user?.id]);
 
   const fetchProdutoCategories = async () => {
+    if (!user?.id) return;
     try {
       const { data, error } = await supabase
         .from('produtos')
         .select('categoria')
+        .eq('user_id', user.id)
         .not('categoria', 'is', null);
 
       if (error) throw error;

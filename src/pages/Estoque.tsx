@@ -33,6 +33,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface Produto {
   id: string;
@@ -50,6 +51,7 @@ interface Produto {
   preco_embalagem?: number;
   perdas_percentual?: number;
   ativo?: boolean;
+  user_id?: string;
 }
 
 interface CustoFixo {
@@ -59,6 +61,7 @@ interface CustoFixo {
   categoria: string;
   ativo: boolean;
   created_at?: string;
+  user_id?: string;
 }
 
 interface ItemKitFetch {
@@ -77,10 +80,12 @@ interface KitReceita {
   preco_venda: number;
   created_at?: string;
   itens?: ItemKitFetch[];
+  user_id?: string;
 }
 
 export default function Estoque() {
   const { toast } = useToast();
+  const { user } = useAuth();
   const [showNovoProduto, setShowNovoProduto] = useState(false);
   const [showNovoKit, setShowNovoKit] = useState(false);
   const [showNovoInsumo, setShowNovoInsumo] = useState(false);
@@ -97,16 +102,20 @@ export default function Estoque() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetchProdutos();
-    fetchCustosFixos();
-    fetchKits();
-  }, []);
+    if (user?.id) {
+      fetchProdutos();
+      fetchCustosFixos();
+      fetchKits();
+    }
+  }, [user?.id]);
 
   const fetchKits = async () => {
+    if (!user?.id) return;
     try {
       const { data: kitsData, error } = await supabase
         .from('kits_receitas')
         .select('*')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
       if (error) {
         if (!error.message.includes('does not exist')) throw error;
@@ -144,11 +153,13 @@ export default function Estoque() {
   };
 
   const fetchProdutos = async () => {
+    if (!user?.id) return;
     try {
       setLoading(true);
       const { data, error } = await supabase
         .from('produtos')
         .select('*')
+        .eq('user_id', user.id)
         .order('nome', { ascending: true });
 
       if (error) throw error;
@@ -168,10 +179,12 @@ export default function Estoque() {
   };
 
   const fetchCustosFixos = async () => {
+    if (!user?.id) return;
     try {
       const { data, error } = await supabase
         .from('custos_fixos')
         .select('*')
+        .eq('user_id', user.id)
         .order('nome', { ascending: true });
 
       if (error) {
@@ -185,6 +198,7 @@ export default function Estoque() {
 
   // Funções handlers (simplificadas para evitar erros de TS, mas lógica mantida)
   const handleAddProduto = async (produto: ProdutoData) => {
+    if (!user?.id) return;
     try {
       setLoading(true);
       const isEditing = !!produtoParaEditar;
@@ -198,14 +212,16 @@ export default function Estoque() {
         preco_venda: produto.precoVenda,
         fornecedor: produto.fornecedor,
         data_validade: produto.dataValidade?.toISOString(),
-        ativo: true
+        ativo: true,
+        user_id: user.id
       };
 
       if (isEditing) {
         const { error } = await supabase
           .from('produtos')
           .update(payload)
-          .eq('id', produtoParaEditar.id);
+          .eq('id', produtoParaEditar.id)
+          .eq('user_id', user.id);
         if (error) throw error;
         toast({ title: "Produto atualizado!" });
       } else {
@@ -224,6 +240,7 @@ export default function Estoque() {
   };
 
   const handleAddInsumo = async (insumo: InsumoData) => {
+    if (!user?.id) return;
     try {
       setLoading(true);
       const isEditing = !!insumoParaEditar;
@@ -247,14 +264,16 @@ export default function Estoque() {
         preco_medio: precoMedio,
         fornecedor: insumo.fornecedor,
         minimo: insumo.minimo,
-        ativo: true
+        ativo: true,
+        user_id: user.id
       };
 
       if (isEditing) {
         const { error } = await supabase
           .from('produtos')
           .update(payload)
-          .eq('id', insumoParaEditar.id);
+          .eq('id', insumoParaEditar.id)
+          .eq('user_id', user.id);
         if (error) throw error;
         toast({ title: "Insumo atualizado!" });
       } else {
@@ -273,6 +292,7 @@ export default function Estoque() {
   };
 
   const handleCreateKit = async (kit: any) => {
+    if (!user?.id) return;
     try {
       setLoading(true);
       const isEditing = !!kit.id;
@@ -281,8 +301,14 @@ export default function Estoque() {
         // 1. Atualizar o kit principal
         const { error: kitError } = await supabase
           .from('kits_receitas')
-          .update({ nome: kit.nome, descricao: kit.descricao, preco_venda: kit.preco_venda })
-          .eq('id', kit.id);
+          .update({
+            nome: kit.nome,
+            descricao: kit.descricao,
+            preco_venda: kit.preco_venda,
+            user_id: user.id
+          })
+          .eq('id', kit.id)
+          .eq('user_id', user.id);
         if (kitError) throw kitError;
 
         // 2. Sincronizar itens (mais simples deletar e inserir de novo)
@@ -308,7 +334,12 @@ export default function Estoque() {
         // 1. Salvar o kit principal
         const { data: kitData, error: kitError } = await supabase
           .from('kits_receitas')
-          .insert([{ nome: kit.nome, descricao: kit.descricao, preco_venda: kit.preco_venda }])
+          .insert([{
+            nome: kit.nome,
+            descricao: kit.descricao,
+            preco_venda: kit.preco_venda,
+            user_id: user.id
+          }])
           .select()
           .single();
         if (kitError) throw kitError;
@@ -329,7 +360,7 @@ export default function Estoque() {
 
           if (itensError) {
             // Se falhar ao salvar itens, removemos o kit "vazio" para não poluir
-            await supabase.from('kits_receitas').delete().eq('id', kitData.id);
+            await supabase.from('kits_receitas').delete().eq('id', kitData.id).eq('user_id', user.id);
             throw itensError;
           }
         }
@@ -347,8 +378,14 @@ export default function Estoque() {
   };
 
   const handleDeleteKit = async (id: string) => {
+    if (!user?.id) return;
     try {
-      const { error } = await supabase.from('kits_receitas').delete().eq('id', id);
+      const { error } = await supabase
+        .from('kits_receitas')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', user.id);
+
       if (error) throw error;
       setKits(kits.filter(k => k.id !== id));
       toast({ title: "Kit removido" });
@@ -358,6 +395,7 @@ export default function Estoque() {
   };
 
   const handleSaveCustoFixo = async (custo: CustoFixoData) => {
+    if (!user?.id) return;
     try {
       setLoading(true);
       const isEditing = !!custoFixoParaEditar;
@@ -365,14 +403,16 @@ export default function Estoque() {
         nome: custo.nome,
         valor_mensal: custo.valor_mensal,
         categoria: custo.categoria,
-        ativo: custo.ativo
+        ativo: custo.ativo,
+        user_id: user.id
       };
 
       if (isEditing) {
         const { error } = await supabase
           .from('custos_fixos')
           .update(payload)
-          .eq('id', custoFixoParaEditar.id);
+          .eq('id', custoFixoParaEditar.id)
+          .eq('user_id', user.id);
         if (error) throw error;
         toast({ title: "Custo mensal atualizado!" });
       } else {
@@ -391,8 +431,14 @@ export default function Estoque() {
   };
 
   const handleDeleteProduto = async (id: string) => {
+    if (!user?.id) return;
     try {
-      const { error } = await supabase.from('produtos').delete().eq('id', id);
+      const { error } = await supabase
+        .from('produtos')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', user.id);
+
       if (error) throw error;
       setProdutos(produtos.filter(p => p.id !== id));
       toast({ title: "Item removido" });
@@ -402,8 +448,14 @@ export default function Estoque() {
   };
 
   const handleDeleteCustoFixo = async (id: string) => {
+    if (!user?.id) return;
     try {
-      const { error } = await supabase.from('custos_fixos').delete().eq('id', id);
+      const { error } = await supabase
+        .from('custos_fixos')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', user.id);
+
       if (error) throw error;
       setCustosFixos(custosFixos.filter(c => c.id !== id));
       toast({ title: "Custo fixo removido" });

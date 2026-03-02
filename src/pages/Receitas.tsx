@@ -8,9 +8,11 @@ import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 import { formatarMoeda } from "@/lib/precificacao-calculator";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Receitas() {
     const { toast } = useToast();
+    const { user } = useAuth();
     const [showNovaReceita, setShowNovaReceita] = useState(false);
     const [showDetalhes, setShowDetalhes] = useState(false);
     const [selectedReceita, setSelectedReceita] = useState<any>(null);
@@ -20,15 +22,19 @@ export default function Receitas() {
     const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
-        fetchReceitas();
-    }, []);
+        if (user?.id) {
+            fetchReceitas();
+        }
+    }, [user?.id]);
 
     const fetchReceitas = async () => {
+        if (!user?.id) return;
         try {
             setLoading(true);
             const { data, error } = await supabase
                 .from('receitas')
                 .select('*')
+                .eq('user_id', user.id)
                 .order('created_at', { ascending: false });
 
             if (error) throw error;
@@ -43,28 +49,31 @@ export default function Receitas() {
     };
 
     const handleCreateReceita = async (receita: any) => {
+        if (!user?.id) return;
         try {
-            if (receitaParaEditar) {
-                const payload: any = {
-                    nome: receita.nome,
-                    categoria: receita.categoria,
-                    tempo_preparo: receita.tempoPreparo,
-                    ingredientes_texto: receita.ingredientesTexto,
-                    modo_preparo: receita.modoPreparo,
-                    foto_url: receita.fotoUrl,
-                    rendimento_unidades: receita.rendimento_unidades,
-                    unidade_rendimento: receita.unidade_rendimento,
-                    custo_unitario: receita.custo_unitario,
-                    cmv_unitario: receita.cmv_unitario,
-                    preco_venda: receita.preco_venda,
-                    tempo_producao_minutos: receita.tempo_producao_minutos,
-                    margem_lucro_alvo: receita.margem_lucro_alvo
-                };
+            const payload: any = {
+                nome: receita.nome,
+                categoria: receita.categoria,
+                tempo_preparo: receita.tempoPreparo,
+                ingredientes_texto: receita.ingredientesTexto,
+                modo_preparo: receita.modoPreparo,
+                foto_url: receita.fotoUrl,
+                rendimento_unidades: receita.rendimento_unidades,
+                unidade_rendimento: receita.unidade_rendimento,
+                custo_unitario: receita.custo_unitario,
+                cmv_unitario: receita.cmv_unitario,
+                preco_venda: receita.preco_venda,
+                tempo_producao_minutos: receita.tempo_producao_minutos,
+                margem_lucro_alvo: receita.margem_lucro_alvo,
+                user_id: user.id
+            };
 
+            if (receitaParaEditar) {
                 const { data: recipeData, error: recipeError } = await supabase
                     .from('receitas')
                     .update(payload)
                     .eq('id', receitaParaEditar.id)
+                    .eq('user_id', user.id)
                     .select()
                     .single();
 
@@ -89,22 +98,6 @@ export default function Receitas() {
                 toast({ title: "Receita atualizada com sucesso!" });
                 setReceitaParaEditar(null);
             } else {
-                const payload: any = {
-                    nome: receita.nome,
-                    categoria: receita.categoria,
-                    tempo_preparo: receita.tempoPreparo,
-                    ingredientes_texto: receita.ingredientesTexto,
-                    modo_preparo: receita.modoPreparo,
-                    foto_url: receita.fotoUrl,
-                    rendimento_unidades: receita.rendimento_unidades,
-                    unidade_rendimento: receita.unidade_rendimento,
-                    custo_unitario: receita.custo_unitario,
-                    cmv_unitario: receita.cmv_unitario,
-                    preco_venda: receita.preco_venda,
-                    tempo_producao_minutos: receita.tempo_producao_minutos,
-                    margem_lucro_alvo: receita.margem_lucro_alvo
-                };
-
                 const { data: recipeData, error: recipeError } = await supabase
                     .from('receitas')
                     .insert([payload])
@@ -137,8 +130,14 @@ export default function Receitas() {
     };
 
     const handleDelete = async (id: string) => {
+        if (!user?.id) return;
         try {
-            const { error } = await supabase.from('receitas').delete().eq('id', id);
+            const { error } = await supabase
+                .from('receitas')
+                .delete()
+                .eq('id', id)
+                .eq('user_id', user.id);
+
             if (error) throw error;
             setReceitas(receitas.filter(r => r.id !== id));
             toast({ title: "Receita removida" });

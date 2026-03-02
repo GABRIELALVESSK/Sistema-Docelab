@@ -15,6 +15,8 @@ import { cn } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { useSettings } from "@/contexts/SettingsContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,6 +27,8 @@ import {
 export default function Dashboard() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
+  const { settings } = useSettings();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [hideValues, setHideValues] = useState(false);
   const [stats, setStats] = useState({ receita: 0, despesa: 0, lucro: 0 });
@@ -34,16 +38,20 @@ export default function Dashboard() {
   const [faturamentoSemanal, setFaturamentoSemanal] = useState<number[]>([0, 0, 0, 0, 0, 0, 0]);
 
   useEffect(() => {
-    fetchStats();
-    loadMeta();
-    fetchUpcomingOrders();
-  }, [currentDate]);
+    if (user?.id) {
+      fetchStats();
+      loadMeta();
+      fetchUpcomingOrders();
+    }
+  }, [currentDate, user?.id]);
 
   const fetchUpcomingOrders = async () => {
+    if (!user?.id) return;
     try {
       const { data, error } = await supabase
         .from('pedidos')
         .select('*')
+        .eq('user_id', user.id)
         .neq('status', 'entregue')
         .order('data', { ascending: true })
         .limit(3);
@@ -65,6 +73,7 @@ export default function Dashboard() {
   };
 
   const fetchStats = async () => {
+    if (!user?.id) return;
     try {
       const start = startOfMonth(currentDate);
       const end = endOfMonth(currentDate);
@@ -72,6 +81,7 @@ export default function Dashboard() {
       const { data: transacoes, error } = await supabase
         .from('transacoes')
         .select('valor, tipo, data')
+        .eq('user_id', user.id)
         .gte('data', start.toISOString())
         .lte('data', end.toISOString());
 
@@ -96,11 +106,13 @@ export default function Dashboard() {
   };
 
   const loadMeta = async () => {
+    if (!user?.id) return;
     try {
       const mesRef = currentDate.toISOString().slice(0, 7);
       const { data, error } = await supabase
         .from('metas')
         .select('meta_faturamento')
+        .eq('user_id', user.id)
         .eq('mes_referencia', mesRef)
         .limit(1)
         .single();
@@ -117,7 +129,7 @@ export default function Dashboard() {
   const StatCard = ({ title, value, icon, colorClass, iconColorClass }: any) => (
     <div className="bg-white p-6 rounded-[2rem] shadow-soft flex items-center gap-4 border border-gray-50 group hover:shadow-md transition-all duration-300">
       <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110", colorClass)}>
-        <span className={cn("material-icons-round text-2xl", iconColorClass)}>{icon}</span>
+        <span className="material-icons-round text-2xl">{icon}</span>
       </div>
       <div>
         <p className="text-sm text-gray-400 font-medium uppercase tracking-widest mb-1">{title}</p>
@@ -135,10 +147,10 @@ export default function Dashboard() {
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-6">
           <div className="flex-1">
             <h2 className="text-xl font-medium text-[#1E1E2F] leading-tight tracking-tight mb-2">
-              Bom dia,<br />Ana Paula! 👋
+              Bom dia,<br />{settings.nome}! 👋
             </h2>
             <p className="text-[#5A5A69] text-sm font-medium max-w-md leading-relaxed opacity-70">
-              Gerencie suas encomendas e faturamento de Março.
+              Gerencie suas encomendas e faturamento de {format(currentDate, "MMMM", { locale: ptBR })}.
             </p>
           </div>
           <div className="flex items-center gap-4">

@@ -16,6 +16,7 @@ import { NovoItemCompraModal, ItemCompraData } from "@/components/lista-compras/
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 
 export interface ItemCompra {
   id: string;
@@ -28,25 +29,31 @@ export interface ItemCompra {
   prioridade: "baixa" | "media" | "alta";
   comprado: boolean;
   tipo_estoque: "ingrediente" | "acabado";
+  user_id?: string;
 }
 
 export default function ListaCompras() {
   const { toast } = useToast();
+  const { user } = useAuth();
   const [showNovoItem, setShowNovoItem] = useState(false);
   const [itens, setItens] = useState<ItemCompra[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetchItens();
-  }, []);
+    if (user?.id) {
+      fetchItens();
+    }
+  }, [user?.id]);
 
   const fetchItens = async () => {
+    if (!user?.id) return;
     try {
       setLoading(true);
       const { data, error } = await supabase
         .from('lista_compras')
         .select('*')
+        .eq('user_id', user.id)
         .order('comprado', { ascending: true })
         .order('created_at', { ascending: false });
 
@@ -67,6 +74,7 @@ export default function ListaCompras() {
   };
 
   const handleNovoItem = async (item: ItemCompraData) => {
+    if (!user?.id) return;
     try {
       const { data, error } = await supabase
         .from('lista_compras')
@@ -79,6 +87,7 @@ export default function ListaCompras() {
           categoria: item.categoria,
           prioridade: item.prioridade,
           tipo_estoque: item.tipoProduto,
+          user_id: user.id
         }])
         .select();
 
@@ -93,11 +102,13 @@ export default function ListaCompras() {
   };
 
   const handleToggleComprado = async (id: string, currentState: boolean) => {
+    if (!user?.id) return;
     try {
       const { error } = await supabase
         .from('lista_compras')
         .update({ comprado: !currentState })
-        .eq('id', id);
+        .eq('id', id)
+        .eq('user_id', user.id);
 
       if (error) throw error;
       setItens(itens.map(i => i.id === id ? { ...i, comprado: !currentState } : i));
@@ -107,8 +118,13 @@ export default function ListaCompras() {
   };
 
   const handleDelete = async (id: string) => {
+    if (!user?.id) return;
     try {
-      const { error } = await supabase.from('lista_compras').delete().eq('id', id);
+      const { error } = await supabase
+        .from('lista_compras')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', user.id);
       if (error) throw error;
       setItens(itens.filter(i => i.id !== id));
       toast({ title: "Item removido" });
@@ -118,6 +134,7 @@ export default function ListaCompras() {
   };
 
   const handleFinalizarCompra = async () => {
+    if (!user?.id) return;
     const comprados = itens.filter(i => i.comprado);
     if (comprados.length === 0) {
       toast({ title: "Nenhum item comprado para finalizar", variant: "destructive" });
@@ -129,7 +146,8 @@ export default function ListaCompras() {
 
       const { data: currentStock, error: stockError } = await supabase
         .from('produtos')
-        .select('*');
+        .select('*')
+        .eq('user_id', user.id);
 
       if (stockError) throw stockError;
 
@@ -146,7 +164,8 @@ export default function ListaCompras() {
               preco_medio: item.valor_unitario > 0 ? item.valor_unitario : existingProduct.preco_medio,
               fornecedor: item.fornecedor || existingProduct.fornecedor
             })
-            .eq('id', existingProduct.id);
+            .eq('id', existingProduct.id)
+            .eq('user_id', user.id);
 
           if (updateError) throw updateError;
         } else {
@@ -163,13 +182,18 @@ export default function ListaCompras() {
               preco_medio: item.valor_unitario,
               fornecedor: item.fornecedor,
               minimo: 1,
-              ativo: true
+              ativo: true,
+              user_id: user.id
             }]);
 
           if (insertError) throw insertError;
         }
 
-        await supabase.from('lista_compras').delete().eq('id', item.id);
+        await supabase
+          .from('lista_compras')
+          .delete()
+          .eq('id', item.id)
+          .eq('user_id', user.id);
       }
 
       setItens(itens.filter(i => !i.comprado));

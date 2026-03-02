@@ -6,6 +6,7 @@ import { DetalhesClienteModal } from "@/components/clientes/DetalhesClienteModal
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface Cliente {
     id: string;
@@ -19,10 +20,12 @@ interface Cliente {
     criado_em: string;
     totalPedidos?: number;
     totalGasto?: number;
+    user_id?: string;
 }
 
 export default function Clientes() {
     const { toast } = useToast();
+    const { user } = useAuth();
     const [showNovoCliente, setShowNovoCliente] = useState(false);
     const [showDetalhesCliente, setShowDetalhesCliente] = useState(false);
     const [clienteParaEditar, setClienteParaEditar] = useState<Cliente | null>(null);
@@ -32,22 +35,25 @@ export default function Clientes() {
     const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
-        fetchClientes();
-    }, []);
+        if (user?.id) {
+            fetchClientes();
+        }
+    }, [user?.id]);
 
     const fetchClientes = async () => {
+        if (!user?.id) return;
         try {
             setLoading(true);
 
-            // Fetch clients, orders, and transactions in parallel
+            // Fetch clients, orders, and transactions in parallel, all filtered by user_id
             const [
                 { data: clientsData, error: clientsError },
                 { data: ordersData, error: ordersError },
                 { data: transactionsData, error: transactionsError }
             ] = await Promise.all([
-                supabase.from('clientes').select('*').order('nome', { ascending: true }),
-                supabase.from('pedidos').select('cliente'),
-                supabase.from('transacoes').select('cliente, valor').eq('tipo', 'receita')
+                supabase.from('clientes').select('*').eq('user_id', user.id).order('nome', { ascending: true }),
+                supabase.from('pedidos').select('cliente').eq('user_id', user.id),
+                supabase.from('transacoes').select('cliente, valor').eq('tipo', 'receita').eq('user_id', user.id)
             ]);
 
             if (clientsError) throw clientsError;
@@ -85,19 +91,24 @@ export default function Clientes() {
     };
 
     const handleSaveCliente = async (clienteData: ClienteData) => {
+        if (!user?.id) return;
         try {
+            const payload = {
+                nome: clienteData.nome,
+                telefone: clienteData.telefone,
+                email: clienteData.email || "",
+                cpf_cnpj: clienteData.cpfCnpj || "",
+                endereco: clienteData.endereco,
+                notas: clienteData.notas,
+                user_id: user.id
+            };
+
             if (clienteParaEditar) {
                 const { data, error } = await supabase
                     .from('clientes')
-                    .update({
-                        nome: clienteData.nome,
-                        telefone: clienteData.telefone,
-                        email: clienteData.email || "",
-                        cpf_cnpj: clienteData.cpfCnpj || "",
-                        endereco: clienteData.endereco,
-                        notas: clienteData.notas
-                    })
+                    .update(payload)
                     .eq('id', clienteParaEditar.id)
+                    .eq('user_id', user.id)
                     .select();
 
                 if (error) throw error;
@@ -112,14 +123,7 @@ export default function Clientes() {
             } else {
                 const { data, error } = await supabase
                     .from('clientes')
-                    .insert([{
-                        nome: clienteData.nome,
-                        telefone: clienteData.telefone,
-                        email: clienteData.email || "",
-                        cpf_cnpj: clienteData.cpfCnpj || "",
-                        endereco: clienteData.endereco,
-                        notas: clienteData.notas
-                    }])
+                    .insert([payload])
                     .select();
 
                 if (error) throw error;
@@ -144,11 +148,13 @@ export default function Clientes() {
     };
 
     const handleDeleteCliente = async (id: string, nome: string) => {
+        if (!user?.id) return;
         try {
             const { error } = await supabase
                 .from('clientes')
                 .delete()
-                .eq('id', id);
+                .eq('id', id)
+                .eq('user_id', user.id);
 
             if (error) throw error;
 

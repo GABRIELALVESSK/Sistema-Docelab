@@ -22,6 +22,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { format, parseISO } from "date-fns";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface Transacao {
     id: string;
@@ -33,6 +34,7 @@ interface Transacao {
     cliente?: string;
     id_referencia?: string;
     categoria?: string;
+    user_id?: string;
 }
 
 interface MetodoDetalhado {
@@ -46,21 +48,26 @@ interface MetodoDetalhado {
 
 export default function Caixa() {
     const { toast } = useToast();
+    const { user } = useAuth();
     const [transacoes, setTransacoes] = useState<Transacao[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<"entradas" | "saidas">("entradas");
     const [selectedMetodo, setSelectedMetodo] = useState<string | null>(null);
 
     useEffect(() => {
-        fetchTransacoes();
-    }, []);
+        if (user?.id) {
+            fetchTransacoes();
+        }
+    }, [user?.id]);
 
     const fetchTransacoes = async () => {
+        if (!user?.id) return;
         try {
             setLoading(true);
             const { data, error } = await supabase
                 .from('transacoes')
                 .select('*')
+                .eq('user_id', user.id)
                 .order('data', { ascending: false });
 
             if (error) throw error;

@@ -22,6 +22,7 @@ import {
 import { ptBR } from "date-fns/locale";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/contexts/AuthContext";
 
 
 type ViewMode = "lista" | "calendario";
@@ -39,10 +40,12 @@ interface Pedido {
   imagem_inspiracao?: string | null;
   notas?: string;
   criadoEm?: Date;
+  user_id?: string;
 }
 
 export default function Pedidos() {
   const { toast } = useToast();
+  const { user } = useAuth();
   const [showNovaEncomenda, setShowNovaEncomenda] = useState(false);
   const [showDetalhes, setShowDetalhes] = useState(false);
   const [showPagamento, setShowPagamento] = useState(false);
@@ -56,15 +59,19 @@ export default function Pedidos() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetchPedidos();
-  }, []);
+    if (user?.id) {
+      fetchPedidos();
+    }
+  }, [user?.id]);
 
   const fetchPedidos = async () => {
+    if (!user?.id) return;
     try {
       setLoading(true);
       const { data, error } = await supabase
         .from('pedidos')
         .select('*')
+        .eq('user_id', user.id)
         .order('data', { ascending: true });
 
       if (error) throw error;
@@ -132,12 +139,13 @@ export default function Pedidos() {
   );
 
   const handleNovaEncomenda = async (encomenda: EncomendaData) => {
+    if (!user?.id) return;
     try {
       let imageUrl = null;
       if (encomenda.imagemInspiracao instanceof File) {
         const file = encomenda.imagemInspiracao;
         const fileExt = file.name.split('.').pop();
-        const fileName = `${Math.random()}.${fileExt}`;
+        const fileName = `${user.id}/${Math.random()}.${fileExt}`;
         const filePath = `${fileName}`;
 
         const { error: uploadError } = await supabase.storage
@@ -167,6 +175,7 @@ export default function Pedidos() {
         status: encomenda.estado,
         notas: encomenda.notas,
         imagem_inspiracao: imageUrl,
+        user_id: user.id
       };
 
       if (selectedPedido) {
@@ -174,6 +183,7 @@ export default function Pedidos() {
           .from('pedidos')
           .update(pedidoPayload)
           .eq('id', selectedPedido.id)
+          .eq('user_id', user.id)
           .select());
       } else {
         ({ data, error } = await supabase
@@ -223,8 +233,14 @@ export default function Pedidos() {
   };
 
   const handleDelete = async (pedido: Pedido) => {
+    if (!user?.id) return;
     try {
-      const { error } = await supabase.from('pedidos').delete().eq('id', pedido.id);
+      const { error } = await supabase
+        .from('pedidos')
+        .delete()
+        .eq('id', pedido.id)
+        .eq('user_id', user.id);
+
       if (error) throw error;
       setPedidos(pedidos.filter((p) => p.id !== pedido.id));
       toast({ title: "Pedido excluído" });
@@ -234,8 +250,14 @@ export default function Pedidos() {
   };
 
   const handleStatusChange = async (pedidoId: string, newStatus: Pedido["status"]) => {
+    if (!user?.id) return;
     try {
-      const { error } = await supabase.from('pedidos').update({ status: newStatus }).eq('id', pedidoId);
+      const { error } = await supabase
+        .from('pedidos')
+        .update({ status: newStatus })
+        .eq('id', pedidoId)
+        .eq('user_id', user.id);
+
       if (error) throw error;
       setPedidos(pedidos.map((p) => p.id === pedidoId ? { ...p, status: newStatus } : p));
     } catch (error: any) {
@@ -244,7 +266,7 @@ export default function Pedidos() {
   };
 
   const handleRegistrarPagamento = async (pagamento: any) => {
-    if (!selectedPedido) return;
+    if (!selectedPedido || !user?.id) return;
     try {
       const { error } = await supabase.from('transacoes').insert([{
         tipo: 'receita',
@@ -253,7 +275,8 @@ export default function Pedidos() {
         valor: pagamento.valor,
         data: new Date().toISOString(),
         cliente: selectedPedido.cliente,
-        metodo: pagamento.formaPagamento
+        metodo: pagamento.formaPagamento,
+        user_id: user.id
       }]);
       if (error) throw error;
       toast({ title: "Pagamento registrado!" });
