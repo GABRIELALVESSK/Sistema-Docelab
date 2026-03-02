@@ -468,13 +468,15 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
             if (!usarBlocoMaoObra) custoBaseUnitarioFinal += (custoGasCalculado + custoMaoObraCalculada) / yieldVal;
             const precosSugeridos = [...(pricingSettings.margens_lucro || [30, 50, 70]), 100].map((m: number) => ({ margem: m, valor: custoBaseUnitarioFinal * (1 + m / 100) }));
             const custoOperacionalTotal = result.cmv_total + custoGasCalculado + custoMaoObraCalculada;
+            const custoTotalLote = custoBaseUnitarioFinal * yieldVal;
             return {
                 ...result,
                 custo_gas: custoGasCalculado,
                 custo_mao_obra: custoMaoObraCalculada,
                 custo_unidade_final: custoBaseUnitarioFinal,
                 precos_sugeridos: precosSugeridos,
-                custo_operacional_total: custoOperacionalTotal
+                custo_operacional_total: custoOperacionalTotal,
+                custo_total_lote: custoTotalLote
             };
         } catch (e) { return null; }
     }, [ingredientesVinculados, stockItems, rendimentoUnidades, pricingSettings, tempoProducaoMinutos, totalCustosFixos, usarBlocoUtensilios, usarBlocoMaoObra]);
@@ -844,7 +846,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                                 <p className="text-2xl font-black text-accent-textGreen tracking-tight">{formatarMoeda(precoVenda * rendimentoUnidades)}</p>
                                                 {calculo && (
                                                     <p className="text-[9px] font-bold text-green-600/70 uppercase tracking-widest mt-0.5">
-                                                        Lucro Bruto: {formatarMoeda((precoVenda * rendimentoUnidades) - (calculo.custo_operacional_total || 0))}
+                                                        Lucro Líquido: {formatarMoeda((precoVenda * rendimentoUnidades) - (calculo.custo_total_lote || 0))}
                                                     </p>
                                                 )}
                                             </div>
@@ -910,10 +912,10 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                             <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
                                                 <div className="flex items-center gap-2 text-gray-500">
                                                     <span className="material-symbols-outlined text-sm text-green-500">account_balance_wallet</span>
-                                                    <span className="text-[10px] font-bold uppercase tracking-wide">Custo Operacional</span>
+                                                    <span className="text-[10px] font-bold uppercase tracking-wide">Custo Total (Lote)</span>
                                                 </div>
-                                                <div className="text-2xl font-bold text-gray-900">{formatarMoeda(calculo?.custo_operacional_total || 0)}</div>
-                                                <div className="text-[10px] text-gray-400">CMV + Gás + MO</div>
+                                                <div className="text-2xl font-bold text-gray-900">{formatarMoeda(calculo?.custo_total_lote || 0)}</div>
+                                                <div className="text-[10px] text-gray-400">Soma de todos os custos</div>
                                             </div>
                                         </div>
 
@@ -941,7 +943,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                                     <p className="text-3xl font-black text-green-600 tracking-tighter">{formatarMoeda(precoVenda * rendimentoUnidades)}</p>
                                                     {calculo && (
                                                         <p className="text-[8px] font-black text-green-500/70 uppercase tracking-widest mt-0.5">
-                                                            Lucro: {formatarMoeda((precoVenda * rendimentoUnidades) - (calculo.custo_operacional_total || 0))}
+                                                            Lucro Líquido: {formatarMoeda((precoVenda * rendimentoUnidades) - (calculo.custo_total_lote || 0))}
                                                         </p>
                                                     )}
                                                 </div>
