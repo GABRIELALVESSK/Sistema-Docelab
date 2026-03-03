@@ -185,7 +185,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                     usos_amortizacao, 
                     produtos(nome, unidade, preco_medio),
                     receitas!receita_componente_id(id, nome, unidade_rendimento, cmv_unitario, custo_unitario, preco_venda),
-                    kits:kit_componente_id(id, nome, preco_venda)
+                    kits:kit_componente_id(id, nome, preco_venda, custo_total, rendimento_unidades, unidade_rendimento)
                 `)
                 .eq('receita_id', receitaId);
 
@@ -227,11 +227,11 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                             kitComponenteId: i.kit_componente_id,
                             nome: i.kits?.nome || "Kit desconhecido",
                             quantidade: i.quantidade,
-                            unidade: "un",
+                            unidade: i.unidade || i.kits?.unidade_rendimento || "un",
                             modo_custo: 'proporcional',
                             usos_amortizacao: 1,
                             tipo: 'kit',
-                            custo_unitario: i.kits?.preco_venda || 0
+                            custo_unitario: i.kits?.custo_total || i.kits?.preco_venda || 0
                         });
                     }
                 });
@@ -247,7 +247,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
         const [produtosRes, receitasRes, kitsRes] = await Promise.all([
             supabase.from('produtos').select('*').eq('user_id', user.id),
             supabase.from('receitas').select('*').eq('user_id', user.id),
-            supabase.from('kits_receitas').select('*').eq('user_id', user.id)
+            supabase.from('kits_receitas').select('*').or(`user_id.eq.${user.id},user_id.is.null`)
         ]);
         if (produtosRes.data) setStockItems(produtosRes.data);
         if (receitasRes.data) setAllReceitas(receitasRes.data.filter(r => r.id !== receitaParaEditar?.id));
@@ -306,7 +306,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
         const novo: IngredienteVinculado = {
             nome: item.nome,
             quantidade: 1,
-            unidade: item.rendimento.split(' ')[1] || item.rendimento || "un",
+            unidade: item.tipo === 'kit' ? (item.original.unidade_rendimento || "un") : (item.rendimento.split(' ')[1] || item.rendimento || "un"),
             modo_custo: 'proporcional',
             usos_amortizacao: 1,
             tipo: tipo,
@@ -342,6 +342,13 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
         }));
     };
 
+    const updateStockItemUnidade = (id: string, tipo: string, unidade: string) => {
+        setIngredientesVinculados(ingredientesVinculados.map(i => {
+            const isMatch = (tipo === 'ingrediente' && i.produtoId === id) || (tipo === 'receita' && i.receitaComponenteId === id) || (tipo === 'kit' && i.kitComponenteId === id);
+            return isMatch ? { ...i, unidade } : i;
+        }));
+    };
+
     const validateStep1 = () => {
         if (!nome) {
             toast({ title: "Nome obrigatório", variant: "destructive" });
@@ -357,6 +364,10 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
 
     const handleBack = () => {
         setStep(Math.max(1, step - 1));
+    };
+
+    const resetForm = () => {
+        setNome(""); setCategoria(""); setTempoPreparo(""); setIngredientesTexto(""); setModoPreparo(""); setRendimentoUnidades(1); setUnidadeRendimento("un"); setPrecoVenda(0); setFoto(null); setFotoPreview(null); setIngredientesVinculados([]); setTempoProducaoMinutos(0); setMargemLucroAlvo(100); setUsarBlocoUtensilios(false); setUsarBlocoMaoObra(false); setStep(1);
     };
 
     const handleSubmitInternal = async () => {
@@ -387,6 +398,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                     receita_componente_id: i.receitaComponenteId,
                     kit_componente_id: i.kitComponenteId,
                     quantidade: i.quantidade,
+                    unidade: i.unidade,
                     modo_custo: i.modo_custo,
                     usos_amortizacao: i.usos_amortizacao
                 })),
@@ -402,9 +414,6 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
         }
     };
 
-    const resetForm = () => {
-        setNome(""); setCategoria(""); setTempoPreparo(""); setIngredientesTexto(""); setModoPreparo(""); setRendimentoUnidades(1); setUnidadeRendimento("un"); setPrecoVenda(0); setFoto(null); setFotoPreview(null); setIngredientesVinculados([]); setTempoProducaoMinutos(0); setMargemLucroAlvo(100); setUsarBlocoUtensilios(false); setUsarBlocoMaoObra(false); setStep(1);
-    };
 
     const calculo = useMemo(() => {
         if (!pricingSettings) return null;
@@ -418,8 +427,14 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                         id: componentId,
                         nome: i.nome,
                         categoria: i.tipo === 'receita' ? 'Receitas' : 'Kits',
-                        unidade_compra: i.unidade as any || 'un',
-                        quantidade_por_embalagem: 1,
+                        unidade_compra: (i.tipo === 'kit'
+                            ? (allKits.find(k => k.id === i.kitComponenteId)?.unidade_rendimento || i.unidade || 'un')
+                            : (allReceitas.find(r => r.id === i.receitaComponenteId)?.unidade_rendimento || i.unidade || 'un')
+                        ) as any,
+                        quantidade_por_embalagem: (i.tipo === 'kit'
+                            ? (allKits.find(k => k.id === i.kitComponenteId)?.rendimento_unidades || 1)
+                            : (allReceitas.find(r => r.id === i.receitaComponenteId)?.rendimento_unidades || 1)
+                        ),
                         preco_embalagem: i.custo_unitario || 0,
                         perdas_percentual: 0,
                         ativo: true
@@ -711,7 +726,28 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                                                     onChange={(e) => updateStockItemQuantity(itemId, item.tipo, parseFloat(e.target.value) || 0)}
                                                                     className="w-12 h-full border-none bg-transparent p-0 text-center font-bold text-gray-900 focus:ring-0"
                                                                 />
-                                                                <span className="text-[10px] font-bold text-gray-400 uppercase border-l pl-2 ml-1">{item.unidade}</span>
+                                                                <div className="border-l pl-2 ml-1 min-w-[40px]">
+                                                                    <Select value={item.unidade} onValueChange={(v) => updateStockItemUnidade(itemId, item.tipo, v)}>
+                                                                        <SelectTrigger className="h-6 border-none bg-transparent p-0 shadow-none focus:ring-0 font-bold text-gray-400 text-[10px] uppercase">
+                                                                            <SelectValue />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent className="rounded-xl border-none shadow-xl min-w-[60px]">
+                                                                            {item.unidade === 'g' || item.unidade === 'kg' ? (
+                                                                                <>
+                                                                                    <SelectItem value="g" className="text-[10px] font-bold uppercase">g</SelectItem>
+                                                                                    <SelectItem value="kg" className="text-[10px] font-bold uppercase">kg</SelectItem>
+                                                                                </>
+                                                                            ) : item.unidade === 'ml' || item.unidade === 'L' ? (
+                                                                                <>
+                                                                                    <SelectItem value="ml" className="text-[10px] font-bold uppercase">ml</SelectItem>
+                                                                                    <SelectItem value="L" className="text-[10px] font-bold uppercase">L</SelectItem>
+                                                                                </>
+                                                                            ) : (
+                                                                                <SelectItem value={item.unidade} className="text-[10px] font-bold uppercase">{item.unidade}</SelectItem>
+                                                                            )}
+                                                                        </SelectContent>
+                                                                    </Select>
+                                                                </div>
                                                             </div>
                                                             <Select value={item.modo_custo} onValueChange={(v) => updateStockItemModo(itemId, item.tipo, v)}>
                                                                 <SelectTrigger className="h-10 w-[110px] sm:w-[130px] rounded-[14px] border border-gray-100 bg-white font-bold text-[10px] uppercase tracking-wider text-gray-600 focus:ring-0">

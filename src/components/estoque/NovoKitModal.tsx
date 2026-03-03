@@ -63,15 +63,26 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
     const [papelSelecionado, setPapelSelecionado] = useState("Casca");
     const [qtdItem, setQtdItem] = useState(1);
     const [unidadeSelecionada, setUnidadeSelecionada] = useState("un");
+    const [rendimentoUnidades, setRendimentoUnidades] = useState(1);
+    const [unidadeRendimento, setUnidadeRendimento] = useState("un");
     const [loading, setLoading] = useState(false);
     const [showSelector, setShowSelector] = useState(false);
 
     const fetchData = async () => {
         if (!user?.id) return;
         const [receitasRes, produtosRes, kitsRes] = await Promise.all([
-            supabase.from("receitas").select("id, nome, preco_venda, rendimento_unidades, unidade_rendimento, custo_unitario, cmv_unitario").eq("user_id", user.id).order("nome", { ascending: true }),
-            supabase.from("produtos").select("id, nome, preco_medio, unidade").eq("user_id", user.id).order("nome", { ascending: true }),
-            supabase.from("kits_receitas").select("id, nome, preco_venda").eq("user_id", user.id).order("nome", { ascending: true })
+            supabase.from("receitas")
+                .select("id, nome, preco_venda, rendimento_unidades, unidade_rendimento, custo_unitario, cmv_unitario")
+                .eq("user_id", user.id)
+                .order("nome", { ascending: true }),
+            supabase.from("produtos")
+                .select("id, nome, preco_medio, unidade")
+                .eq("user_id", user.id)
+                .order("nome", { ascending: true }),
+            supabase.from("kits_receitas")
+                .select("id, nome, preco_venda, rendimento_unidades, unidade_rendimento")
+                .or(`user_id.eq.${user.id},user_id.is.null`)
+                .order("nome", { ascending: true })
         ]);
 
         const fetchedReceitas = receitasRes.data?.map(r => ({ ...r, tipo: 'receita' as const })) || [];
@@ -86,6 +97,8 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
             setNome(kitParaEditar.nome || "");
             setDescricao(kitParaEditar.descricao || "");
             setPrecoVenda(kitParaEditar.preco_venda?.toString() || "");
+            setRendimentoUnidades(kitParaEditar.rendimento_unidades || 1);
+            setUnidadeRendimento(kitParaEditar.unidade_rendimento || "un");
 
             setItensKit(kitParaEditar.itens.map((i: any) => {
                 let custo = 0;
@@ -127,6 +140,8 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
         setPapelSelecionado("Casca");
         setQtdItem(1);
         setUnidadeSelecionada("un");
+        setRendimentoUnidades(1);
+        setUnidadeRendimento("un");
     };
 
     const resetForm = () => {
@@ -222,6 +237,9 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
             nome,
             descricao,
             preco_venda: parseFloat(precoVenda.replace(',', '.')) || precoSugerido,
+            custo_total: custoTotal,
+            rendimento_unidades: rendimentoUnidades,
+            unidade_rendimento: unidadeRendimento,
             itens: itensKit.map(i => ({
                 receita_id: i.receitaId,
                 produto_id: i.produtoId,
@@ -288,6 +306,29 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
                                         onChange={(e) => setDescricao(e.target.value)}
                                         className="h-12 bg-[#FDFCFB] text-sm font-semibold text-gray-700 px-5"
                                     />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label className="premium-label">Rendimento Total do Kit *</Label>
+                                    <div className="flex gap-3">
+                                        <Input
+                                            type="number"
+                                            value={rendimentoUnidades}
+                                            onChange={(e) => setRendimentoUnidades(parseFloat(e.target.value) || 1)}
+                                            className="h-12 w-1/2 bg-[#FDFCFB] text-sm font-black text-center text-gray-700 px-5"
+                                            required
+                                        />
+                                        <Select value={unidadeRendimento} onValueChange={setUnidadeRendimento}>
+                                            <SelectTrigger className="h-12 w-1/2 bg-[#FDFCFB] border-gray-100 rounded-[14px] text-xs font-bold text-gray-700">
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent className="rounded-2xl border-none shadow-xl">
+                                                {['un', 'g', 'kg', 'ml', 'L'].map(u => (
+                                                    <SelectItem key={u} value={u} className="text-xs font-bold">{u}</SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
                                 </div>
                             </div>
 

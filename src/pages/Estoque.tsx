@@ -78,6 +78,8 @@ interface KitReceita {
   nome: string;
   descricao?: string;
   preco_venda: number;
+  custo_total?: number;
+  unidade_rendimento?: string;
   created_at?: string;
   itens?: ItemKitFetch[];
   user_id?: string;
@@ -114,13 +116,11 @@ export default function Estoque() {
     try {
       const { data: kitsData, error } = await supabase
         .from('kits_receitas')
-        .select('*')
-        .eq('user_id', user.id)
+        .select('*, custo_total, rendimento_unidades, unidade_rendimento')
+        .or(`user_id.eq.${user.id},user_id.is.null`)
         .order('created_at', { ascending: false });
-      if (error) {
-        if (!error.message.includes('does not exist')) throw error;
-        return;
-      }
+      if (error) throw error;
+      console.log('fetchKits result:', kitsData);
       if (kitsData) {
         // Fetch items for each kit in parallel
         const kitsComItens = await Promise.all(
@@ -149,6 +149,11 @@ export default function Estoque() {
       }
     } catch (error: any) {
       console.error('Erro ao carregar kits:', error);
+      toast({
+        title: "Erro ao carregar kits",
+        description: error.message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -305,6 +310,9 @@ export default function Estoque() {
             nome: kit.nome,
             descricao: kit.descricao,
             preco_venda: kit.preco_venda,
+            custo_total: kit.custo_total,
+            rendimento_unidades: kit.rendimento_unidades,
+            unidade_rendimento: kit.unidade_rendimento,
             user_id: user.id
           })
           .eq('id', kit.id)
@@ -338,6 +346,9 @@ export default function Estoque() {
             nome: kit.nome,
             descricao: kit.descricao,
             preco_venda: kit.preco_venda,
+            custo_total: kit.custo_total,
+            rendimento_unidades: kit.rendimento_unidades,
+            unidade_rendimento: kit.unidade_rendimento,
             user_id: user.id
           }])
           .select()
@@ -592,6 +603,10 @@ export default function Estoque() {
                       <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-400">Valor Mensal</TableHead>
                       <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-400">Status</TableHead>
                     </>
+                  ) : activeTab === "Kits" ? (
+                    <>
+                      <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-400 text-right pr-12">Valores</TableHead>
+                    </>
                   ) : (
                     <>
                       <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-400">Estoque Atual</TableHead>
@@ -707,26 +722,18 @@ export default function Estoque() {
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell colSpan={2}>
-                          <div className="flex flex-wrap gap-1">
-                            {(kit.itens || []).slice(0, 3).map((item, idx) => (
-                              <span key={idx} className="px-2 py-0.5 bg-gray-100 text-gray-500 text-[8px] font-bold rounded-md border border-gray-200/50 uppercase tracking-wider">
-                                {item.nome}
-                              </span>
-                            ))}
-                            {(kit.itens || []).length > 3 && (
-                              <span className="px-2 py-0.5 bg-gray-50 text-gray-400 text-[10px] font-bold rounded-md border border-gray-100/50 uppercase">
-                                +{kit.itens.length - 3} itens
-                              </span>
-                            )}
-                          </div>
-                        </TableCell>
                         <TableCell className="text-right pr-12">
                           <div className="flex flex-col items-end">
                             <span className="text-sm font-black text-gray-900 tracking-tight">
                               {kit.preco_venda.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                             </span>
                             <span className="text-[8px] font-bold text-gray-300 uppercase tracking-widest mt-0.5">Preço de Venda</span>
+                          </div>
+                          <div className="flex flex-col items-end mt-2">
+                            <span className="text-[12px] font-bold text-gray-600 tracking-tight">
+                              {(kit.custo_total || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            </span>
+                            <span className="text-[8px] font-bold text-gray-300 uppercase tracking-widest">Custo de Produção</span>
                           </div>
                         </TableCell>
                         <TableCell className="text-right pr-10">
@@ -856,8 +863,8 @@ export default function Estoque() {
               </TableBody>
             </Table>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
 
       <NovoProdutoModal
         open={showNovoProduto}
