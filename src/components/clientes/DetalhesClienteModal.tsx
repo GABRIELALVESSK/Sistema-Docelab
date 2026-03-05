@@ -59,15 +59,15 @@ export function DetalhesClienteModal({ open, onOpenChange, cliente }: DetalhesCl
                         <div className="grid grid-cols-3 gap-3">
                             <div className="p-4 rounded-3xl border border-border/40 bg-white shadow-sm text-center">
                                 <p className="text-2xl font-bold text-[#EFB6BF] mb-1">0</p>
-                                <p className="text-[10px] uppercase tracking-wider font-bold text-muted-foreground">Pedidos</p>
+                                <p className="text-[12px] uppercase tracking-wider font-bold text-muted-foreground">Pedidos</p>
                             </div>
                             <div className="p-4 rounded-3xl border border-border/40 bg-white shadow-sm text-center">
                                 <p className="text-2xl font-bold text-receita mb-1">R$ 0,00</p>
-                                <p className="text-[10px] uppercase tracking-wider font-bold text-muted-foreground">Total Gasto</p>
+                                <p className="text-[12px] uppercase tracking-wider font-bold text-muted-foreground">Total Gasto</p>
                             </div>
                             <div className="p-4 rounded-3xl border border-border/40 bg-white shadow-sm text-center flex flex-col justify-center">
                                 <p className="text-xl font-bold text-foreground mb-1">-</p>
-                                <p className="text-[10px] uppercase tracking-wider font-bold text-muted-foreground">Último Pedido</p>
+                                <p className="text-[12px] uppercase tracking-wider font-bold text-muted-foreground">Último Pedido</p>
                             </div>
                         </div>
 

@@ -90,21 +90,21 @@ export function DetalhesEncomendaModal({ open, onOpenChange, pedido }: DetalhesE
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                <Package className="w-4 h-4 text-gray-400" />
+                <Package className="w-4 h-4 text-gray-500" />
               </div>
               <div>
                 <h2 className="text-base font-black text-gray-900 tracking-tight">Detalhes da Encomenda</h2>
-                <p className="text-[10px] font-medium text-gray-400">Informações completas do pedido</p>
+                <p className="text-[12px] font-medium text-gray-500">Informações completas do pedido</p>
               </div>
             </div>
 
             {/* Action Buttons */}
             <div className="flex items-center gap-1">
               <Button variant="outline" size="icon" className="w-8 h-8 rounded-lg border-gray-100 hover:bg-gray-50" title="Gerar PDF">
-                <FileText className="w-3.5 h-3.5 text-gray-400" />
+                <FileText className="w-3.5 h-3.5 text-gray-500" />
               </Button>
               <Button variant="outline" size="icon" className="w-8 h-8 rounded-lg border-gray-100 hover:bg-gray-50" title="Imprimir Via Térmica">
-                <Printer className="w-3.5 h-3.5 text-gray-400" />
+                <Printer className="w-3.5 h-3.5 text-gray-500" />
               </Button>
               <Button
                 variant="outline"
@@ -134,9 +134,9 @@ export function DetalhesEncomendaModal({ open, onOpenChange, pedido }: DetalhesE
         <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4 custom-scrollbar">
           {/* Status Row */}
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Estado</span>
+            <span className="text-[12px] font-black text-gray-500 uppercase tracking-widest">Estado</span>
             <span className={cn(
-              "px-3 py-1 text-[10px] font-black uppercase tracking-wider rounded-full border",
+              "px-3 py-1 text-[12px] font-black uppercase tracking-wider rounded-full border",
               statusColors[pedido.status]
             )}>
               {statusLabels[pedido.status]}
@@ -147,17 +147,17 @@ export function DetalhesEncomendaModal({ open, onOpenChange, pedido }: DetalhesE
           <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center">
-                <User className="w-4 h-4 text-gray-400" />
+                <User className="w-4 h-4 text-gray-500" />
               </div>
               <div>
                 <p className="text-sm font-black text-gray-900">{pedido.cliente}</p>
-                <p className="text-[10px] font-bold text-gray-400">{pedido.telefone || "Sem telefone"}</p>
+                <p className="text-[12px] font-bold text-gray-500">{pedido.telefone || "Sem telefone"}</p>
               </div>
             </div>
             {pedido.telefone && (
               <button
                 onClick={() => window.open(formatWhatsAppLink("Olá! Tudo bem?"), "_blank")}
-                className="flex items-center gap-1.5 text-[#25D366] font-bold text-[10px] hover:bg-[#25D366]/5 p-2 rounded-lg transition-colors"
+                className="flex items-center gap-1.5 text-[#25D366] font-bold text-[12px] hover:bg-[#25D366]/5 p-2 rounded-lg transition-colors"
               >
                 <MessageCircle className="w-3.5 h-3.5 fill-current" />
                 WhatsApp
@@ -168,8 +168,8 @@ export function DetalhesEncomendaModal({ open, onOpenChange, pedido }: DetalhesE
           {/* Items List */}
           <div className="space-y-2">
             <div className="flex items-center gap-1.5">
-              <Package className="w-3.5 h-3.5 text-gray-400" />
-              <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Produtos</span>
+              <Package className="w-3.5 h-3.5 text-gray-500" />
+              <span className="text-[12px] font-black text-gray-500 uppercase tracking-widest">Produtos</span>
             </div>
             <div className="space-y-1.5">
               {itemsList.map((item, idx) => (
@@ -180,7 +180,7 @@ export function DetalhesEncomendaModal({ open, onOpenChange, pedido }: DetalhesE
                     </div>
                     <div>
                       <p className="text-xs font-black text-gray-800">{item.produto}</p>
-                      <p className="text-[10px] font-bold text-gray-400">{item.quantidade} un. × R$ {item.preco.toFixed(2).replace('.', ',')}</p>
+                      <p className="text-[12px] font-bold text-gray-500">{item.quantidade} un. × R$ {item.preco.toFixed(2).replace('.', ',')}</p>
                     </div>
                   </div>
                   <p className="text-xs font-black text-gray-900">
@@ -196,7 +196,7 @@ export function DetalhesEncomendaModal({ open, onOpenChange, pedido }: DetalhesE
             <div className="p-3 bg-white rounded-xl border border-gray-50 shadow-sm space-y-0.5">
               <div className="flex items-center gap-1.5 text-[#EFB6BF]">
                 <Calendar className="w-3 h-3" />
-                <span className="text-[10px] font-black uppercase tracking-widest">Data</span>
+                <span className="text-[12px] font-black uppercase tracking-widest">Data</span>
               </div>
               <p className="text-xs font-black text-gray-800">
                 {format(pedido.data, "dd/MM/yyyy", { locale: ptBR })}
@@ -205,7 +205,7 @@ export function DetalhesEncomendaModal({ open, onOpenChange, pedido }: DetalhesE
             <div className="p-3 bg-white rounded-xl border border-gray-50 shadow-sm space-y-0.5">
               <div className="flex items-center gap-1.5 text-blue-400">
                 <Clock className="w-3 h-3" />
-                <span className="text-[10px] font-black uppercase tracking-widest">Horário</span>
+                <span className="text-[12px] font-black uppercase tracking-widest">Horário</span>
               </div>
               <p className="text-xs font-black text-gray-800">
                 {pedido.hora_entrega || "Não definido"}
@@ -216,7 +216,7 @@ export function DetalhesEncomendaModal({ open, onOpenChange, pedido }: DetalhesE
           {/* Financial Summary */}
           <div className="p-4 bg-gradient-to-br from-[#EFB6BF] to-[#e8a0ab] rounded-2xl shadow-md shadow-[#EFB6BF]/20 flex justify-between items-center text-white">
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.15em] opacity-80">Total da Encomenda</p>
+              <p className="text-[12px] font-black uppercase tracking-[0.15em] opacity-80">Total da Encomenda</p>
               <p className="text-xl font-black tracking-tight">
                 R$ {valorTotal.toFixed(2).replace('.', ',')}
               </p>
@@ -229,7 +229,7 @@ export function DetalhesEncomendaModal({ open, onOpenChange, pedido }: DetalhesE
           {/* Notas */}
           {pedido.notas && (
             <div className="p-3 bg-amber-50 rounded-xl border border-amber-100/50">
-              <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1">Observações</p>
+              <p className="text-[12px] font-black text-amber-600 uppercase tracking-widest mb-1">Observações</p>
               <p className="text-xs text-amber-900/70 font-medium italic leading-relaxed">"{pedido.notas}"</p>
             </div>
           )}
@@ -237,7 +237,7 @@ export function DetalhesEncomendaModal({ open, onOpenChange, pedido }: DetalhesE
 
         {/* Footer */}
         <div className="px-6 py-4 border-t border-gray-50 bg-gray-50/30">
-          <div className="flex items-center justify-between text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+          <div className="flex items-center justify-between text-[12px] font-bold text-gray-500 uppercase tracking-widest">
             <span>#{pedido.id.slice(0, 8)}</span>
             <span>{pedido.criadoEm ? format(pedido.criadoEm, "dd/MM/yyyy 'às' HH:mm") : '...'}</span>
           </div>

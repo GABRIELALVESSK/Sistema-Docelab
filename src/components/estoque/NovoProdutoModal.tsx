@@ -182,7 +182,7 @@ export function NovoProdutoModal({ open, onOpenChange, onSubmit, produto }: Novo
                   </div>
                 </label>
               </div>
-              <p className="text-[11px] text-muted-foreground font-medium italic opacity-70">
+              <p className="text-[13px] text-muted-foreground font-medium italic opacity-70">
                 {tipoProduto === "ingrediente"
                   ? "Ingredientes são usados em receitas e deduzidos na produção."
                   : "Produtos acabados podem ser vendidos diretamente em encomendas e orçamentos."}
@@ -332,7 +332,7 @@ export function NovoProdutoModal({ open, onOpenChange, onSubmit, produto }: Novo
                   onChange={(e) => setPrecoVenda(parseFloat(e.target.value) || 0)}
                   className="bg-[#FDFCFB] border-none h-12 rounded-2xl font-bold"
                 />
-                <p className="text-[10px] text-muted-foreground font-medium opacity-60">
+                <p className="text-[12px] text-muted-foreground font-medium opacity-60">
                   Este preço será usado como sugestão em encomendas e orçamentos.
                 </p>
               </div>

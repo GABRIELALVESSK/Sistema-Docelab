@@ -44,7 +44,7 @@ export default function Configuracoes() {
 
         // Determine colors based on state
         let borderColor = "border-gray-100 dark:border-gray-700 opacity-60";
-        let textColor = "text-gray-400";
+        let textColor = "text-gray-500";
         let progressBg = "bg-gray-100 dark:bg-gray-700";
         let progressWidth = "w-0";
 
@@ -79,7 +79,7 @@ export default function Configuracoes() {
                 </div>
                 <div className={cn(
                     "text-lg font-bold",
-                    isActive || isPast ? "text-gray-800 dark:text-white" : "text-gray-400 dark:text-gray-500"
+                    isActive || isPast ? "text-gray-800 dark:text-white" : "text-gray-500 dark:text-gray-500"
                 )}>
                     {label}
                 </div>
@@ -97,7 +97,7 @@ export default function Configuracoes() {
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 shrink-0">
                     <div>
                         <h2 className="text-2xl font-bold text-gray-800 dark:text-white uppercase tracking-tight">Assistente de Configurações</h2>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Personalize sua experiência no DoceLab passo a passo.</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">Personalize sua experiência no DoceLab passo a passo.</p>
                     </div>
                     <div className="flex items-center gap-3">
                         {currentStep > 1 ? (
@@ -185,26 +185,26 @@ function StepDadosPessoais() {
                         <input type="file" accept="image/*" className="hidden" onChange={handlePhotoChange} />
                     </label>
                 </div>
-                <p className="text-xs text-gray-400 mt-4 text-center">Clique na câmera para alterar sua foto de perfil</p>
+                <p className="text-xs text-gray-500 mt-4 text-center">Clique na câmera para alterar sua foto de perfil</p>
             </div>
             <div className="flex-1 space-y-6">
                 <div className="space-y-4">
                     <h3 className="text-xl font-bold text-gray-800 dark:text-white">Informações Pessoais</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase ml-1">Nome Completo</label>
+                            <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">Nome Completo</label>
                             <input className="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 outline-none transition-all" type="text" value={settings.nome} onChange={(e) => updateSettings({ nome: e.target.value })} />
                         </div>
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase ml-1">Telefone</label>
+                            <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">Telefone</label>
                             <input className="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 outline-none transition-all" type="tel" value={settings.telefone} onChange={(e) => updateSettings({ telefone: e.target.value })} />
                         </div>
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase ml-1">Data de Nascimento</label>
+                            <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">Data de Nascimento</label>
                             <input className="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 outline-none transition-all" type="date" value={settings.dataNascimento} onChange={(e) => updateSettings({ dataNascimento: e.target.value })} />
                         </div>
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase ml-1">Cor do Sistema</label>
+                            <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">Cor do Sistema</label>
                             <div className="flex items-center gap-3 p-1.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl h-[46px]">
                                 <button className={cn("w-8 h-8 rounded-full bg-[#FF8A96] hover:scale-110 transition-transform ml-1", settings.corSistema === 'pink' && "ring-2 ring-[#FF8A96] ring-offset-2 dark:ring-offset-gray-700")} onClick={() => updateSettings({ corSistema: 'pink' })}></button>
                                 <button className={cn("w-8 h-8 rounded-full bg-blue-400 hover:scale-110 transition-transform", settings.corSistema === 'blue' && "ring-2 ring-blue-400 ring-offset-2 dark:ring-offset-gray-700")} onClick={() => updateSettings({ corSistema: 'blue' })}></button>
@@ -218,16 +218,16 @@ function StepDadosPessoais() {
                     <h3 className="text-xl font-bold text-gray-800 dark:text-white">Acesso</h3>
                     <div className="grid grid-cols-1 gap-4">
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase ml-1">E-mail</label>
+                            <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">E-mail</label>
                             <input className="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 outline-none transition-all" type="email" value={settings.email} onChange={(e) => updateSettings({ email: e.target.value })} />
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-1">
-                                <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase ml-1">Nova Senha</label>
+                                <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">Nova Senha</label>
                                 <input className="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 outline-none transition-all" placeholder="••••••••" type="password" defaultValue="        " />
                             </div>
                             <div className="space-y-1">
-                                <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase ml-1">Confirmar Senha</label>
+                                <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">Confirmar Senha</label>
                                 <input className="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 outline-none transition-all" placeholder="••••••••" type="password" defaultValue="        " />
                             </div>
                         </div>
@@ -256,7 +256,7 @@ function StepAparencia() {
                             </div>
                             <div className="flex-1">
                                 <h4 className="font-bold text-gray-800 dark:text-white text-lg">Modo Claro</h4>
-                                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Visual padrão, ideal para ambientes iluminados.</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">Visual padrão, ideal para ambientes iluminados.</p>
                             </div>
                             <div className={cn("w-6 h-6 rounded-full border-2 flex items-center justify-center group-hover:border-gray-300", settings.tema === 'light' ? "border-[#FF8A96] bg-[#FF8A96]" : "border-gray-200 dark:border-gray-600")}>
                                 {settings.tema === 'light' && <CheckCircle className="w-4 h-4 text-white" />}
@@ -271,7 +271,7 @@ function StepAparencia() {
                             </div>
                             <div className="flex-1">
                                 <h4 className="font-bold text-gray-800 dark:text-white text-lg">Modo Escuro</h4>
-                                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Menor cansaço visual em ambientes escuros.</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">Menor cansaço visual em ambientes escuros.</p>
                             </div>
                             <div className={cn("w-6 h-6 rounded-full border-2 flex items-center justify-center group-hover:border-gray-300", settings.tema === 'dark' ? "border-[#FF8A96] bg-[#FF8A96]" : "border-gray-200 dark:border-gray-600")}>
                                 {settings.tema === 'dark' && <CheckCircle className="w-4 h-4 text-white" />}
@@ -300,7 +300,7 @@ function StepAparencia() {
                                 <div className={cn("w-14 h-14 rounded-full ring-4 ring-offset-2 ring-transparent transition-all flex items-center justify-center shadow-sm hover:scale-105", c.color, settings.corSistema === c.id ? `ring-${c.color.split('-')[1]}-500 dark:ring-offset-gray-700` : "")}>
                                     {settings.corSistema === c.id ? <CheckCircle className="w-6 h-6 text-white" /> : <div className="w-6 h-6" />}
                                 </div>
-                                <span className={cn("text-sm font-medium", settings.corSistema === c.id ? "text-gray-900 dark:text-white font-bold" : "text-gray-500 dark:text-gray-400")}>{c.name}</span>
+                                <span className={cn("text-sm font-medium", settings.corSistema === c.id ? "text-gray-900 dark:text-white font-bold" : "text-gray-500 dark:text-gray-500")}>{c.name}</span>
                             </label>
                         ))}
                     </div>
@@ -360,11 +360,11 @@ function StepCredenciais() {
                 </h3>
                 <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 border border-gray-200 dark:border-gray-600 shadow-sm">
                     <div className="space-y-1">
-                        <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase ml-1">E-mail Atual</label>
+                        <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">E-mail Atual</label>
                         <div className="flex gap-3">
                             <div className="relative flex-1">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Mail className="w-4 h-4 text-gray-400" />
+                                    <Mail className="w-4 h-4 text-gray-500" />
                                 </div>
                                 <input className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm py-3 pl-10 pr-3 outline-none" type="email" value={settings.email} onChange={(e) => updateSettings({ email: e.target.value })} />
                             </div>
@@ -373,7 +373,7 @@ function StepCredenciais() {
                             </Button>
                         </div>
                     </div>
-                    <p className="text-xs text-gray-400 mt-2 ml-1">Para alterar seu e-mail, enviaremos um código de verificação para o endereço atual.</p>
+                    <p className="text-xs text-gray-500 mt-2 ml-1">Para alterar seu e-mail, enviaremos um código de verificação para o endereço atual.</p>
                 </div>
             </div>
 
@@ -385,26 +385,26 @@ function StepCredenciais() {
                 <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 border border-gray-200 dark:border-gray-600 shadow-sm">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase ml-1">Senha Atual</label>
+                            <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">Senha Atual</label>
                             <input className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 outline-none" placeholder="••••••••" type="password" />
                         </div>
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase ml-1">Nova Senha</label>
+                            <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">Nova Senha</label>
                             <input className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 outline-none" placeholder="••••••••" type="password" />
                         </div>
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase ml-1">Confirmar Nova Senha</label>
+                            <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">Confirmar Nova Senha</label>
                             <input className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 outline-none" placeholder="••••••••" type="password" />
                         </div>
                     </div>
                     <div className="flex gap-3">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-600 text-xs text-gray-500 dark:text-gray-300">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-600 text-xs text-gray-500 dark:text-gray-500">
                             <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div> Min. 8 caracteres
                         </span>
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-600 text-xs text-gray-500 dark:text-gray-300">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-600 text-xs text-gray-500 dark:text-gray-500">
                             <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div> 1 Número
                         </span>
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-600 text-xs text-gray-500 dark:text-gray-300">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-600 text-xs text-gray-500 dark:text-gray-500">
                             <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div> 1 Símbolo especial
                         </span>
                     </div>
@@ -423,7 +423,7 @@ function StepCredenciais() {
                         </div>
                         <div>
                             <h4 className="font-bold text-gray-800 dark:text-white text-md">Autenticação em Duas Etapas (2FA)</h4>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-md">Adicione uma camada extra de segurança à sua conta exigindo um código de verificação ao fazer login em novos dispositivos.</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-500 mt-1 max-w-md">Adicione uma camada extra de segurança à sua conta exigindo um código de verificação ao fazer login em novos dispositivos.</p>
                         </div>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -454,7 +454,7 @@ function StepPreferencias() {
                             </div>
                             <div className="flex-1">
                                 <span className="block font-bold text-gray-800 dark:text-white">Pedidos Novos</span>
-                                <span className="block text-xs text-gray-500 dark:text-gray-400">Receba um alerta sempre que um novo pedido for criado.</span>
+                                <span className="block text-xs text-gray-500 dark:text-gray-500">Receba um alerta sempre que um novo pedido for criado.</span>
                             </div>
                         </label>
                         <div className="h-px bg-gray-100 dark:bg-gray-600 w-full"></div>
@@ -465,7 +465,7 @@ function StepPreferencias() {
                             </div>
                             <div className="flex-1">
                                 <span className="block font-bold text-gray-800 dark:text-white">Lembretes de Estoque</span>
-                                <span className="block text-xs text-gray-500 dark:text-gray-400">Alertas quando ingredientes estiverem acabando.</span>
+                                <span className="block text-xs text-gray-500 dark:text-gray-500">Alertas quando ingredientes estiverem acabando.</span>
                             </div>
                         </label>
                         <div className="h-px bg-gray-100 dark:bg-gray-600 w-full"></div>
@@ -476,7 +476,7 @@ function StepPreferencias() {
                             </div>
                             <div className="flex-1">
                                 <span className="block font-bold text-gray-800 dark:text-white">Resumos Financeiros</span>
-                                <span className="block text-xs text-gray-500 dark:text-gray-400">Relatório semanal de lucros e despesas.</span>
+                                <span className="block text-xs text-gray-500 dark:text-gray-500">Relatório semanal de lucros e despesas.</span>
                             </div>
                         </label>
                     </div>
@@ -495,7 +495,7 @@ function StepPreferencias() {
                                 </div>
                                 <div>
                                     <span className="block font-bold text-gray-800 dark:text-white">WhatsApp</span>
-                                    <span className="block text-xs text-gray-500 dark:text-gray-400">Enviar mensagens automáticas</span>
+                                    <span className="block text-xs text-gray-500 dark:text-gray-500">Enviar mensagens automáticas</span>
                                 </div>
                             </div>
                             <label className="relative inline-flex items-center cursor-pointer">
@@ -511,7 +511,7 @@ function StepPreferencias() {
                                 </div>
                                 <div>
                                     <span className="block font-bold text-gray-800 dark:text-white">Google Calendar</span>
-                                    <span className="block text-xs text-gray-500 dark:text-gray-400">Sincronizar entregas</span>
+                                    <span className="block text-xs text-gray-500 dark:text-gray-500">Sincronizar entregas</span>
                                 </div>
                             </div>
                             <label className="relative inline-flex items-center cursor-pointer">
@@ -531,7 +531,7 @@ function StepPreferencias() {
                     </h3>
                     <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 border border-gray-200 dark:border-gray-600 shadow-sm space-y-4">
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase ml-1">Idioma do Sistema</label>
+                            <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">Idioma do Sistema</label>
                             <div className="relative">
                                 <select className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 appearance-none outline-none" value={settings.idioma} onChange={(e) => updateSettings({ idioma: e.target.value })}>
                                     <option value="Português (Brasil)">Português (Brasil)</option>
@@ -543,7 +543,7 @@ function StepPreferencias() {
                             </div>
                         </div>
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase ml-1">Moeda Padrão</label>
+                            <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">Moeda Padrão</label>
                             <div className="relative">
                                 <select className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 appearance-none outline-none" value={settings.moeda} onChange={(e) => updateSettings({ moeda: e.target.value })}>
                                     <option value="BRL">BRL - Real Brasileiro (R$)</option>
@@ -563,7 +563,7 @@ function StepPreferencias() {
                         Outros Ajustes
                     </h3>
                     <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 border border-gray-200 dark:border-gray-600 shadow-sm">
-                        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">Essas configurações podem ser alteradas a qualquer momento no painel de controle principal.</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-500 mb-4">Essas configurações podem ser alteradas a qualquer momento no painel de controle principal.</p>
                         <button className="text-[#FF8A96] hover:text-red-400 transition-colors text-sm font-bold flex items-center gap-1 group">
                             <span className="material-icons-round text-lg group-hover:scale-110 transition-transform">info</span>
                             Saiba mais sobre personalização

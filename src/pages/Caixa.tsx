@@ -211,7 +211,7 @@ export default function Caixa() {
                     <div className="lg:col-span-4 space-y-6">
                         <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-soft">
                             <div className="flex items-center gap-2 mb-6">
-                                <Wallet className="w-5 h-5 text-gray-400" />
+                                <Wallet className="w-5 h-5 text-gray-500" />
                                 <h3 className="font-bold text-lg text-gray-900">Resumo por Método</h3>
                             </div>
 
@@ -233,14 +233,14 @@ export default function Caixa() {
                                         activeTab === "saidas" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
                                     )}
                                 >
-                                    <ArrowDown className="w-3 h-3 text-gray-400" />
+                                    <ArrowDown className="w-3 h-3 text-gray-500" />
                                     Saídas
                                 </button>
                             </div>
 
                             <div className="space-y-3">
                                 {resumoMetodos.length === 0 ? (
-                                    <p className="text-xs text-center text-gray-400 py-8 italic">Nenhum dado para exibir</p>
+                                    <p className="text-xs text-center text-gray-500 py-8 italic">Nenhum dado para exibir</p>
                                 ) : resumoMetodos.map((item) => (
                                     <div
                                         key={item.metodo}
@@ -268,7 +268,7 @@ export default function Caixa() {
                                             )}>
                                                 R$ {(activeTab === "entradas" ? item.entradas : item.saidas).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                             </span>
-                                            <ChevronRight className="w-4 h-4 text-gray-400" />
+                                            <ChevronRight className="w-4 h-4 text-gray-500" />
                                         </div>
                                     </div>
                                 ))}
@@ -284,7 +284,7 @@ export default function Caixa() {
                                     <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 pb-8 border-b border-gray-100 gap-6">
                                         <div>
                                             <div className="flex items-center gap-3 mb-2">
-                                                <PiggyBank className="w-5 h-5 text-gray-400" />
+                                                <PiggyBank className="w-5 h-5 text-gray-500" />
                                                 <h3 className="font-bold text-lg text-gray-900">Saldo por Método de Pagamento</h3>
                                             </div>
                                             <div className="flex items-center gap-4 mt-6">
@@ -301,7 +301,7 @@ export default function Caixa() {
                                             </div>
                                         </div>
                                         <div className="bg-gray-50 rounded-xl p-4 min-w-[200px] border border-gray-100">
-                                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Saldo Atual</p>
+                                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Saldo Atual</p>
                                             <p className={cn(
                                                 "text-3xl font-bold",
                                                 metodoAtivo.saldo >= 0 ? "text-[#10B981]" : "text-[#EF4444]"
@@ -310,7 +310,7 @@ export default function Caixa() {
                                             </p>
                                             <div className="flex items-center justify-between mt-4 text-sm">
                                                 <div>
-                                                    <span className="block text-xs text-gray-400 mb-1">Entradas</span>
+                                                    <span className="block text-xs text-gray-500 mb-1">Entradas</span>
                                                     <span className="font-semibold text-[#10B981] flex items-center">
                                                         <TrendingUp className="w-3 h-3 mr-1" />
                                                         R$ {metodoAtivo.entradas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
@@ -318,7 +318,7 @@ export default function Caixa() {
                                                 </div>
                                                 <div className="h-8 w-px bg-gray-200 mx-3"></div>
                                                 <div>
-                                                    <span className="block text-xs text-gray-400 mb-1">Saídas</span>
+                                                    <span className="block text-xs text-gray-500 mb-1">Saídas</span>
                                                     <span className="font-semibold text-[#EF4444] flex items-center">
                                                         <TrendingDown className="w-3 h-3 mr-1" />
                                                         R$ {metodoAtivo.saidas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
@@ -329,7 +329,7 @@ export default function Caixa() {
                                     </div>
 
                                     <div>
-                                        <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Transações Recentes</h4>
+                                        <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Transações Recentes</h4>
                                         <div className="space-y-3">
                                             {metodoAtivo.transacoes.slice(0, 10).map((t) => (
                                                 <div key={t.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl group hover:bg-gray-100 transition-colors cursor-default border border-transparent hover:border-gray-200">
@@ -342,7 +342,7 @@ export default function Caixa() {
                                                         </div>
                                                         <div>
                                                             <p className="text-sm font-semibold text-gray-800">{t.descricao}</p>
-                                                            <p className="text-xs text-gray-400">
+                                                            <p className="text-xs text-gray-500">
                                                                 {t.id_referencia ? `ID #${t.id_referencia.slice(0, 4)}` : 'S/ ID'} • {t.categoria || 'Geral'}
                                                             </p>
                                                         </div>
@@ -354,12 +354,12 @@ export default function Caixa() {
                                                         )}>
                                                             {t.tipo === "receita" ? "+" : "-"} R$ {Number(t.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                                         </p>
-                                                        <p className="text-xs text-gray-400">{format(parseISO(t.data), "dd/MM")}</p>
+                                                        <p className="text-xs text-gray-500">{format(parseISO(t.data), "dd/MM")}</p>
                                                     </div>
                                                 </div>
                                             ))}
                                             <div className="pt-4 flex justify-center">
-                                                <button className="text-xs font-semibold text-gray-400 hover:text-[#F87171] transition-colors flex items-center gap-1 group">
+                                                <button className="text-xs font-semibold text-gray-500 hover:text-[#F87171] transition-colors flex items-center gap-1 group">
                                                     Ver todas transações
                                                     <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                                                 </button>
@@ -369,9 +369,9 @@ export default function Caixa() {
                                 </>
                             ) : (
                                 <div className="flex flex-col items-center justify-center h-full py-20 opacity-40">
-                                    <Wallet className="w-16 h-16 text-gray-300 mb-4" />
+                                    <Wallet className="w-16 h-16 text-gray-500 mb-4" />
                                     <h3 className="text-lg font-bold text-gray-700">Sem dados detalhados</h3>
-                                    <p className="text-sm text-gray-400">Selecione um método à esquerda</p>
+                                    <p className="text-sm text-gray-500">Selecione um método à esquerda</p>
                                 </div>
                             )}
                         </div>

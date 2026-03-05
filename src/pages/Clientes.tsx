@@ -186,7 +186,7 @@ export default function Clientes() {
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
                     <div>
                         <h2 className="text-[28px] font-extrabold text-[#1E1E2F] dark:text-white leading-tight tracking-tight mb-1">Clientes</h2>
-                        <p className="text-[#5A5A69] dark:text-gray-400 text-[14px] font-medium italic">Gerencie sua base de clientes e acompanhe o engajamento</p>
+                        <p className="text-[#5A5A69] dark:text-gray-500 text-[14px] font-medium italic">Gerencie sua base de clientes e acompanhe o engajamento</p>
                     </div>
                     <Button
                         onClick={() => setShowNovoCliente(true)}
@@ -203,7 +203,7 @@ export default function Clientes() {
                         <div className="mb-2 w-10 h-10 rounded-full bg-pink-50 dark:bg-pink-900/20 text-primary flex items-center justify-center">
                             <span className="material-symbols-outlined text-xl">group</span>
                         </div>
-                        <p className="text-[12px] font-bold text-[#5A5A69] dark:text-gray-400 mb-1 uppercase tracking-wider">Total de Clientes</p>
+                        <p className="text-[12px] font-bold text-[#5A5A69] dark:text-gray-500 mb-1 uppercase tracking-wider">Total de Clientes</p>
                         <p className="text-[24px] font-black text-[#1E1E2F] dark:text-white tracking-tighter">{clientes.length}</p>
                     </div>
 
@@ -211,7 +211,7 @@ export default function Clientes() {
                         <div className="mb-2 w-10 h-10 rounded-full bg-red-50 dark:bg-red-900/20 text-red-500 flex items-center justify-center">
                             <span className="material-symbols-outlined text-xl">shopping_bag</span>
                         </div>
-                        <p className="text-[12px] font-bold text-[#5A5A69] dark:text-gray-400 mb-1 uppercase tracking-wider">Total de Pedidos</p>
+                        <p className="text-[12px] font-bold text-[#5A5A69] dark:text-gray-500 mb-1 uppercase tracking-wider">Total de Pedidos</p>
                         <p className="text-[24px] font-black text-[#1E1E2F] dark:text-white tracking-tighter">{totalPedidosGeral}</p>
                     </div>
 
@@ -219,7 +219,7 @@ export default function Clientes() {
                         <div className="mb-2 w-10 h-10 rounded-full bg-green-50 dark:bg-green-900/20 text-green-500 flex items-center justify-center">
                             <span className="material-symbols-outlined text-xl">attach_money</span>
                         </div>
-                        <p className="text-[12px] font-bold text-[#5A5A69] dark:text-gray-400 mb-1 uppercase tracking-wider">Receita Total</p>
+                        <p className="text-[12px] font-bold text-[#5A5A69] dark:text-gray-500 mb-1 uppercase tracking-wider">Receita Total</p>
                         <p className="text-[24px] font-black text-[#1E1E2F] dark:text-white tracking-tighter">
                             {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(receitaTotalGeral)}
                         </p>
@@ -229,14 +229,14 @@ export default function Clientes() {
                         <div className="mb-2 w-10 h-10 rounded-full bg-yellow-50 dark:bg-yellow-900/20 text-yellow-500 flex items-center justify-center">
                             <span className="material-symbols-outlined text-xl">cake</span>
                         </div>
-                        <p className="text-[12px] font-bold text-[#5A5A69] dark:text-gray-400 mb-1 uppercase tracking-wider">Aniversários</p>
+                        <p className="text-[12px] font-bold text-[#5A5A69] dark:text-gray-500 mb-1 uppercase tracking-wider">Aniversários</p>
                         <p className="text-[24px] font-black text-[#1E1E2F] dark:text-white tracking-tighter">0</p>
                     </div>
                 </div>
 
                 <div className="w-full">
                     <div className="relative group">
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 group-focus-within:text-primary transition-colors">
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500 group-focus-within:text-primary transition-colors">
                             <span className="material-symbols-outlined">search</span>
                         </span>
                         <Input
@@ -259,26 +259,26 @@ export default function Clientes() {
                     {loading ? (
                         <div className="flex flex-col items-center justify-center py-24 text-center">
                             <div className="animate-spin rounded-full h-10 w-10 border-4 border-[#F4C7C7] border-t-primary mb-4"></div>
-                            <p className="text-[13px] font-bold text-gray-400 uppercase tracking-widest">Carregando sua base...</p>
+                            <p className="text-[13px] font-bold text-gray-500 uppercase tracking-widest">Carregando sua base...</p>
                         </div>
                     ) : filteredClientes.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-20 text-center">
                             <div className="w-20 h-20 bg-gray-50 dark:bg-gray-700/50 rounded-[2rem] flex items-center justify-center mb-6">
-                                <span className="material-symbols-outlined text-4xl text-gray-300">person_add</span>
+                                <span className="material-symbols-outlined text-4xl text-gray-500">person_add</span>
                             </div>
                             <h3 className="text-[16px] font-black text-[#1E1E2F] dark:text-white uppercase tracking-wide">Nenhum cliente encontrado</h3>
-                            <p className="text-[13px] font-bold text-gray-400 mt-2 max-w-[250px] mx-auto">
+                            <p className="text-[13px] font-bold text-gray-500 mt-2 max-w-[250px] mx-auto">
                                 Tente ajustar sua busca ou adicione um novo cliente para começar.
                             </p>
                         </div>
                     ) : (
                         <div className="overflow-x-auto min-w-full">
                             <div className="hidden md:grid grid-cols-12 gap-4 px-4 border-b border-gray-50 dark:border-gray-700 mb-6 pb-4">
-                                <div className="col-span-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">NOME DO CLIENTE</div>
-                                <div className="col-span-3 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">CONTATO / WHATSAPP</div>
-                                <div className="col-span-1 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-center">PEDIDOS</div>
-                                <div className="col-span-2 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-right">TOTAL GASTO</div>
-                                <div className="col-span-2 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-right">AÇÕES</div>
+                                <div className="col-span-4 text-[12px] font-black text-gray-500 uppercase tracking-[0.2em]">NOME DO CLIENTE</div>
+                                <div className="col-span-3 text-[12px] font-black text-gray-500 uppercase tracking-[0.2em]">CONTATO / WHATSAPP</div>
+                                <div className="col-span-1 text-[12px] font-black text-gray-500 uppercase tracking-[0.2em] text-center">PEDIDOS</div>
+                                <div className="col-span-2 text-[12px] font-black text-gray-500 uppercase tracking-[0.2em] text-right">TOTAL GASTO</div>
+                                <div className="col-span-2 text-[12px] font-black text-gray-500 uppercase tracking-[0.2em] text-right">AÇÕES</div>
                             </div>
                             <div className="space-y-4">
                                 {filteredClientes.map((cliente) => (
@@ -291,7 +291,7 @@ export default function Clientes() {
                                                 <h4 className="text-[15px] font-extrabold text-[#1E1E2F] dark:text-white truncate">{cliente.nome}</h4>
                                             </div>
                                         </div>
-                                        <div className="col-span-3 w-full md:w-auto flex items-center gap-2 text-[#5A5A69] dark:text-gray-400">
+                                        <div className="col-span-3 w-full md:w-auto flex items-center gap-2 text-[#5A5A69] dark:text-gray-500">
                                             <div className="px-3 py-1.5 rounded-xl bg-gray-50 dark:bg-gray-700/50 flex items-center gap-2">
                                                 <span className="material-symbols-outlined text-primary text-[18px]">call</span>
                                                 <span className="text-[13px] font-black tracking-tight">{cliente.telefone}</span>
@@ -316,7 +316,7 @@ export default function Clientes() {
                                                 <span className="material-symbols-outlined text-[18px] fill-1">chat</span>
                                             </button>
                                             <button
-                                                className="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white rounded-full hover:bg-secondary dark:hover:bg-white dark:hover:text-secondary transition-all active:scale-95 shadow-soft border border-gray-50 dark:border-gray-700"
+                                                className="w-9 h-9 flex items-center justify-center text-gray-500 hover:text-white rounded-full hover:bg-secondary dark:hover:bg-white dark:hover:text-secondary transition-all active:scale-95 shadow-soft border border-gray-50 dark:border-gray-700"
                                                 title="Ver Detalhes"
                                                 onClick={() => {
                                                     setClienteParaVisualizar(cliente);
@@ -326,7 +326,7 @@ export default function Clientes() {
                                                 <span className="material-symbols-outlined text-[18px]">visibility</span>
                                             </button>
                                             <button
-                                                className="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white rounded-full hover:bg-blue-500 transition-all active:scale-95 shadow-soft border border-gray-50 dark:border-gray-700"
+                                                className="w-9 h-9 flex items-center justify-center text-gray-500 hover:text-white rounded-full hover:bg-blue-500 transition-all active:scale-95 shadow-soft border border-gray-50 dark:border-gray-700"
                                                 title="Editar"
                                                 onClick={() => {
                                                     setClienteParaEditar(cliente);
@@ -336,7 +336,7 @@ export default function Clientes() {
                                                 <span className="material-symbols-outlined text-[18px]">edit</span>
                                             </button>
                                             <button
-                                                className="w-9 h-9 flex items-center justify-center text-gray-300 hover:text-white rounded-full hover:bg-red-500 transition-all active:scale-95"
+                                                className="w-9 h-9 flex items-center justify-center text-gray-500 hover:text-white rounded-full hover:bg-red-500 transition-all active:scale-95"
                                                 title="Excluir"
                                                 onClick={() => handleDeleteCliente(cliente.id, cliente.nome)}
                                             >

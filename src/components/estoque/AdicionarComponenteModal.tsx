@@ -81,7 +81,7 @@ export function AdicionarComponenteModal({ open, onOpenChange, onSelect, ingredi
                                 <DialogTitle className="text-xl font-bold text-gray-900 leading-[1.2]">
                                     Adicionar Item
                                 </DialogTitle>
-                                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-none mt-1">
+                                <p className="text-[12px] text-gray-500 font-bold uppercase tracking-widest leading-none mt-1">
                                     Composição do Produto
                                 </p>
                             </div>
@@ -90,17 +90,17 @@ export function AdicionarComponenteModal({ open, onOpenChange, onSelect, ingredi
 
                     {/* Search Field */}
                     <div className="relative mb-6 shrink-0">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-gray-400" />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-gray-500" />
                         <Input
                             placeholder="Pesquisar pelo nome..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="pl-11 pr-10 h-12 bg-gray-50 border-none rounded-2xl text-[13px] font-semibold text-gray-900 placeholder:text-gray-400 transition-all focus:ring-2 focus:ring-primary/20"
+                            className="pl-11 pr-10 h-12 bg-gray-50 border-none rounded-2xl text-[13px] font-semibold text-gray-900 placeholder:text-gray-500 transition-all focus:ring-2 focus:ring-primary/20"
                         />
                         {search && (
                             <button
                                 onClick={() => setSearch("")}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-gray-500 hover:text-gray-600 transition-colors"
                             >
                                 <X className="w-4 h-4" />
                             </button>
@@ -114,10 +114,10 @@ export function AdicionarComponenteModal({ open, onOpenChange, onSelect, ingredi
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
                                 className={cn(
-                                    "flex-1 flex items-center justify-center gap-2 py-2.5 text-[10px] font-bold uppercase tracking-widest transition-all rounded-2xl",
+                                    "flex-1 flex items-center justify-center gap-2 py-2.5 text-[12px] font-bold uppercase tracking-widest transition-all rounded-2xl",
                                     activeTab === tab
                                         ? "bg-white text-gray-900 shadow-sm border border-gray-100/50"
-                                        : "text-gray-400 hover:text-gray-700"
+                                        : "text-gray-500 hover:text-gray-700"
                                 )}
                             >
                                 {tab === 'ingrediente' && <ShoppingBag className={cn("w-3.5 h-3.5", activeTab === tab ? "text-primary/70" : "")} />}
@@ -133,10 +133,10 @@ export function AdicionarComponenteModal({ open, onOpenChange, onSelect, ingredi
                         <div className="flex flex-col gap-3 pb-8">
                             {filteredItems.length === 0 ? (
                                 <div className="flex flex-col items-center justify-center py-20 text-center animate-in-fade">
-                                    <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4 text-gray-300">
+                                    <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4 text-gray-500">
                                         <Package className="w-8 h-8" />
                                     </div>
-                                    <p className="text-xs font-black text-gray-400 uppercase tracking-widest">Nenhum resultado</p>
+                                    <p className="text-xs font-black text-gray-500 uppercase tracking-widest">Nenhum resultado</p>
                                 </div>
                             ) : (
                                 filteredItems.map(item => (
@@ -148,19 +148,19 @@ export function AdicionarComponenteModal({ open, onOpenChange, onSelect, ingredi
                                         <div className="min-w-0 flex-1 space-y-1">
                                             <div className="flex items-center gap-2 mb-1">
                                                 <h4 className="text-[13px] font-bold text-gray-900 truncate">{item.nome}</h4>
-                                                <span className="shrink-0 text-[8px] font-bold uppercase tracking-wider bg-gray-50 text-gray-500 px-2 py-0.5 rounded-full border border-gray-100">
+                                                <span className="shrink-0 text-[12px] font-bold uppercase tracking-wider bg-gray-50 text-gray-500 px-2 py-0.5 rounded-full border border-gray-100">
                                                     {item.categoria}
                                                 </span>
                                             </div>
                                             <div className="flex items-center gap-1">
                                                 <div className="w-1 h-1 rounded-full bg-gray-300" />
-                                                <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
+                                                <p className="text-[13px] font-bold text-gray-500 uppercase tracking-widest">
                                                     {item.tipo === 'receita' ? 'RENDIMENTO:' : item.tipo === 'kit' ? 'RENDIMENTO:' : 'UNIDADE:'} <span className="text-gray-500 font-bold">{item.rendimento}</span>
                                                 </p>
                                             </div>
                                         </div>
                                         <div className="text-right shrink-0 pl-4 border-l border-gray-50 ml-4 py-1">
-                                            <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-0.5 text-right">Custo Base</p>
+                                            <p className="text-[12px] font-bold text-gray-500 uppercase tracking-widest mb-0.5 text-right">Custo Base</p>
                                             <p className="text-sm font-black text-gray-900 tracking-tight">
                                                 {formatarMoeda(item.custo)}
                                             </p>

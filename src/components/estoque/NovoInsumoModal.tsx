@@ -209,7 +209,7 @@ export function NovoInsumoModal({ open, onOpenChange, onSubmit, insumo }: NovoIn
                                 <DialogTitle className="text-2xl font-black tracking-tight text-gray-800">
                                     {insumo ? "Editar Insumo" : "Novo Insumo"}
                                 </DialogTitle>
-                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">
+                                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">
                                     {insumo ? "Atualize as informações do seu ingrediente" : "Cadastre itens de estoque para suas receitas"}
                                 </p>
                             </div>
@@ -244,7 +244,7 @@ export function NovoInsumoModal({ open, onOpenChange, onSubmit, insumo }: NovoIn
                                         <Button onClick={handleSaveNewCategory} type="button" className="h-12 w-12 rounded-[14px] bg-green-500 hover:bg-green-600 text-white shadow-sm shrink-0">
                                             <Check className="w-5 h-5" />
                                         </Button>
-                                        <Button onClick={() => setIsCreatingCategory(false)} type="button" variant="ghost" className="h-12 w-12 rounded-[14px] text-gray-400">
+                                        <Button onClick={() => setIsCreatingCategory(false)} type="button" variant="ghost" className="h-12 w-12 rounded-[14px] text-gray-500">
                                             <X className="w-5 h-5" />
                                         </Button>
                                     </div>
@@ -311,7 +311,7 @@ export function NovoInsumoModal({ open, onOpenChange, onSubmit, insumo }: NovoIn
                                             onChange={(e) => setQuantidadePorEmbalagem(parseFloat(e.target.value) || 0)}
                                             className="flex-1 border-none bg-transparent p-0 text-sm font-black h-auto focus-visible:ring-0 text-gray-700"
                                         />
-                                        <span className="text-[11px] font-black text-[#EFB6BF] uppercase">{unidadeCompra}</span>
+                                        <span className="text-[13px] font-black text-[#EFB6BF] uppercase">{unidadeCompra}</span>
                                     </div>
                                 </div>
 
@@ -329,16 +329,16 @@ export function NovoInsumoModal({ open, onOpenChange, onSubmit, insumo }: NovoIn
                             {/* Custo Unitário Result */}
                             <div className="bg-[#EFB6BF]/5 rounded-[24px] p-6 border border-[#EFB6BF]/10 flex items-center justify-between">
                                 <div>
-                                    <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest mb-1">Custo por {unidadeBasica}</p>
+                                    <p className="text-[12px] font-black uppercase text-gray-500 tracking-widest mb-1">Custo por {unidadeBasica}</p>
                                     <p className="text-3xl font-black text-gray-800 tracking-tighter">
                                         {precoUnitario.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2, maximumFractionDigits: 4 })}
                                     </p>
                                 </div>
                                 <div className="text-right flex flex-col items-end opacity-40">
                                     <div className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center mb-1">
-                                        <Info className="w-4 h-4 text-gray-400" />
+                                        <Info className="w-4 h-4 text-gray-500" />
                                     </div>
-                                    <p className="text-[8px] font-black uppercase max-w-[120px]">Base para precificação das receitas</p>
+                                    <p className="text-[12px] font-black uppercase max-w-[120px]">Base para precificação das receitas</p>
                                 </div>
                             </div>
                         </div>
@@ -355,7 +355,7 @@ export function NovoInsumoModal({ open, onOpenChange, onSubmit, insumo }: NovoIn
                                         onChange={(e) => setEstoqueEmbalagens(parseFloat(e.target.value) || 0)}
                                         className="h-12 bg-[#FDFCFB] border-none text-sm font-black text-gray-700 px-5"
                                     />
-                                    <p className="text-[11px] font-bold text-gray-300 ml-1">Total: <span className="text-[#EFB6BF]">{quantidade} {unidadeBasica}</span></p>
+                                    <p className="text-[13px] font-bold text-gray-500 ml-1">Total: <span className="text-[#EFB6BF]">{quantidade} {unidadeBasica}</span></p>
                                 </div>
 
                                 <div className="space-y-2">

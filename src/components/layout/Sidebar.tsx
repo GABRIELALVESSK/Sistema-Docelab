@@ -70,12 +70,12 @@ export function Sidebar() {
                   "flex items-center gap-3 px-4 py-2.5 rounded-2xl font-bold text-xs transition-all duration-300 group",
                   isActive
                     ? "text-[#F87171] bg-white shadow-soft"
-                    : "text-gray-400 hover:text-[#1E1E2F] hover:bg-white/50"
+                    : "text-gray-500 hover:text-[#1E1E2F] hover:bg-white/50"
                 )}
               >
                 <span className={cn(
                   "material-icons-round transition-all duration-300",
-                  isActive ? "text-[#F87171]" : "text-gray-300 group-hover:text-gray-500"
+                  isActive ? "text-[#F87171]" : "text-gray-500 group-hover:text-gray-500"
                 )}>
                   {item.icon}
                 </span>

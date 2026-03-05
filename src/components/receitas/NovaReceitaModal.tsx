@@ -509,7 +509,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                             <DialogTitle className="text-base font-black text-gray-900 leading-[1.2] mb-0.5">
                                 {receitaParaEditar ? "Editar Receita" : "Nova Receita"}
                             </DialogTitle>
-                            <p className="text-[10px] text-gray-400 uppercase tracking-[0.1em] font-bold leading-none mt-1">Caderno de Delícias</p>
+                            <p className="text-[12px] text-gray-500 uppercase tracking-[0.1em] font-bold leading-none mt-1">Caderno de Delícias</p>
                         </div>
                     </div>
 
@@ -536,13 +536,13 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                             "flex items-center gap-2 px-6 py-2 rounded-xl text-xs font-bold transition-all min-w-max",
                                             isCurrent
                                                 ? "bg-white text-gray-900 shadow-[0_2px_8px_rgb(0,0,0,0.04)] ring-1 ring-gray-100/50"
-                                                : (isPassed ? "text-gray-500 hover:text-gray-900" : "text-gray-400 hover:text-gray-600"),
+                                                : (isPassed ? "text-gray-500 hover:text-gray-900" : "text-gray-500 hover:text-gray-600"),
                                         )}
                                         onClick={handleTabClick}
                                     >
                                         <span className={cn(
                                             "material-symbols-outlined text-[16px]",
-                                            isCurrent ? "text-primary" : (isPassed ? "text-gray-400" : "text-gray-300")
+                                            isCurrent ? "text-primary" : (isPassed ? "text-gray-500" : "text-gray-500")
                                         )}>
                                             {s.number === 1 ? 'description' : s.number === 2 ? 'inventory_2' : 'attach_money'}
                                         </span>
@@ -554,7 +554,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                     </div>
 
                     <div className="flex-1 flex justify-end">
-                        <button onClick={() => onOpenChange(false)} className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-50">
+                        <button onClick={() => onOpenChange(false)} className="text-gray-500 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-50">
                             <X className="w-5 h-5" />
                         </button>
                     </div>
@@ -568,18 +568,18 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                                     <div className="md:col-span-2 space-y-6">
                                         <div className="space-y-2">
-                                            <Label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Nome da Receita</Label>
+                                            <Label className="block text-[12px] font-bold text-gray-500 uppercase tracking-widest pl-1">Nome da Receita</Label>
                                             <Input
                                                 placeholder="Ex: Brownie de Nutella"
                                                 value={nome}
                                                 onChange={(e) => setNome(e.target.value)}
-                                                className="w-full h-12 bg-white border border-gray-100 rounded-2xl px-4 py-3 text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-400 placeholder:font-medium shadow-[0_2px_8px_rgb(0,0,0,0.02)]"
+                                                className="w-full h-12 bg-white border border-gray-100 rounded-2xl px-4 py-3 text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-500 placeholder:font-medium shadow-[0_2px_8px_rgb(0,0,0,0.02)]"
                                             />
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div className="space-y-2">
-                                                <Label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Categoria</Label>
+                                                <Label className="block text-[12px] font-bold text-gray-500 uppercase tracking-widest pl-1">Categoria</Label>
                                                 <div className="relative">
                                                     {isCreatingCategory ? (
                                                         <div className="flex gap-2">
@@ -605,20 +605,20 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                             </div>
 
                                             <div className="space-y-2">
-                                                <Label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Tempo de Preparo</Label>
+                                                <Label className="block text-[12px] font-bold text-gray-500 uppercase tracking-widest pl-1">Tempo de Preparo</Label>
                                                 <div className="relative">
-                                                    <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-[18px]">schedule</span>
+                                                    <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-[18px]">schedule</span>
                                                     <Input
                                                         placeholder="Ex: 45 min"
                                                         value={tempoPreparo}
                                                         onChange={(e) => setTempoPreparo(e.target.value)}
-                                                        className="w-full h-12 bg-white border border-gray-100 rounded-2xl pl-11 pr-4 py-3 text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-400 shadow-[0_2px_8px_rgb(0,0,0,0.02)]"
+                                                        className="w-full h-12 bg-white border border-gray-100 rounded-2xl pl-11 pr-4 py-3 text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-500 shadow-[0_2px_8px_rgb(0,0,0,0.02)]"
                                                     />
                                                 </div>
                                             </div>
 
                                             <div className="space-y-2">
-                                                <Label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Rendimento do Lote</Label>
+                                                <Label className="block text-[12px] font-bold text-gray-500 uppercase tracking-widest pl-1">Rendimento do Lote</Label>
                                                 <div className="flex gap-3">
                                                     <Input
                                                         type="number"
@@ -638,16 +638,16 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                             </div>
 
                                             <div className="space-y-2">
-                                                <Label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Foto da Receita</Label>
+                                                <Label className="block text-[12px] font-bold text-gray-500 uppercase tracking-widest pl-1">Foto da Receita</Label>
                                                 <div
                                                     onClick={() => fileInputRef.current?.click()}
                                                     className="h-12 rounded-2xl bg-white border-[1.5px] border-dashed border-gray-300 flex items-center justify-center cursor-pointer hover:border-primary/40 group transition-all shadow-[0_2px_8px_rgb(0,0,0,0.02)]"
                                                 >
                                                     <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
                                                     {fotoPreview ? (
-                                                        <div className="flex items-center gap-2 text-accent-textGreen font-bold text-[10px] uppercase tracking-widest"><span className="material-symbols-outlined text-sm">check_circle</span> Imagem Carregada</div>
+                                                        <div className="flex items-center gap-2 text-accent-textGreen font-bold text-[12px] uppercase tracking-widest"><span className="material-symbols-outlined text-sm">check_circle</span> Imagem Carregada</div>
                                                     ) : (
-                                                        <div className="flex items-center gap-2 text-gray-500 group-hover:text-primary font-bold transition-colors"><span className="material-symbols-outlined text-sm">cloud_upload</span> <span className="text-[10px] uppercase tracking-widest">Clique para Upload</span></div>
+                                                        <div className="flex items-center gap-2 text-gray-500 group-hover:text-primary font-bold transition-colors"><span className="material-symbols-outlined text-sm">cloud_upload</span> <span className="text-[12px] uppercase tracking-widest">Clique para Upload</span></div>
                                                     )}
                                                 </div>
                                             </div>
@@ -659,11 +659,11 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                             {fotoPreview ? (
                                                 <img src={fotoPreview} alt="Preview" className="w-[120px] h-[120px] rounded-full object-cover shadow-sm border-4 border-white" />
                                             ) : (
-                                                <div className="w-[120px] h-[120px] rounded-full bg-gray-50 flex items-center justify-center text-gray-300">
+                                                <div className="w-[120px] h-[120px] rounded-full bg-gray-50 flex items-center justify-center text-gray-500">
                                                     <span className="material-symbols-outlined text-5xl">landscape</span>
                                                 </div>
                                             )}
-                                            <p className="text-xs font-medium text-gray-400 max-w-[180px] leading-relaxed">
+                                            <p className="text-xs font-medium text-gray-500 max-w-[180px] leading-relaxed">
                                                 {fotoPreview ? "Clique no botão ao lado para alterar a sua foto." : "Adicione uma foto para deixar sua receita mais atraente."}
                                             </p>
                                         </div>
@@ -679,11 +679,11 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-3">
                                             <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center">
-                                                <span className="material-symbols-outlined text-gray-400 text-sm">inventory_2</span>
+                                                <span className="material-symbols-outlined text-gray-500 text-sm">inventory_2</span>
                                             </div>
                                             <div>
                                                 <h4 className="text-sm font-bold text-gray-900 uppercase tracking-wider">Composição Técnica</h4>
-                                                <p className="text-[10px] text-gray-400 font-semibold tracking-wide">VINCULE ITENS PARA CÁLCULO DE CMV</p>
+                                                <p className="text-[12px] text-gray-500 font-semibold tracking-wide">VINCULE ITENS PARA CÁLCULO DE CMV</p>
                                             </div>
                                         </div>
                                         <Button
@@ -697,8 +697,8 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                     <div className="space-y-3 min-h-[300px]">
                                         {ingredientesVinculados.length === 0 ? (
                                             <div className="h-48 flex flex-col items-center justify-center bg-gray-50/50 rounded-[28px] border-2 border-dashed border-gray-100 p-8 text-center">
-                                                <span className="material-symbols-outlined w-10 h-10 text-gray-300 text-4xl mb-3">category</span>
-                                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Nenhum ingrediente vinculado</p>
+                                                <span className="material-symbols-outlined w-10 h-10 text-gray-500 text-4xl mb-3">category</span>
+                                                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Nenhum ingrediente vinculado</p>
                                             </div>
                                         ) : (
                                             ingredientesVinculados.map((item, idx) => {
@@ -714,7 +714,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                                             </div>
                                                             <div className="flex-1 min-w-0">
                                                                 <h4 className="text-sm font-bold text-gray-900 truncate">{item.nome}</h4>
-                                                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{item.tipo}</p>
+                                                                <p className="text-[12px] font-bold text-gray-500 uppercase tracking-widest">{item.tipo}</p>
                                                             </div>
                                                         </div>
 
@@ -728,40 +728,40 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                                                 />
                                                                 <div className="border-l pl-2 ml-1 min-w-[40px]">
                                                                     <Select value={item.unidade} onValueChange={(v) => updateStockItemUnidade(itemId, item.tipo, v)}>
-                                                                        <SelectTrigger className="h-6 border-none bg-transparent p-0 shadow-none focus:ring-0 font-bold text-gray-400 text-[10px] uppercase">
+                                                                        <SelectTrigger className="h-6 border-none bg-transparent p-0 shadow-none focus:ring-0 font-bold text-gray-500 text-[12px] uppercase">
                                                                             <SelectValue />
                                                                         </SelectTrigger>
                                                                         <SelectContent className="rounded-xl border-none shadow-xl min-w-[60px]">
                                                                             {item.unidade === 'g' || item.unidade === 'kg' ? (
                                                                                 <>
-                                                                                    <SelectItem value="g" className="text-[10px] font-bold uppercase">g</SelectItem>
-                                                                                    <SelectItem value="kg" className="text-[10px] font-bold uppercase">kg</SelectItem>
+                                                                                    <SelectItem value="g" className="text-[12px] font-bold uppercase">g</SelectItem>
+                                                                                    <SelectItem value="kg" className="text-[12px] font-bold uppercase">kg</SelectItem>
                                                                                 </>
                                                                             ) : item.unidade === 'ml' || item.unidade === 'L' ? (
                                                                                 <>
-                                                                                    <SelectItem value="ml" className="text-[10px] font-bold uppercase">ml</SelectItem>
-                                                                                    <SelectItem value="L" className="text-[10px] font-bold uppercase">L</SelectItem>
+                                                                                    <SelectItem value="ml" className="text-[12px] font-bold uppercase">ml</SelectItem>
+                                                                                    <SelectItem value="L" className="text-[12px] font-bold uppercase">L</SelectItem>
                                                                                 </>
                                                                             ) : (
-                                                                                <SelectItem value={item.unidade} className="text-[10px] font-bold uppercase">{item.unidade}</SelectItem>
+                                                                                <SelectItem value={item.unidade} className="text-[12px] font-bold uppercase">{item.unidade}</SelectItem>
                                                                             )}
                                                                         </SelectContent>
                                                                     </Select>
                                                                 </div>
                                                             </div>
                                                             <Select value={item.modo_custo} onValueChange={(v) => updateStockItemModo(itemId, item.tipo, v)}>
-                                                                <SelectTrigger className="h-10 w-[110px] sm:w-[130px] rounded-[14px] border border-gray-100 bg-white font-bold text-[10px] uppercase tracking-wider text-gray-600 focus:ring-0">
+                                                                <SelectTrigger className="h-10 w-[110px] sm:w-[130px] rounded-[14px] border border-gray-100 bg-white font-bold text-[12px] uppercase tracking-wider text-gray-600 focus:ring-0">
                                                                     <SelectValue />
                                                                 </SelectTrigger>
                                                                 <SelectContent className="rounded-[16px] border-none shadow-lg">
-                                                                    <SelectItem value="proporcional" className="text-[10px] font-bold uppercase">Proporcional</SelectItem>
-                                                                    {item.tipo === 'ingrediente' && <SelectItem value="inteiro" className="text-[10px] font-bold uppercase">Emb. Inteira</SelectItem>}
+                                                                    <SelectItem value="proporcional" className="text-[12px] font-bold uppercase">Proporcional</SelectItem>
+                                                                    {item.tipo === 'ingrediente' && <SelectItem value="inteiro" className="text-[12px] font-bold uppercase">Emb. Inteira</SelectItem>}
                                                                 </SelectContent>
                                                             </Select>
 
                                                             <button
                                                                 onClick={() => handleRemoveStockItem(itemId, item.tipo)}
-                                                                className="w-10 h-10 rounded-[14px] flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0"
+                                                                className="w-10 h-10 rounded-[14px] flex items-center justify-center text-gray-500 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0"
                                                             >
                                                                 <span className="material-symbols-outlined text-lg">delete</span>
                                                             </button>
@@ -780,7 +780,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                             placeholder="Outros itens não pesáveis..."
                                             value={ingredientesTexto}
                                             onChange={(e) => setIngredientesTexto(e.target.value)}
-                                            className="min-h-[140px] rounded-[24px] border-none bg-gray-50 p-6 text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-400"
+                                            className="min-h-[140px] rounded-[24px] border-none bg-gray-50 p-6 text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-500"
                                         />
                                     </div>
                                     <div className="space-y-2">
@@ -789,7 +789,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                             placeholder="Passo a passo da receita..."
                                             value={modoPreparo}
                                             onChange={(e) => setModoPreparo(e.target.value)}
-                                            className="min-h-[140px] rounded-[24px] border-none bg-gray-50 p-6 text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-400"
+                                            className="min-h-[140px] rounded-[24px] border-none bg-gray-50 p-6 text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-500"
                                         />
                                     </div>
                                 </div>
@@ -806,7 +806,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                             </div>
                                             <div>
                                                 <h3 className="text-lg font-bold text-gray-900 leading-tight">Precificação Inteligente</h3>
-                                                <p className="text-[10px] font-bold text-primary uppercase tracking-widest mt-0.5">SUA MARGEM DE LUCRO REAL</p>
+                                                <p className="text-[12px] font-bold text-primary uppercase tracking-widest mt-0.5">SUA MARGEM DE LUCRO REAL</p>
                                             </div>
                                         </div>
                                     </div>
@@ -831,7 +831,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                                 </div>
                                                 <div className="text-center">
                                                     <p className="text-xs font-bold text-gray-800 leading-none mb-1">{tool.label}</p>
-                                                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{tool.val}</p>
+                                                    <p className="text-[13px] font-bold text-gray-500 uppercase tracking-widest">{tool.val}</p>
                                                 </div>
                                             </button>
                                         ))}
@@ -849,7 +849,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                                     onChange={(e) => setTempoProducaoMinutos(parseInt(e.target.value) || 0)}
                                                     className="h-12 flex-1 rounded-xl bg-white border-gray-100 font-bold text-xl text-center text-gray-900 shadow-sm focus:ring-2 focus:ring-primary/20"
                                                 />
-                                                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Minutos</span>
+                                                <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Minutos</span>
                                             </div>
                                         </div>
 
@@ -873,15 +873,15 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                     {precoVenda > 0 && rendimentoUnidades > 0 && (
                                         <div className="mt-4 p-4 bg-accent-green/30 rounded-2xl border border-accent-green flex items-center justify-between">
                                             <div>
-                                                <p className="text-[10px] font-bold text-accent-textGreen uppercase tracking-widest mb-0.5">💰 Faturamento Total do Lote</p>
-                                                <p className="text-[9px] font-bold text-green-600/70 uppercase tracking-widest">
+                                                <p className="text-[12px] font-bold text-accent-textGreen uppercase tracking-widest mb-0.5">💰 Faturamento Total do Lote</p>
+                                                <p className="text-[13px] font-bold text-green-600/70 uppercase tracking-widest">
                                                     {formatarMoeda(precoVenda)} × {rendimentoUnidades} {unidadeRendimento}
                                                 </p>
                                             </div>
                                             <div className="text-right">
                                                 <p className="text-2xl font-black text-accent-textGreen tracking-tight">{formatarMoeda(precoVenda * rendimentoUnidades)}</p>
                                                 {calculo && (
-                                                    <p className="text-[9px] font-bold text-green-600/70 uppercase tracking-widest mt-0.5">
+                                                    <p className="text-[13px] font-bold text-green-600/70 uppercase tracking-widest mt-0.5">
                                                         Lucro Líquido: {formatarMoeda((precoVenda * rendimentoUnidades) - (calculo.custo_total_lote || 0))}
                                                     </p>
                                                 )}
@@ -893,7 +893,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                     <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700 space-y-6">
                                         <div className="flex items-center gap-3 mb-2">
                                             <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center">
-                                                <span className="material-symbols-outlined text-sm text-gray-400">analytics</span>
+                                                <span className="material-symbols-outlined text-sm text-gray-500">analytics</span>
                                             </div>
                                             <p className="text-sm font-bold text-gray-900 tracking-tight uppercase tracking-wider">Detalhamento Completo</p>
                                         </div>
@@ -903,55 +903,55 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                             <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
                                                 <div className="flex items-center gap-2 text-gray-500">
                                                     <span className="material-symbols-outlined text-sm text-blue-400">engineering</span>
-                                                    <span className="text-[10px] font-bold uppercase tracking-wide">CMV Total (Lote)</span>
+                                                    <span className="text-[12px] font-bold uppercase tracking-wide">CMV Total (Lote)</span>
                                                 </div>
                                                 <div className="text-2xl font-bold text-gray-900">{formatarMoeda(calculo?.cmv_total || 0)}</div>
-                                                <div className="text-[10px] text-gray-400">Unitário: {formatarMoeda(calculo?.cmv_unitario || 0)}</div>
+                                                <div className="text-[12px] text-gray-500">Unitário: {formatarMoeda(calculo?.cmv_unitario || 0)}</div>
                                             </div>
 
                                             <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
                                                 <div className="flex items-center gap-2 text-gray-500">
                                                     <span className="material-symbols-outlined text-sm text-orange-400">local_fire_department</span>
-                                                    <span className="text-[10px] font-bold uppercase tracking-wide">Gás</span>
+                                                    <span className="text-[12px] font-bold uppercase tracking-wide">Gás</span>
                                                 </div>
                                                 <div className="text-2xl font-bold text-gray-900">{formatarMoeda(calculo?.custo_gas || 0)}</div>
-                                                <div className="text-[10px] text-gray-400">Botijão R${pricingSettings?.preco_botijao_gas || 120} / {pricingSettings?.duracao_botijao_horas || 50}h</div>
+                                                <div className="text-[12px] text-gray-500">Botijão R${pricingSettings?.preco_botijao_gas || 120} / {pricingSettings?.duracao_botijao_horas || 50}h</div>
                                             </div>
 
                                             <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
                                                 <div className="flex items-center gap-2 text-gray-500">
                                                     <span className="material-symbols-outlined text-sm text-yellow-400">bolt</span>
-                                                    <span className="text-[10px] font-bold uppercase tracking-wide">Mão de Obra</span>
+                                                    <span className="text-[12px] font-bold uppercase tracking-wide">Mão de Obra</span>
                                                 </div>
                                                 <div className="text-2xl font-bold text-gray-900">{formatarMoeda(calculo?.custo_mao_obra || 0)}</div>
-                                                <div className="text-[10px] text-gray-400">R${pricingSettings?.custo_hora_mao_obra || 20}/h x {tempoProducaoMinutos} min</div>
+                                                <div className="text-[12px] text-gray-500">R${pricingSettings?.custo_hora_mao_obra || 20}/h x {tempoProducaoMinutos} min</div>
                                             </div>
 
                                             <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
                                                 <div className="flex items-center gap-2 text-gray-500">
                                                     <span className="material-symbols-outlined text-sm text-purple-400">storefront</span>
-                                                    <span className="text-[10px] font-bold uppercase tracking-wide">Custos Fixos (Rateio)</span>
+                                                    <span className="text-[12px] font-bold uppercase tracking-wide">Custos Fixos (Rateio)</span>
                                                 </div>
                                                 <div className="text-2xl font-bold text-gray-900">{formatarMoeda(calculo?.custo_fixo_rateio || 0)}</div>
-                                                <div className="text-[10px] text-gray-400">R${(calculo?.custo_por_minuto || 0).toFixed(2)}/min x {tempoProducaoMinutos} min</div>
+                                                <div className="text-[12px] text-gray-500">R${(calculo?.custo_por_minuto || 0).toFixed(2)}/min x {tempoProducaoMinutos} min</div>
                                             </div>
 
                                             <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
                                                 <div className="flex items-center gap-2 text-gray-500">
                                                     <span className="material-symbols-outlined text-sm text-blue-500">shield</span>
-                                                    <span className="text-[10px] font-bold uppercase tracking-wide">CMV + Segurança</span>
+                                                    <span className="text-[12px] font-bold uppercase tracking-wide">CMV + Segurança</span>
                                                 </div>
                                                 <div className="text-2xl font-bold text-gray-900">{formatarMoeda(calculo?.cmv_com_seguranca || 0)}</div>
-                                                <div className="text-[10px] text-gray-400">+{pricingSettings?.percentual_seguranca || 20}% Imprevistos</div>
+                                                <div className="text-[12px] text-gray-500">+{pricingSettings?.percentual_seguranca || 20}% Imprevistos</div>
                                             </div>
 
                                             <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
                                                 <div className="flex items-center gap-2 text-gray-500">
                                                     <span className="material-symbols-outlined text-sm text-green-500">account_balance_wallet</span>
-                                                    <span className="text-[10px] font-bold uppercase tracking-wide">Custo Total (Lote)</span>
+                                                    <span className="text-[12px] font-bold uppercase tracking-wide">Custo Total (Lote)</span>
                                                 </div>
                                                 <div className="text-2xl font-bold text-gray-900">{formatarMoeda(calculo?.custo_total_lote || 0)}</div>
-                                                <div className="text-[10px] text-gray-400">Soma de todos os custos</div>
+                                                <div className="text-[12px] text-gray-500">Soma de todos os custos</div>
                                             </div>
                                         </div>
 
@@ -959,7 +959,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                         <div className="bg-accent-pink/30 border border-primary/20 rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between shadow-sm gap-4">
                                             <div>
                                                 <h3 className="text-xs font-bold text-primary uppercase tracking-wider mb-1">Custo Unitário Final</h3>
-                                                <p className="text-[10px] font-semibold text-primary/70 uppercase">Custo Base / {rendimentoUnidades} {unidadeRendimento}</p>
+                                                <p className="text-[12px] font-semibold text-primary/70 uppercase">Custo Base / {rendimentoUnidades} {unidadeRendimento}</p>
                                             </div>
                                             <div className="text-4xl font-black text-primary tracking-tight">
                                                 {formatarMoeda(calculo?.custo_unidade_final || 0)}
@@ -970,15 +970,15 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                         {precoVenda > 0 && rendimentoUnidades > 0 && (
                                             <div className="p-5 bg-green-50 rounded-[24px] border border-green-200/40 flex items-center justify-between">
                                                 <div>
-                                                    <p className="text-[9px] font-black text-green-600 uppercase tracking-[0.2em] mb-1">💰 Faturamento Total do Lote</p>
-                                                    <p className="text-[8px] font-bold text-green-500/70 uppercase tracking-widest">
+                                                    <p className="text-[13px] font-black text-green-600 uppercase tracking-[0.2em] mb-1">💰 Faturamento Total do Lote</p>
+                                                    <p className="text-[12px] font-bold text-green-500/70 uppercase tracking-widest">
                                                         {formatarMoeda(precoVenda)} × {rendimentoUnidades} {unidadeRendimento}
                                                     </p>
                                                 </div>
                                                 <div className="text-right">
                                                     <p className="text-3xl font-black text-green-600 tracking-tighter">{formatarMoeda(precoVenda * rendimentoUnidades)}</p>
                                                     {calculo && (
-                                                        <p className="text-[8px] font-black text-green-500/70 uppercase tracking-widest mt-0.5">
+                                                        <p className="text-[12px] font-black text-green-500/70 uppercase tracking-widest mt-0.5">
                                                             Lucro Líquido: {formatarMoeda((precoVenda * rendimentoUnidades) - (calculo.custo_total_lote || 0))}
                                                         </p>
                                                     )}
@@ -989,7 +989,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                         {/* Detalhamento por Ingrediente */}
                                         {calculo?.detalhamento_custos && calculo.detalhamento_custos.length > 0 && (
                                             <div className="space-y-4">
-                                                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1 mt-6">Custo Por Ingrediente</h3>
+                                                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest pl-1 mt-6">Custo Por Ingrediente</h3>
                                                 <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-1 divide-y divide-gray-50 dark:divide-gray-700/50">
                                                     {calculo.detalhamento_custos.map((item: any, idx: number) => (
                                                         <div key={idx} className="flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-lg group">
@@ -997,14 +997,14 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                                                 <div className="w-2 h-2 rounded-full bg-primary" />
                                                                 <div>
                                                                     <div className="font-bold text-gray-900 text-sm">{item.insumo_nome}</div>
-                                                                    <div className="text-xs text-gray-400">
+                                                                    <div className="text-xs text-gray-500">
                                                                         {item.quantidade_usada} {item.unidade_usada} · {item.modo_custo}
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div className="text-right">
                                                                 <div className="font-bold text-gray-900 text-sm">{formatarMoeda(item.custo_total)}</div>
-                                                                <div className="text-[10px] font-medium text-primary">{item.percentual_do_cmv?.toFixed(1)}%</div>
+                                                                <div className="text-[12px] font-medium text-primary">{item.percentual_do_cmv?.toFixed(1)}%</div>
                                                             </div>
                                                         </div>
                                                     ))}
@@ -1023,7 +1023,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                                     </div>
                                                     <div>
                                                         <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100">Sugestões de Preço</h3>
-                                                        <p className="text-[10px] text-gray-500 font-medium uppercase">Clique para definir o preço de venda</p>
+                                                        <p className="text-[12px] text-gray-500 font-medium uppercase">Clique para definir o preço de venda</p>
                                                     </div>
                                                 </div>
                                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -1039,15 +1039,15 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                                             )}
                                                         >
                                                             <div className={cn(
-                                                                "text-[10px] font-bold uppercase mb-2 transition-colors",
-                                                                precoVenda === parseFloat(s.valor.toFixed(2)) ? "text-primary" : "text-gray-400 group-hover:text-primary/70"
+                                                                "text-[12px] font-bold uppercase mb-2 transition-colors",
+                                                                precoVenda === parseFloat(s.valor.toFixed(2)) ? "text-primary" : "text-gray-500 group-hover:text-primary/70"
                                                             )}>
                                                                 Lucro {s.margem}%
                                                             </div>
                                                             <div className="text-xl font-bold text-gray-900 mb-1">
                                                                 {formatarMoeda(s.valor)}
                                                             </div>
-                                                            <div className="text-[10px] text-gray-400">
+                                                            <div className="text-[12px] text-gray-500">
                                                                 Lote: {formatarMoeda(s.valor * rendimentoUnidades)}
                                                             </div>
                                                         </button>
@@ -1066,7 +1066,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                 <div className="px-8 py-6 border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-surface-dark shrink-0 flex items-center justify-between rounded-b-[32px]">
                     <button
                         onClick={step === 1 ? () => onOpenChange(false) : handleBack}
-                        className="text-xs font-bold text-gray-400 hover:text-gray-700 uppercase tracking-widest px-4 py-2 transition-colors"
+                        className="text-xs font-bold text-gray-500 hover:text-gray-700 uppercase tracking-widest px-4 py-2 transition-colors"
                     >
                         {step === 1 ? "Cancelar" : "Voltar"}
                     </button>

@@ -140,14 +140,14 @@ export default function Financas() {
               <h1 className="text-3xl font-bold text-gray-900">
                 Cofre <span className="text-[#FDA4AF]">Financeiro</span>
               </h1>
-              <p className="text-gray-400 text-[10px] font-bold tracking-widest mt-1 uppercase">
+              <p className="text-gray-500 text-[12px] font-bold tracking-widest mt-1 uppercase">
                 Controle total das suas entradas e saídas
               </p>
             </div>
             <div className="flex items-center gap-3">
               <Button
                 variant="outline"
-                className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-100 text-gray-400 hover:bg-gray-50 transition-colors text-[11px] font-bold uppercase tracking-widest"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-100 text-gray-500 hover:bg-gray-50 transition-colors text-[13px] font-bold uppercase tracking-widest"
               >
                 <FileText className="w-4 h-4" />
                 RELATÓRIOS
@@ -170,7 +170,7 @@ export default function Financas() {
                 <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-500">
                   <TrendingUp className="w-5 h-5" />
                 </div>
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Receitas Totais</span>
+                <span className="text-[12px] font-bold text-gray-500 uppercase tracking-widest">Receitas Totais</span>
               </div>
               <div className="text-3xl font-bold text-green-500">
                 {totalReceitas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
@@ -183,7 +183,7 @@ export default function Financas() {
                 <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-[#F87171]">
                   <TrendingDown className="w-5 h-5" />
                 </div>
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Despesas Totais</span>
+                <span className="text-[12px] font-bold text-gray-500 uppercase tracking-widest">Despesas Totais</span>
               </div>
               <div className="text-3xl font-bold text-[#F87171]">
                 {totalDespesas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
@@ -197,7 +197,7 @@ export default function Financas() {
                 <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-400">
                   <Coins className="w-5 h-5" />
                 </div>
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Lucro Líquido</span>
+                <span className="text-[12px] font-bold text-gray-500 uppercase tracking-widest">Lucro Líquido</span>
               </div>
               <div className="text-3xl font-bold text-[#FDA4AF] relative z-10">
                 {lucro.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
@@ -218,10 +218,10 @@ export default function Financas() {
                     key={f.value}
                     onClick={() => setFilter(f.value as FilterTipo)}
                     className={cn(
-                      "px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all",
+                      "px-6 py-2 rounded-full text-[12px] font-bold uppercase tracking-widest transition-all",
                       filter === f.value
                         ? "bg-white text-gray-900 shadow-sm"
-                        : "text-gray-400 hover:bg-gray-100"
+                        : "text-gray-500 hover:bg-gray-100"
                     )}
                   >
                     {f.label}
@@ -229,7 +229,7 @@ export default function Financas() {
                 ))}
               </div>
               <div className="relative w-full md:w-72">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 w-4 h-4" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
                 <Input
                   className="w-full pl-11 pr-4 py-2.5 bg-gray-50 border-none rounded-full text-sm text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-[#F87171]/20"
                   placeholder="Filtrar lançamentos..."
@@ -242,23 +242,23 @@ export default function Financas() {
             {loading ? (
               <div className="py-20 text-center flex flex-col items-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#F87171] mb-4"></div>
-                <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">Buscando transações...</p>
+                <p className="text-[12px] font-bold text-gray-500 uppercase tracking-widest">Buscando transações...</p>
               </div>
             ) : Object.keys(groupedTransacoes).length === 0 ? (
               <div className="flex flex-col items-center justify-center py-24 text-center opacity-40">
                 <div className="w-16 h-16 rounded-3xl bg-gray-50 flex items-center justify-center mb-4">
-                  <Wallet className="w-8 h-8 text-gray-300" />
+                  <Wallet className="w-8 h-8 text-gray-500" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-700 tracking-tight">Sem movimentos</h3>
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Clique em Nova Transação</p>
+                <p className="text-[12px] font-bold text-gray-500 uppercase tracking-widest mt-1">Clique em Nova Transação</p>
               </div>
             ) : (
               Object.entries(groupedTransacoes).map(([categoria, transacoes]) => (
                 <div key={categoria} className="mb-8">
-                  <div className="flex justify-between items-center px-4 mb-4 text-[10px] font-bold text-gray-900 uppercase tracking-widest">
+                  <div className="flex justify-between items-center px-4 mb-4 text-[12px] font-bold text-gray-900 uppercase tracking-widest">
                     <div className="flex items-center gap-2">
                       <span>{categoria}</span>
-                      <span className="bg-gray-100 text-gray-500 px-2 py-0.5 rounded-md text-[9px]">
+                      <span className="bg-gray-100 text-gray-500 px-2 py-0.5 rounded-md text-[13px]">
                         {transacoes.length}
                       </span>
                     </div>
@@ -283,15 +283,15 @@ export default function Financas() {
                           <div>
                             <h4 className="font-bold text-gray-800 text-sm tracking-tight">{t.descricao}</h4>
                             <div className="flex items-center gap-3 mt-1">
-                              <span className="text-[10px] text-gray-400 uppercase tracking-wider">{t.data}</span>
+                              <span className="text-[12px] text-gray-500 uppercase tracking-wider">{t.data}</span>
                               <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                              <span className="text-[9px] font-bold text-[#F87171] bg-[#F87171]/10 px-2 py-0.5 rounded uppercase">
+                              <span className="text-[13px] font-bold text-[#F87171] bg-[#F87171]/10 px-2 py-0.5 rounded uppercase">
                                 {t.metodo}
                               </span>
                               {t.cliente && (
                                 <>
                                   <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                                  <span className="text-[10px] text-gray-400 truncate max-w-[150px]">{t.cliente}</span>
+                                  <span className="text-[12px] text-gray-500 truncate max-w-[150px]">{t.cliente}</span>
                                 </>
                               )}
                             </div>
@@ -309,7 +309,7 @@ export default function Financas() {
                             variant="ghost"
                             size="icon"
                             onClick={() => handleDelete(t.id)}
-                            className="text-gray-300 hover:text-red-400 transition-colors"
+                            className="text-gray-500 hover:text-red-400 transition-colors"
                           >
                             <Trash2 className="w-5 h-5" />
                           </Button>

@@ -278,7 +278,7 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
                                     <DialogTitle className="text-2xl font-black tracking-tight text-gray-800">
                                         {kitParaEditar ? "Editar Kit de Receitas" : "Novo Kit de Receitas"}
                                     </DialogTitle>
-                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">
+                                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">
                                         {kitParaEditar ? "Atualize as informações do seu produto composto" : "Monte um produto composto por múltiplas receitas"}
                                     </p>
                                 </div>
@@ -344,7 +344,7 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
                                         type="button"
                                         onClick={handleAddItem}
                                         disabled={!itemSelecionado}
-                                        className="bg-[#EFB6BF] hover:bg-[#EFB6BF]/90 text-white h-9 rounded-full font-black text-[10px] uppercase tracking-widest px-6 shadow-sm disabled:opacity-30"
+                                        className="bg-[#EFB6BF] hover:bg-[#EFB6BF]/90 text-white h-9 rounded-full font-black text-[12px] uppercase tracking-widest px-6 shadow-sm disabled:opacity-30"
                                     >
                                         Adicionar
                                     </Button>
@@ -358,7 +358,7 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
                                             onClick={() => setShowSelector(true)}
                                             className={cn(
                                                 "w-full h-11 bg-white border border-gray-100 rounded-[14px] text-xs flex items-center justify-between font-bold px-4 transition-all hover:border-[#EFB6BF]/30",
-                                                !itemSelecionado ? "text-gray-300" : "text-gray-700"
+                                                !itemSelecionado ? "text-gray-500" : "text-gray-700"
                                             )}
                                         >
                                             <span className="truncate">
@@ -395,12 +395,12 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
                                         />
                                         <div className="h-4 w-[1px] bg-gray-100 mx-2" />
                                         <Select value={unidadeSelecionada} onValueChange={setUnidadeSelecionada}>
-                                            <SelectTrigger className="border-none bg-transparent h-auto p-0 w-12 shadow-none focus:ring-0 font-black text-[#EFB6BF] text-[11px] uppercase">
+                                            <SelectTrigger className="border-none bg-transparent h-auto p-0 w-12 shadow-none focus:ring-0 font-black text-[#EFB6BF] text-[13px] uppercase">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent className="rounded-xl border-none shadow-xl">
                                                 {["un", "g", "kg", "ml", "L"].map(u => (
-                                                    <SelectItem key={u} value={u} className="text-[11px] font-black uppercase">{u}</SelectItem>
+                                                    <SelectItem key={u} value={u} className="text-[13px] font-black uppercase">{u}</SelectItem>
                                                 ))}
                                             </SelectContent>
                                         </Select>
@@ -411,7 +411,7 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
                                 <div className="space-y-2 pt-4 border-t border-gray-50">
                                     {itensKit.length === 0 ? (
                                         <div className="text-center py-10 opacity-20">
-                                            <p className="text-[11px] font-black uppercase tracking-widest">Aguardando componentes...</p>
+                                            <p className="text-[13px] font-black uppercase tracking-widest">Aguardando componentes...</p>
                                         </div>
                                     ) : (
                                         <div className="grid grid-cols-1 gap-2.5">
@@ -422,14 +422,14 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
                                                         <div className="min-w-0 flex-1">
                                                             <div className="flex items-center gap-2">
                                                                 <h4 className="text-[13px] font-black text-gray-700 truncate">{item.nome}</h4>
-                                                                <span className="text-[9px] font-black uppercase text-gray-300">| {item.papel}</span>
+                                                                <span className="text-[13px] font-black uppercase text-gray-500">| {item.papel}</span>
                                                             </div>
-                                                            <p className="text-[11px] font-bold text-gray-400 mt-0.5">
+                                                            <p className="text-[13px] font-bold text-gray-500 mt-0.5">
                                                                 {item.quantidade} {item.unidade} <span className="mx-1.5 opacity-30">•</span> {formatarMoeda(item.custo_unitario * item.quantidade)}
                                                             </p>
                                                         </div>
                                                     </div>
-                                                    <button type="button" onClick={() => handleRemoveItem(item.id)} className="p-2 text-gray-300 hover:text-rose-400 transition-all">
+                                                    <button type="button" onClick={() => handleRemoveItem(item.id)} className="p-2 text-gray-500 hover:text-rose-400 transition-all">
                                                         <Trash2 className="w-4 h-4" />
                                                     </button>
                                                 </div>
@@ -453,7 +453,7 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
                                     </div>
                                 </div>
                                 <div className="bg-[#EFB6BF]/5 rounded-[24px] p-6 border border-[#EFB6BF]/10 flex flex-col justify-center">
-                                    <p className="text-[10px] font-black uppercase text-[#EFB6BF] tracking-widest mb-1">Custo Total Produção</p>
+                                    <p className="text-[12px] font-black uppercase text-[#EFB6BF] tracking-widest mb-1">Custo Total Produção</p>
                                     <p className="text-[32px] font-black text-[#EFB6BF] tracking-tighter leading-none">{formatarMoeda(custoTotal)}</p>
                                 </div>
                             </div>

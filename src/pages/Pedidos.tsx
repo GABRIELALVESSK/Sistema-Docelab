@@ -304,7 +304,7 @@ export default function Pedidos() {
                 onClick={() => setViewMode("lista")}
                 className={cn(
                   "px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition-all",
-                  viewMode === "lista" ? "bg-white dark:bg-gray-700 shadow-sm text-secondary dark:text-white" : "text-gray-400 hover:text-secondary dark:hover:text-white"
+                  viewMode === "lista" ? "bg-white dark:bg-gray-700 shadow-sm text-secondary dark:text-white" : "text-gray-500 hover:text-secondary dark:hover:text-white"
                 )}
               >
                 <span className="material-icons-round text-sm">list</span>
@@ -314,7 +314,7 @@ export default function Pedidos() {
                 onClick={() => setViewMode("calendario")}
                 className={cn(
                   "px-4 py-2 rounded-lg text-[12px] font-bold flex items-center gap-2 transition-all",
-                  viewMode === "calendario" ? "bg-white dark:bg-gray-700 shadow-sm text-secondary dark:text-white" : "text-gray-400 hover:text-secondary dark:hover:text-white"
+                  viewMode === "calendario" ? "bg-white dark:bg-gray-700 shadow-sm text-secondary dark:text-white" : "text-gray-500 hover:text-secondary dark:hover:text-white"
                 )}
               >
                 <span className="material-icons-round text-sm">calendar_month</span>
@@ -325,7 +325,7 @@ export default function Pedidos() {
 
           <div className="flex items-center gap-4 w-full xl:w-auto">
             <div className="relative flex-1 xl:w-80">
-              <span className="material-icons-round absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 text-lg">search</span>
+              <span className="material-icons-round absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-lg">search</span>
               <input
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -336,7 +336,7 @@ export default function Pedidos() {
             </div>
             <button
               onClick={() => { setSelectedPedido(null); setShowNovaEncomenda(true); }}
-              className="bg-primary hover:bg-primary/90 text-white px-6 py-3.5 rounded-2xl font-bold text-[10px] tracking-widest shadow-xl shadow-primary/20 flex items-center gap-2 transition-all active:scale-95 flex-shrink-0 uppercase"
+              className="bg-primary hover:bg-primary/90 text-white px-6 py-3.5 rounded-2xl font-bold text-[12px] tracking-widest shadow-xl shadow-primary/20 flex items-center gap-2 transition-all active:scale-95 flex-shrink-0 uppercase"
             >
               <span className="material-icons-round text-lg">add</span>
               Nova Encomenda
@@ -350,23 +350,23 @@ export default function Pedidos() {
             onClick={() => setActiveTab("pendentes")}
             className={cn(
               "flex items-center gap-2.5 text-xs font-bold transition-all pb-3 border-b-2",
-              activeTab === "pendentes" ? "text-secondary dark:text-white border-primary" : "text-gray-300 border-transparent hover:text-gray-400"
+              activeTab === "pendentes" ? "text-secondary dark:text-white border-primary" : "text-gray-500 border-transparent hover:text-gray-500"
             )}
           >
             <span className="material-icons-round text-base">schedule</span>
             Pendentes
-            {pendentesCount > 0 && <span className="bg-gray-50 dark:bg-gray-800 text-gray-400 px-2 py-0.5 rounded text-[9px] ml-1">{pendentesCount}</span>}
+            {pendentesCount > 0 && <span className="bg-gray-50 dark:bg-gray-800 text-gray-500 px-2 py-0.5 rounded text-[13px] ml-1">{pendentesCount}</span>}
           </button>
           <button
             onClick={() => setActiveTab("entregues")}
             className={cn(
               "flex items-center gap-2.5 text-xs font-bold transition-all pb-3 border-b-2",
-              activeTab === "entregues" ? "text-secondary dark:text-white border-primary" : "text-gray-300 border-transparent hover:text-gray-400"
+              activeTab === "entregues" ? "text-secondary dark:text-white border-primary" : "text-gray-500 border-transparent hover:text-gray-500"
             )}
           >
-            <span className={cn("material-icons-round text-base", activeTab === "entregues" ? "text-green-500" : "text-gray-300")}>check_circle</span>
+            <span className={cn("material-icons-round text-base", activeTab === "entregues" ? "text-green-500" : "text-gray-500")}>check_circle</span>
             Entregues
-            {entreguesCount > 0 && <span className="bg-gray-50 dark:bg-gray-800 text-gray-400 px-2 py-0.5 rounded text-[9px] ml-1">{entreguesCount}</span>}
+            {entreguesCount > 0 && <span className="bg-gray-50 dark:bg-gray-800 text-gray-500 px-2 py-0.5 rounded text-[13px] ml-1">{entreguesCount}</span>}
           </button>
           <button
             className="flex items-center gap-2.5 text-xs font-bold text-gray-200 cursor-not-allowed pb-3 border-b-2 border-transparent"
@@ -388,7 +388,7 @@ export default function Pedidos() {
                     <span className="material-icons-round text-3xl text-gray-200">inventory_2</span>
                   </div>
                   <h3 className="text-lg font-black text-gray-800 dark:text-white tracking-tight">Nenhum pedido encontrado</h3>
-                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-2">Personalize sua busca ou cadastre uma nova venda</p>
+                  <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-2">Personalize sua busca ou cadastre uma nova venda</p>
                 </div>
               ) : (
                 sortedDates.map((dateKey) => {
@@ -407,12 +407,12 @@ export default function Pedidos() {
                             <h3 className="text-base font-black text-secondary dark:text-white tracking-tight">
                               {format(date, "EEEE, d 'de' MMMM", { locale: ptBR })}
                             </h3>
-                            <p className="text-[10px] font-black text-gray-300 uppercase tracking-[0.2em] mt-0.5">
+                            <p className="text-[12px] font-black text-gray-500 uppercase tracking-[0.2em] mt-0.5">
                               {isCurrentWeek ? "Esta semana" : format(date, "MMMM yyyy", { locale: ptBR })}
                             </p>
                           </div>
                         </div>
-                        <span className="bg-white dark:bg-card-dark text-gray-400 text-[10px] font-black px-4 py-1.5 rounded-full border border-gray-100 dark:border-gray-800 shadow-sm uppercase tracking-widest">
+                        <span className="bg-white dark:bg-card-dark text-gray-500 text-[12px] font-black px-4 py-1.5 rounded-full border border-gray-100 dark:border-gray-800 shadow-sm uppercase tracking-widest">
                           {pedidosDodia.length} pedido{pedidosDodia.length > 1 ? "s" : ""}
                         </span>
                       </div>
@@ -447,20 +447,20 @@ export default function Pedidos() {
                     onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
                     className="w-10 h-10 flex items-center justify-center bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors"
                   >
-                    <span className="material-icons-round text-gray-400">chevron_left</span>
+                    <span className="material-icons-round text-gray-500">chevron_left</span>
                   </button>
                   <button
                     onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
                     className="w-10 h-10 flex items-center justify-center bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors"
                   >
-                    <span className="material-icons-round text-gray-400">chevron_right</span>
+                    <span className="material-icons-round text-gray-500">chevron_right</span>
                   </button>
                 </div>
               </div>
 
               <div className="grid grid-cols-7 gap-1">
                 {weekDays.map((day) => (
-                  <div key={day} className="text-center text-[10px] font-black text-gray-200 uppercase tracking-[0.2em] py-4 border-b border-gray-50 dark:border-gray-800">
+                  <div key={day} className="text-center text-[12px] font-black text-gray-200 uppercase tracking-[0.2em] py-4 border-b border-gray-50 dark:border-gray-800">
                     {day}
                   </div>
                 ))}
@@ -483,7 +483,7 @@ export default function Pedidos() {
                         "text-xs font-black transition-all w-8 h-8 flex items-center justify-center rounded-xl",
                         isToday(day)
                           ? "bg-primary text-white shadow-lg scale-110"
-                          : "text-gray-300 group-hover:text-gray-500"
+                          : "text-gray-500 group-hover:text-gray-500"
                       )}>
                         {format(day, "d")}
                       </span>
@@ -492,7 +492,7 @@ export default function Pedidos() {
                           <div
                             key={pedido.id}
                             onClick={(e) => { e.stopPropagation(); handleViewDetails(pedido); }}
-                            className="text-[10px] bg-rose-50 dark:bg-rose-900/20 text-primary p-2 rounded-lg font-black truncate hover:shadow-sm transition-all border border-rose-100/50 dark:border-rose-900/30"
+                            className="text-[12px] bg-rose-50 dark:bg-rose-900/20 text-primary p-2 rounded-lg font-black truncate hover:shadow-sm transition-all border border-rose-100/50 dark:border-rose-900/30"
                           >
                             {pedido.cliente}
                           </div>

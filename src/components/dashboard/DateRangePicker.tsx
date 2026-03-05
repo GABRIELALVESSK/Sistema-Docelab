@@ -78,7 +78,7 @@ export function DateRangePicker({ onRangeChange, rangeStats = { receita: 0, desp
 
         <div className="grid grid-cols-7 mb-4">
           {weekDays.map((day) => (
-            <div key={day} className="text-center text-[10px] font-black uppercase tracking-widest text-secondary/30 py-2">
+            <div key={day} className="text-center text-[12px] font-black uppercase tracking-widest text-secondary/30 py-2">
               {day}
             </div>
           ))}
@@ -132,7 +132,7 @@ export function DateRangePicker({ onRangeChange, rangeStats = { receita: 0, desp
             <div className="mb-8">
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-primary/40" />
-                <p className="text-[10px] font-black uppercase tracking-widest text-secondary/40">Intervalo Ativo</p>
+                <p className="text-[12px] font-black uppercase tracking-widest text-secondary/40">Intervalo Ativo</p>
               </div>
               <h3 className="text-lg font-black text-foreground tracking-tight">
                 {format(startDate, "d 'de' MMM", { locale: ptBR })}
@@ -148,20 +148,20 @@ export function DateRangePicker({ onRangeChange, rangeStats = { receita: 0, desp
             <div className="space-y-3 mb-8">
               <div className="grid grid-cols-2 gap-3">
                 <div className="p-5 rounded-2xl bg-success/5 border border-success/10 flex flex-col">
-                  <span className="text-[10px] font-black text-success uppercase tracking-widest mb-1 opacity-60">Faturamento</span>
+                  <span className="text-[12px] font-black text-success uppercase tracking-widest mb-1 opacity-60">Faturamento</span>
                   <span className="text-lg font-black text-success tracking-tighter">
                     {rangeStats.receita.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                   </span>
                 </div>
                 <div className="p-5 rounded-2xl bg-destructive/5 border border-destructive/10 flex flex-col">
-                  <span className="text-[10px] font-black text-destructive uppercase tracking-widest mb-1 opacity-60">Gastos</span>
+                  <span className="text-[12px] font-black text-destructive uppercase tracking-widest mb-1 opacity-60">Gastos</span>
                   <span className="text-lg font-black text-destructive tracking-tighter">
                     {rangeStats.despesa.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                   </span>
                 </div>
               </div>
               <div className="p-5 rounded-2xl bg-amber-50 border border-amber-100 flex flex-col items-center text-center">
-                <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1 opacity-60">Saldo Projetado</span>
+                <span className="text-[12px] font-black text-amber-600 uppercase tracking-widest mb-1 opacity-60">Saldo Projetado</span>
                 <span className="text-2xl font-black text-amber-900 tracking-tighter">
                   {(rangeStats.receita - rangeStats.despesa).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                 </span>
@@ -175,7 +175,7 @@ export function DateRangePicker({ onRangeChange, rangeStats = { receita: 0, desp
                   setEndDate(null);
                   onRangeChange?.(null, null);
                 }}
-                className="text-[11px] font-black uppercase tracking-[0.2em] text-secondary/40 hover:text-primary transition-colors py-2 px-4 rounded-xl hover:bg-primary/5 active:scale-95"
+                className="text-[13px] font-black uppercase tracking-[0.2em] text-secondary/40 hover:text-primary transition-colors py-2 px-4 rounded-xl hover:bg-primary/5 active:scale-95"
               >
                 Limpar intervalo
               </button>

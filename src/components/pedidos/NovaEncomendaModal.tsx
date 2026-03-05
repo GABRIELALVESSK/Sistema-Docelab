@@ -288,7 +288,7 @@ export function NovaEncomendaModal({ open, onOpenChange, onSubmit, encomenda }: 
                             </div>
                             <div>
                               <p className="text-sm font-bold text-gray-800">{c.nome}</p>
-                              <p className="text-[10px] font-medium text-gray-400">{c.telefone}</p>
+                              <p className="text-[12px] font-medium text-gray-500">{c.telefone}</p>
                             </div>
                           </button>
                         ))}
@@ -297,7 +297,7 @@ export function NovaEncomendaModal({ open, onOpenChange, onSubmit, encomenda }: 
                   })()
                 )}
                 {clientes.length > 0 && !nomeCliente && (
-                  <p className="text-[10px] text-gray-400 font-medium mt-1">
+                  <p className="text-[12px] text-gray-500 font-medium mt-1">
                     💡 Digite para buscar clientes cadastrados...
                   </p>
                 )}
@@ -326,7 +326,7 @@ export function NovaEncomendaModal({ open, onOpenChange, onSubmit, encomenda }: 
                 variant="outline"
                 size="sm"
                 onClick={handleAddItem}
-                className="text-[10px] h-7 gap-1 border-primary/20 hover:bg-primary/5"
+                className="text-[12px] h-7 gap-1 border-primary/20 hover:bg-primary/5"
               >
                 <Plus className="w-3 h-3" /> Adicionar item
               </Button>
@@ -346,7 +346,7 @@ export function NovaEncomendaModal({ open, onOpenChange, onSubmit, encomenda }: 
                   )}
 
                   <div className="space-y-2">
-                    <Label className="text-[10px] uppercase font-bold text-muted-foreground">Produto {index + 1}</Label>
+                    <Label className="text-[12px] uppercase font-bold text-muted-foreground">Produto {index + 1}</Label>
                     <Select
                       value={item.produto}
                       onValueChange={(val) => handleItemChange(index, "produto", val)}
@@ -367,7 +367,7 @@ export function NovaEncomendaModal({ open, onOpenChange, onSubmit, encomenda }: 
 
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-2">
-                      <Label className="text-[10px] uppercase font-bold text-muted-foreground">Qtd</Label>
+                      <Label className="text-[12px] uppercase font-bold text-muted-foreground">Qtd</Label>
                       <Input
                         type="number"
                         min="1"
@@ -377,7 +377,7 @@ export function NovaEncomendaModal({ open, onOpenChange, onSubmit, encomenda }: 
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-[10px] uppercase font-bold text-muted-foreground">Preço Unit.</Label>
+                      <Label className="text-[12px] uppercase font-bold text-muted-foreground">Preço Unit.</Label>
                       <Input
                         type="number"
                         step="0.01"
@@ -396,11 +396,11 @@ export function NovaEncomendaModal({ open, onOpenChange, onSubmit, encomenda }: 
           {/* Valor Total da Encomenda */}
           <div className="bg-[#EFB6BF]/10 p-3 rounded-xl border border-[#EFB6BF]/20 flex justify-between items-center shadow-sm">
             <div>
-              <p className="text-[10px] font-black text-[#EFB6BF] uppercase tracking-wider">Valor Total da Encomenda</p>
+              <p className="text-[12px] font-black text-[#EFB6BF] uppercase tracking-wider">Valor Total da Encomenda</p>
               <p className="text-lg font-black text-foreground">{formatarMoeda(valorTotal)}</p>
             </div>
             <div className="text-right">
-              <p className="text-[10px] font-black text-muted-foreground/40 uppercase tracking-wider">Total de Itens</p>
+              <p className="text-[12px] font-black text-muted-foreground/40 uppercase tracking-wider">Total de Itens</p>
               <p className="text-xs font-bold text-muted-foreground/60">{itens.reduce((acc, i) => acc + i.quantidade, 0)} un.</p>
             </div>
           </div>

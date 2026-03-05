@@ -255,7 +255,7 @@ export default function ListaCompras() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-5 shadow-sm">
-            <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide">
+            <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-gray-500 dark:text-gray-500 uppercase tracking-wide">
               A Comprar
             </div>
             <div className="text-3xl font-bold text-gray-800 dark:text-white">{stats.aComprar}</div>
@@ -275,7 +275,7 @@ export default function ListaCompras() {
             </div>
           </div>
           <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-5 shadow-sm">
-            <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide">
+            <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-gray-500 dark:text-gray-500 uppercase tracking-wide">
               <FileText className="w-4 h-4" /> Total Geral
             </div>
             <div className="text-3xl font-bold text-gray-800 dark:text-white">
@@ -289,15 +289,15 @@ export default function ListaCompras() {
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20 opacity-30">
               <div className="w-10 h-10 border-4 border-[#FF8A96] border-t-transparent rounded-full animate-spin mb-4" />
-              <p className="font-bold text-sm text-gray-400 uppercase tracking-widest">Sincronizando lista...</p>
+              <p className="font-bold text-sm text-gray-500 uppercase tracking-widest">Sincronizando lista...</p>
             </div>
           ) : filteredItens.length === 0 ? (
             <div className="bg-gray-50 dark:bg-gray-800/50 border border-dashed border-gray-200 dark:border-gray-700 rounded-3xl h-[400px] flex flex-col items-center justify-center text-center p-8">
               <div className="w-16 h-16 bg-white dark:bg-gray-700 rounded-2xl shadow-sm flex items-center justify-center mb-6">
-                <ShoppingCart className="w-8 h-8 text-gray-400 dark:text-gray-300" />
+                <ShoppingCart className="w-8 h-8 text-gray-500 dark:text-gray-500" />
               </div>
               <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2">Lista de compras vazia.</h3>
-              <p className="text-gray-500 dark:text-gray-400 text-sm max-w-sm">
+              <p className="text-gray-500 dark:text-gray-500 text-sm max-w-sm">
                 Adicione os itens que você precisa comprar para sua produção.
               </p>
             </div>
@@ -333,13 +333,13 @@ export default function ListaCompras() {
                         {item.nome}
                       </h4>
                       <div className="flex items-center gap-3 mt-1">
-                        <span className="text-xs font-medium text-gray-400">
+                        <span className="text-xs font-medium text-gray-500">
                           {item.quantidade} un • R$ {item.valor_unitario.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                         </span>
                         {item.fornecedor && (
                           <>
                             <span className="w-1 h-1 rounded-full bg-gray-300" />
-                            <span className="text-xs font-medium text-gray-400">{item.fornecedor}</span>
+                            <span className="text-xs font-medium text-gray-500">{item.fornecedor}</span>
                           </>
                         )}
                       </div>
@@ -350,12 +350,12 @@ export default function ListaCompras() {
                     <div className="text-right">
                       <p className={cn(
                         "text-lg font-black tracking-tight",
-                        item.comprado ? "text-gray-400" : "text-gray-900 dark:text-white"
+                        item.comprado ? "text-gray-500" : "text-gray-900 dark:text-white"
                       )}>
                         R$ {Number(item.valor_total).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                       </p>
                       <span className={cn(
-                        "text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-lg",
+                        "text-[12px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-lg",
                         item.prioridade === "alta" ? "bg-red-50 text-red-400" :
                           item.prioridade === "media" ? "bg-orange-50 text-orange-400" :
                             "bg-green-50 text-green-400"
@@ -368,7 +368,7 @@ export default function ListaCompras() {
                         variant="ghost"
                         size="icon"
                         onClick={() => handleDelete(item.id)}
-                        className="h-10 w-10 rounded-xl text-gray-300 hover:text-[#FF5C5C] hover:bg-red-50 transition-all"
+                        className="h-10 w-10 rounded-xl text-gray-500 hover:text-[#FF5C5C] hover:bg-red-50 transition-all"
                       >
                         <Trash2 className="w-5 h-5" />
                       </Button>

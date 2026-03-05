@@ -69,13 +69,13 @@ export default function Login() {
                         <div className="space-y-1.5">
                             <label className="text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">E-mail</label>
                             <div className="relative">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                                 <input
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="seu@email.com"
-                                    className="w-full pl-11 pr-4 py-3.5 bg-gray-50/80 border border-gray-200 rounded-2xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:ring-2 focus:ring-[#FF8A96]/30 focus:border-[#FF8A96]/50 outline-none transition-all"
+                                    className="w-full pl-11 pr-4 py-3.5 bg-gray-50/80 border border-gray-200 rounded-2xl text-sm font-medium text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#FF8A96]/30 focus:border-[#FF8A96]/50 outline-none transition-all"
                                 />
                             </div>
                         </div>
@@ -84,18 +84,18 @@ export default function Login() {
                         <div className="space-y-1.5">
                             <label className="text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">Senha</label>
                             <div className="relative">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                                 <input
                                     type={showPassword ? 'text' : 'password'}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="••••••••"
-                                    className="w-full pl-11 pr-12 py-3.5 bg-gray-50/80 border border-gray-200 rounded-2xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:ring-2 focus:ring-[#FF8A96]/30 focus:border-[#FF8A96]/50 outline-none transition-all"
+                                    className="w-full pl-11 pr-12 py-3.5 bg-gray-50/80 border border-gray-200 rounded-2xl text-sm font-medium text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#FF8A96]/30 focus:border-[#FF8A96]/50 outline-none transition-all"
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-600 transition-colors"
                                 >
                                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                 </button>
@@ -122,7 +122,7 @@ export default function Login() {
                     {/* Divider */}
                     <div className="flex items-center gap-3 my-6">
                         <div className="flex-1 h-px bg-gray-200" />
-                        <span className="text-xs text-gray-400 font-medium">ou</span>
+                        <span className="text-xs text-gray-500 font-medium">ou</span>
                         <div className="flex-1 h-px bg-gray-200" />
                     </div>
 
@@ -139,7 +139,7 @@ export default function Login() {
                 </div>
 
                 {/* Footer */}
-                <p className="text-center text-xs text-gray-400 mt-6">
+                <p className="text-center text-xs text-gray-500 mt-6">
                     © 2026 DoceLab. Todos os direitos reservados.
                 </p>
             </div>

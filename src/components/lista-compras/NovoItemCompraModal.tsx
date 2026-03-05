@@ -100,7 +100,7 @@ export function NovoItemCompraModal({ open, onOpenChange, onSubmit }: NovoItemCo
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Destino no Estoque */}
             <div className="p-3 rounded-xl bg-[#FDFCFB] border border-border/20 space-y-2">
-              <Label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-0.5">Destino no Estoque</Label>
+              <Label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-0.5">Destino no Estoque</Label>
               <div className="flex gap-4">
                 <label className="flex items-center gap-2 cursor-pointer group">
                   <div className={cn(

@@ -128,7 +128,7 @@ export function ConfigurarMetaModal({ open, onOpenChange, onSaved }: ConfigurarM
                         </div>
                         <h2 className="text-lg font-black text-gray-900 tracking-tight">Configurar Meta Mensal</h2>
                     </div>
-                    <p className="text-xs font-medium text-gray-400 ml-[42px]">
+                    <p className="text-xs font-medium text-gray-500 ml-[42px]">
                         Defina seus gastos para calcular sua meta mensal.
                     </p>
                 </div>
@@ -182,13 +182,13 @@ export function ConfigurarMetaModal({ open, onOpenChange, onSaved }: ConfigurarM
                     {/* Meta Sugerida */}
                     <div className="p-3 bg-amber-50/80 rounded-xl border border-amber-100/50 flex items-center justify-between">
                         <div>
-                            <p className="text-[10px] font-medium text-gray-500">Meta sugerida (soma dos gastos):</p>
+                            <p className="text-[12px] font-medium text-gray-500">Meta sugerida (soma dos gastos):</p>
                             <p className="text-lg font-black text-[#EFB6BF] tracking-tight">{formatCurrency(metaSugerida)}</p>
                         </div>
                         <button
                             type="button"
                             onClick={handleUsarSugerida}
-                            className="text-[10px] font-bold text-[#EFB6BF] hover:text-[#e8a0ab] transition-colors underline underline-offset-2"
+                            className="text-[12px] font-bold text-[#EFB6BF] hover:text-[#e8a0ab] transition-colors underline underline-offset-2"
                         >
                             Usar este valor
                         </button>
@@ -208,7 +208,7 @@ export function ConfigurarMetaModal({ open, onOpenChange, onSaved }: ConfigurarM
                     {/* Info Notice */}
                     <div className="flex items-center gap-2 p-3 bg-amber-50 rounded-xl border border-amber-100/40">
                         <Info className="w-4 h-4 text-amber-500 shrink-0" />
-                        <p className="text-[10px] font-medium text-amber-700 leading-snug">
+                        <p className="text-[12px] font-medium text-amber-700 leading-snug">
                             O progresso é zerado automaticamente à meia-noite do primeiro dia de cada mês.
                         </p>
                     </div>

@@ -50,15 +50,21 @@ export interface OrcamentoData {
     notas: string;
     valorTotal: number;
     frete: number;
+    dataEvento?: string;
+    tipoEvento?: string;
+    aniversarianteNome?: string;
+    aniversarianteIdade?: string;
+    id?: string;
 }
 
 interface CriarOrcamentoModalProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    onSubmit: (data: OrcamentoData) => Promise<void> | void;
+    onSubmit: (data: OrcamentoData & { id?: string }) => Promise<void> | void;
+    initialData?: OrcamentoData & { id?: string };
 }
 
-export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcamentoModalProps) {
+export function CriarOrcamentoModal({ open, onOpenChange, onSubmit, initialData }: CriarOrcamentoModalProps) {
     const { toast } = useToast();
     const { user } = useAuth();
 
@@ -70,6 +76,10 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
     const [validade, setValidade] = useState(format(addDays(new Date(), 7), "yyyy-MM-dd"));
     const [notas, setNotas] = useState("");
     const [frete, setFrete] = useState(0);
+    const [dataEvento, setDataEvento] = useState("");
+    const [tipoEvento, setTipoEvento] = useState("");
+    const [aniversarianteNome, setAniversarianteNome] = useState("");
+    const [aniversarianteIdade, setAniversarianteIdade] = useState("");
 
     // Items
     const [itens, setItens] = useState<OrcamentoItemData[]>([]);
@@ -85,18 +95,37 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
     useEffect(() => {
         if (open) {
             fetchData();
-            // Reset form
-            setClienteNome("");
-            setClienteEndereco("");
-            setClienteTelefone("");
-            setClienteEmail("");
-            setValidade(format(addDays(new Date(), 7), "yyyy-MM-dd"));
-            setNotas("");
-            setFrete(0);
-            setItens([]);
+            if (initialData) {
+                setClienteNome(initialData.clienteNome);
+                setClienteEndereco(initialData.clienteEndereco);
+                setClienteTelefone(initialData.clienteTelefone);
+                setClienteEmail(initialData.clienteEmail);
+                setValidade(initialData.validade);
+                setNotas(initialData.notas);
+                setFrete(initialData.frete);
+                setDataEvento(initialData.dataEvento || "");
+                setTipoEvento(initialData.tipoEvento || "");
+                setAniversarianteNome(initialData.aniversarianteNome || "");
+                setAniversarianteIdade(initialData.aniversarianteIdade || "");
+                setItens(initialData.itens);
+            } else {
+                // Reset form
+                setClienteNome("");
+                setClienteEndereco("");
+                setClienteTelefone("");
+                setClienteEmail("");
+                setValidade(format(addDays(new Date(), 7), "yyyy-MM-dd"));
+                setNotas("");
+                setFrete(0);
+                setDataEvento("");
+                setTipoEvento("");
+                setAniversarianteNome("");
+                setAniversarianteIdade("");
+                setItens([]);
+            }
             setStep("form");
         }
-    }, [open]);
+    }, [open, initialData]);
 
     const fetchData = async () => {
         if (!user?.id) return;
@@ -177,6 +206,11 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
             notas,
             valorTotal,
             frete,
+            dataEvento,
+            tipoEvento,
+            aniversarianteNome,
+            aniversarianteIdade,
+            id: initialData?.id
         };
         await onSubmit(data); // Ensures it's saved before closing or redirecting
         onOpenChange(false);
@@ -187,6 +221,12 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
         if (clienteNome) msg += `👤 Cliente: ${clienteNome}\n`;
         if (clienteEndereco) msg += `📍 Endereço: ${clienteEndereco}\n`;
         msg += `📅 Data: ${format(new Date(), "dd/MM/yyyy", { locale: ptBR })}\n`;
+        if (dataEvento) {
+            msg += `🎉 Data do Evento: ${format(new Date(dataEvento + 'T12:00:00'), "dd/MM/yyyy", { locale: ptBR })}\n`;
+        }
+        if (tipoEvento) msg += `🎈 Tipo: ${tipoEvento}\n`;
+        if (aniversarianteNome) msg += `🧒 Aniversariante: ${aniversarianteNome}\n`;
+        if (aniversarianteIdade) msg += `🎂 Idade: ${aniversarianteIdade}\n`;
         msg += `⏳ Válido até: ${validade ? format(new Date(validade + 'T12:00:00'), "dd/MM/yyyy", { locale: ptBR }) : "N/A"}\n\n`;
 
         msg += `🧁 ITENS DO ORÇAMENTO\n`;
@@ -226,14 +266,24 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                 notas,
                 valorTotal,
                 frete,
+                dataEvento,
+                tipoEvento,
+                aniversarianteNome,
+                aniversarianteIdade,
+                id: initialData?.id
             };
             await onSubmit(data);
 
             const msg = generateWhatsAppMessage();
-            const webhookUrl = import.meta.env.VITE_WEBHOOK_WHATSAPP_URL;
+            const rawWebhookUrl = import.meta.env.VITE_WEBHOOK_WHATSAPP_URL;
 
-            if (webhookUrl && webhookUrl.startsWith('http')) {
+            if (rawWebhookUrl && rawWebhookUrl.startsWith('http')) {
                 try {
+                    // Encode the URL to handle spaces and special characters
+                    const webhookUrl = encodeURI(rawWebhookUrl);
+
+                    toast({ title: "Enviando...", description: "O orçamento está sendo processado." });
+
                     await fetch(webhookUrl, {
                         method: 'POST',
                         mode: 'no-cors', // Bypassa completamente o bloqueio de CORS
@@ -251,12 +301,12 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                     });
 
                     // Em modo no-cors o navegador não deixa ler a resposta, mas o envio é feito!
-                    toast({ title: "Notificação enviada!", description: "O orçamento foi enviado para o n8n." });
+                    toast({ title: "Notificação enviada!", description: "O orçamento foi enviado com sucesso." });
                 } catch (error: any) {
                     console.error("Erro no webhook:", error);
                     toast({
                         title: "Erro no Webhook",
-                        description: `Erro: ${error.message}. Verifique o CORS no n8n.`,
+                        description: `Erro: ${error.message}. Verifique a sua conexão e a URL configurada.`,
                         variant: "destructive"
                     });
                 }
@@ -292,13 +342,13 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                     Pré-visualização do Orçamento
                                 </DialogTitle>
                             </div>
-                            <p className="text-sm font-semibold text-gray-400 tracking-wide uppercase">
+                            <p className="text-sm font-semibold text-gray-500 tracking-wide uppercase">
                                 {format(new Date(), "dd 'DE' MMMM 'DE' yyyy", { locale: ptBR })}
                             </p>
                         </div>
                         <button
                             onClick={() => onOpenChange(false)}
-                            className="text-gray-400 hover:text-secondary dark:hover:text-white transition-colors p-1"
+                            className="text-gray-500 hover:text-secondary dark:hover:text-white transition-colors p-1"
                         >
                             <span className="material-symbols-outlined text-2xl">close</span>
                         </button>
@@ -320,24 +370,40 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                 {clienteEndereco && (
                                     <div className="flex items-center gap-2 opacity-70">
                                         <span className="material-symbols-outlined text-sm">location_on</span>
-                                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{clienteEndereco}</span>
+                                        <span className="text-xs font-medium text-gray-500 dark:text-gray-500">{clienteEndereco}</span>
                                     </div>
                                 )}
                                 {clienteTelefone && (
                                     <div className="flex items-center gap-2 opacity-70">
                                         <span className="material-symbols-outlined text-sm">call</span>
-                                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{clienteTelefone}</span>
+                                        <span className="text-xs font-medium text-gray-500 dark:text-gray-500">{clienteTelefone}</span>
                                     </div>
                                 )}
                                 {clienteEmail && (
                                     <div className="flex items-center gap-2 opacity-70">
                                         <span className="material-symbols-outlined text-sm">mail</span>
-                                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{clienteEmail}</span>
+                                        <span className="text-xs font-medium text-gray-500 dark:text-gray-500">{clienteEmail}</span>
+                                    </div>
+                                )}
+                                {dataEvento && (
+                                    <div className="flex items-center gap-2 pt-1 opacity-70">
+                                        <span className="material-symbols-outlined text-sm text-primary">event</span>
+                                        <span className="text-[12px] font-bold uppercase tracking-wider text-primary">
+                                            Evento: {tipoEvento ? `${tipoEvento} - ` : ""}{validateDate(dataEvento)}
+                                        </span>
+                                    </div>
+                                )}
+                                {(aniversarianteNome || aniversarianteIdade) && (
+                                    <div className="flex items-center gap-2 pt-1 opacity-70">
+                                        <span className="material-symbols-outlined text-sm text-primary">celebration</span>
+                                        <span className="text-[12px] font-bold uppercase tracking-wider text-primary">
+                                            {aniversarianteNome}{aniversarianteIdade ? ` (${aniversarianteIdade})` : ""}
+                                        </span>
                                     </div>
                                 )}
                                 <div className="flex items-center gap-2 pt-2 opacity-50">
                                     <span className="material-symbols-outlined text-sm">calendar_today</span>
-                                    <span className="text-[10px] font-bold uppercase tracking-wider">
+                                    <span className="text-[12px] font-bold uppercase tracking-wider">
                                         Válido até: {validateDate(validade)}
                                     </span>
                                 </div>
@@ -357,16 +423,16 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                             <img src={item.fotoUrl} alt={item.nome} className="w-16 h-16 rounded-xl object-cover flex-shrink-0" />
                                         ) : (
                                             <div className="w-16 h-16 rounded-xl bg-white dark:bg-gray-600 flex items-center justify-center flex-shrink-0 border border-gray-100 dark:border-gray-600">
-                                                <span className="material-symbols-outlined text-gray-300 dark:text-gray-500">image</span>
+                                                <span className="material-symbols-outlined text-gray-500 dark:text-gray-500">image</span>
                                             </div>
                                         )}
                                         <div className="flex-1 min-w-0">
                                             <h4 className="text-sm font-extrabold text-secondary dark:text-white truncate">{item.nome}</h4>
-                                            <p className="text-xs font-bold text-gray-400 mt-0.5">
+                                            <p className="text-xs font-bold text-gray-500 mt-0.5">
                                                 {item.quantidade}x {formatarMoeda(item.precoUnitario)}
                                             </p>
                                             {item.observacao && (
-                                                <p className="text-[10px] font-bold text-primary mt-2 flex items-center gap-1 uppercase tracking-wide">
+                                                <p className="text-[12px] font-bold text-primary mt-2 flex items-center gap-1 uppercase tracking-wide">
                                                     <span className="material-symbols-outlined text-xs">notes</span>
                                                     {item.observacao}
                                                 </p>
@@ -384,7 +450,7 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
 
                         {/* Totals Preview */}
                         <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm space-y-3">
-                            <div className="flex justify-between items-center text-xs font-bold text-gray-400 uppercase tracking-wider">
+                            <div className="flex justify-between items-center text-xs font-bold text-gray-500 uppercase tracking-wider">
                                 <span>Subtotal dos itens</span>
                                 <span className="text-secondary dark:text-white">{formatarMoeda(valorItens)}</span>
                             </div>
@@ -406,7 +472,7 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
 
                         {notas && (
                             <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30">
-                                <p className="text-[10px] font-extrabold text-amber-700 dark:text-amber-500 uppercase tracking-widest mb-1 flex items-center gap-1">
+                                <p className="text-[12px] font-extrabold text-amber-700 dark:text-amber-500 uppercase tracking-widest mb-1 flex items-center gap-1">
                                     <span className="material-symbols-outlined text-xs">event_note</span>
                                     Observações do Orçamento
                                 </p>
@@ -441,7 +507,7 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                 type="button"
                                 variant="ghost"
                                 onClick={() => setStep("form")}
-                                className="md:col-span-2 h-10 rounded-xl text-xs font-bold text-gray-400 hover:text-secondary transition-colors"
+                                className="md:col-span-2 h-10 rounded-xl text-xs font-bold text-gray-500 hover:text-secondary transition-colors"
                             >
                                 ← VOLTAR E EDITAR CAMPOS
                             </Button>
@@ -463,13 +529,13 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                 Criar Orçamento
                             </DialogTitle>
                         </div>
-                        <p className="text-sm font-semibold text-gray-400 tracking-wide uppercase">
+                        <p className="text-sm font-semibold text-gray-500 tracking-wide uppercase">
                             {format(new Date(), "dd 'DE' MMMM 'DE' yyyy", { locale: ptBR })}
                         </p>
                     </div>
                     <button
                         onClick={() => onOpenChange(false)}
-                        className="text-gray-400 hover:text-secondary dark:hover:text-white transition-colors p-1"
+                        className="text-gray-500 hover:text-secondary dark:hover:text-white transition-colors p-1"
                     >
                         <span className="material-symbols-outlined text-2xl">close</span>
                     </button>
@@ -486,7 +552,7 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
 
                             <div className="space-y-5">
                                 <div className="space-y-2">
-                                    <Label className="text-sm font-bold text-secondary dark:text-gray-300">Nome do Cliente</Label>
+                                    <Label className="text-sm font-bold text-secondary dark:text-gray-500">Nome do Cliente</Label>
                                     <div className="relative">
                                         <Input
                                             placeholder="Ex: Maria Silva"
@@ -523,7 +589,7 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                                             </div>
                                                             <div>
                                                                 <p className="text-sm font-bold text-gray-800 dark:text-white">{c.nome}</p>
-                                                                <p className="text-[10px] font-bold text-gray-400 uppercase">{c.telefone}</p>
+                                                                <p className="text-[12px] font-bold text-gray-500 uppercase">{c.telefone}</p>
                                                             </div>
                                                         </button>
                                                     ))}
@@ -535,8 +601,8 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
 
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-1 mb-1">
-                                        <span className="material-symbols-outlined text-gray-400 text-sm">location_on</span>
-                                        <Label className="text-sm font-bold text-secondary dark:text-gray-300">Endereço</Label>
+                                        <span className="material-symbols-outlined text-gray-500 text-sm">location_on</span>
+                                        <Label className="text-sm font-bold text-secondary dark:text-gray-500">Endereço</Label>
                                     </div>
                                     <Input
                                         placeholder="Rua, número, bairro..."
@@ -549,8 +615,8 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                     <div className="space-y-2">
                                         <div className="flex items-center gap-1 mb-1">
-                                            <span className="material-symbols-outlined text-gray-400 text-sm">call</span>
-                                            <Label className="text-sm font-bold text-secondary dark:text-gray-300">Telefone / WhatsApp</Label>
+                                            <span className="material-symbols-outlined text-gray-500 text-sm">call</span>
+                                            <Label className="text-sm font-bold text-secondary dark:text-gray-500">Telefone / WhatsApp</Label>
                                         </div>
                                         <Input
                                             placeholder="(21) 99999-0000"
@@ -562,8 +628,8 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
 
                                     <div className="space-y-2">
                                         <div className="flex items-center gap-1 mb-1">
-                                            <span className="material-symbols-outlined text-gray-400 text-sm">mail</span>
-                                            <Label className="text-sm font-bold text-secondary dark:text-gray-300">E-mail (opcional)</Label>
+                                            <span className="material-symbols-outlined text-gray-500 text-sm">mail</span>
+                                            <Label className="text-sm font-bold text-secondary dark:text-gray-500">E-mail (opcional)</Label>
                                         </div>
                                         <Input
                                             placeholder="email@exemplo.com"
@@ -574,16 +640,64 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                     </div>
                                 </div>
 
-                                <div className="space-y-2">
-                                    <Label className="text-sm font-bold text-secondary dark:text-gray-300 mb-2 block">Validade do Orçamento</Label>
-                                    <div className="relative w-full sm:w-1/2">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div className="space-y-2">
+                                        <Label className="text-sm font-bold text-secondary dark:text-gray-500">Tipo de Evento</Label>
                                         <Input
-                                            type="date"
-                                            value={validade}
-                                            onChange={(e) => setValidade(e.target.value)}
-                                            className="w-full rounded-2xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-secondary dark:text-white px-4 py-3 focus:ring-primary focus:border-primary text-sm font-medium h-12 pl-10"
+                                            placeholder="Ex: Aniversário, Casamento..."
+                                            value={tipoEvento}
+                                            onChange={(e) => setTipoEvento(e.target.value)}
+                                            className="w-full rounded-2xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-secondary dark:text-white px-4 py-3 focus:ring-primary focus:border-primary placeholder-gray-400 text-sm h-12"
                                         />
-                                        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-lg">calendar_today</span>
+                                    </div>
+
+                                    <div className="grid grid-cols-3 gap-3">
+                                        <div className="col-span-2 space-y-2">
+                                            <Label className="text-sm font-bold text-secondary dark:text-gray-500">Aniversariante</Label>
+                                            <Input
+                                                placeholder="Nome..."
+                                                value={aniversarianteNome}
+                                                onChange={(e) => setAniversarianteNome(e.target.value)}
+                                                className="w-full rounded-2xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-secondary dark:text-white px-4 py-3 focus:ring-primary focus:border-primary placeholder-gray-400 text-sm h-12"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label className="text-sm font-bold text-secondary dark:text-gray-500">Idade</Label>
+                                            <Input
+                                                placeholder="0"
+                                                value={aniversarianteIdade}
+                                                onChange={(e) => setAniversarianteIdade(e.target.value)}
+                                                className="w-full rounded-2xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-secondary dark:text-white px-4 py-3 focus:ring-primary focus:border-primary placeholder-gray-400 text-sm h-12 text-center"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div className="space-y-2">
+                                        <Label className="text-sm font-bold text-secondary dark:text-gray-500 mb-2 block">Validade do Orçamento</Label>
+                                        <div className="relative w-full">
+                                            <Input
+                                                type="date"
+                                                value={validade}
+                                                onChange={(e) => setValidade(e.target.value)}
+                                                className="w-full rounded-2xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-secondary dark:text-white px-4 py-3 focus:ring-primary focus:border-primary text-sm font-medium h-12 pl-10"
+                                            />
+                                            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none text-lg">calendar_today</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <Label className="text-sm font-bold text-secondary dark:text-gray-500 mb-2 block">Data do Evento (opcional)</Label>
+                                        <div className="relative w-full">
+                                            <Input
+                                                type="date"
+                                                value={dataEvento}
+                                                onChange={(e) => setDataEvento(e.target.value)}
+                                                className="w-full rounded-2xl border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-secondary dark:text-white px-4 py-3 focus:ring-primary focus:border-primary text-sm font-medium h-12 pl-10"
+                                            />
+                                            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none text-lg">event</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -609,10 +723,10 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                             {itens.length === 0 ? (
                                 <div className="flex-1 flex flex-col items-center justify-center text-center py-8">
                                     <div className="w-16 h-16 rounded-2xl bg-gray-50 dark:bg-gray-700 flex items-center justify-center mb-4">
-                                        <span className="material-symbols-outlined text-gray-300 dark:text-gray-500 text-4xl">shopping_bag</span>
+                                        <span className="material-symbols-outlined text-gray-500 dark:text-gray-500 text-4xl">shopping_bag</span>
                                     </div>
-                                    <h4 className="text-base font-bold text-gray-400 dark:text-gray-500 mb-1">Nenhum item adicionado</h4>
-                                    <p className="text-xs font-bold text-gray-300 dark:text-gray-600 mb-6 uppercase tracking-wider">Selecione as receitas desejadas</p>
+                                    <h4 className="text-base font-bold text-gray-500 dark:text-gray-500 mb-1">Nenhum item adicionado</h4>
+                                    <p className="text-xs font-bold text-gray-500 dark:text-gray-600 mb-6 uppercase tracking-wider">Selecione as receitas desejadas</p>
                                     <Button
                                         type="button"
                                         onClick={addItem}
@@ -629,7 +743,7 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                             <button
                                                 type="button"
                                                 onClick={() => removeItem(index)}
-                                                className="absolute top-4 right-4 p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all"
+                                                className="absolute top-4 right-4 p-2 text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all"
                                             >
                                                 <span className="material-symbols-outlined text-xl">delete</span>
                                             </button>
@@ -647,7 +761,7 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                                 <div className="flex-1 space-y-4">
                                                     {/* Recipe select */}
                                                     <div className="space-y-1.5">
-                                                        <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Produto / Receita</Label>
+                                                        <Label className="text-[12px] font-black text-gray-500 uppercase tracking-widest">Produto / Receita</Label>
                                                         <Select
                                                             value={item.receitaId}
                                                             onValueChange={(val) => handleReceitaSelect(index, val)}
@@ -665,7 +779,7 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                                                                 <div className="w-6 h-6 rounded-lg bg-gray-50 flex items-center justify-center"><span className="material-symbols-outlined text-xs">image</span></div>
                                                                             )}
                                                                             <span className="font-bold">{r.nome}</span>
-                                                                            {r.preco_venda && <span className="text-[10px] font-black text-primary ml-auto">{formatarMoeda(r.preco_venda)}</span>}
+                                                                            {r.preco_venda && <span className="text-[12px] font-black text-primary ml-auto">{formatarMoeda(r.preco_venda)}</span>}
                                                                         </div>
                                                                     </SelectItem>
                                                                 ))}
@@ -675,7 +789,7 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
 
                                                     <div className="grid grid-cols-2 gap-4">
                                                         <div className="space-y-1.5">
-                                                            <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Quantidade</Label>
+                                                            <Label className="text-[12px] font-black text-gray-500 uppercase tracking-widest">Quantidade</Label>
                                                             <Input
                                                                 type="number"
                                                                 min="1"
@@ -685,7 +799,7 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                                             />
                                                         </div>
                                                         <div className="space-y-1.5">
-                                                            <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Preço Sugerido</Label>
+                                                            <Label className="text-[12px] font-black text-gray-500 uppercase tracking-widest">Preço Sugerido</Label>
                                                             <Input
                                                                 type="number"
                                                                 step="0.01"
@@ -698,7 +812,7 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                                     </div>
 
                                                     <div className="space-y-1.5">
-                                                        <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Variação / Observação</Label>
+                                                        <Label className="text-[12px] font-black text-gray-500 uppercase tracking-widest">Variação / Observação</Label>
                                                         <Input
                                                             placeholder="Ex: Sem lactose, Tag personalizada..."
                                                             value={item.observacao}
@@ -710,7 +824,7 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                             </div>
 
                                             <div className="mt-4 pt-4 border-t border-dashed border-gray-200 dark:border-gray-700 flex justify-end items-center gap-2">
-                                                <span className="text-[10px] font-black text-gray-400 uppercase">SUBTOTAL DO ITEM:</span>
+                                                <span className="text-[12px] font-black text-gray-500 uppercase">SUBTOTAL DO ITEM:</span>
                                                 <span className="text-lg font-black text-primary tracking-tighter">{formatarMoeda(item.precoUnitario * item.quantidade)}</span>
                                             </div>
                                         </div>
@@ -731,10 +845,10 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                                     />
                                                     <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-emerald-500 text-base">local_shipping</span>
                                                 </div>
-                                                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Taxa de Entrega</span>
+                                                <span className="text-[12px] font-black text-gray-500 uppercase tracking-widest">Taxa de Entrega</span>
                                             </div>
                                             <div className="text-right">
-                                                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1">TOTAL DO CLIENTE</span>
+                                                <span className="text-[12px] font-black text-gray-500 uppercase tracking-widest block mb-1">TOTAL DO CLIENTE</span>
                                                 <span className="text-3xl font-black text-primary tracking-tighter">{formatarMoeda(valorTotal)}</span>
                                             </div>
                                         </div>
@@ -746,7 +860,7 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                         {/* Notes */}
                         <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
                             <div className="flex items-center gap-2 mb-4">
-                                <span className="material-symbols-outlined text-gray-400 text-xl">event_note</span>
+                                <span className="material-symbols-outlined text-gray-500 text-xl">event_note</span>
                                 <h3 className="text-base font-bold text-secondary dark:text-white">Observações Gerais</h3>
                             </div>
                             <Textarea
@@ -763,7 +877,7 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit }: CriarOrcam
                                 type="button"
                                 variant="ghost"
                                 onClick={() => onOpenChange(false)}
-                                className="flex-1 h-14 rounded-2xl font-bold text-gray-400 hover:text-red-500 transition-colors"
+                                className="flex-1 h-14 rounded-2xl font-bold text-gray-500 hover:text-red-500 transition-colors"
                             >
                                 CANCELAR
                             </Button>

@@ -518,7 +518,7 @@ export default function Estoque() {
                 <h1 className="text-3xl font-black text-gray-900 tracking-tight">
                   Estoque de <span className="text-primary">Produtos</span>
                 </h1>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest flex items-center gap-2">
                   Controle de Insumos e Materiais • {produtos.length} Itens
                 </p>
               </div>
@@ -553,7 +553,7 @@ export default function Estoque() {
               </div>
               <div className="flex flex-col">
                 <span className="text-2xl font-black text-gray-900 tracking-tight">{stat.value}</span>
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{stat.label}</p>
+                <p className="text-[12px] font-bold text-gray-500 uppercase tracking-widest">{stat.label}</p>
               </div>
             </div>
           ))}
@@ -572,7 +572,7 @@ export default function Estoque() {
                     "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
                     activeTab === tab
                       ? "bg-white text-gray-900 shadow-sm border border-gray-100 ring-1 ring-black/5"
-                      : "text-gray-400 hover:text-gray-600"
+                      : "text-gray-500 hover:text-gray-600"
                   )}
                 >
                   {tab}
@@ -582,12 +582,12 @@ export default function Estoque() {
 
             {/* Search Bar */}
             <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
               <Input
                 placeholder="O que você está procurando?..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="bg-gray-50/50 border-gray-100 h-11 pl-12 rounded-2xl text-[14px] font-semibold text-gray-900 placeholder:text-gray-300 focus:bg-white focus:ring-primary/20 transition-all border-none shadow-inner"
+                className="bg-gray-50/50 border-gray-100 h-11 pl-12 rounded-2xl text-[14px] font-semibold text-gray-900 placeholder:text-gray-500 focus:bg-white focus:ring-primary/20 transition-all border-none shadow-inner"
               />
             </div>
           </div>
@@ -597,24 +597,24 @@ export default function Estoque() {
             <Table>
               <TableHeader>
                 <TableRow className="hover:bg-transparent border-b border-gray-50 bg-gray-50/30">
-                  <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-400 pl-8 h-12">Item & Categoria</TableHead>
+                  <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-500 pl-8 h-12">Item & Categoria</TableHead>
                   {activeTab === "Custos Fixos" ? (
                     <>
-                      <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-400">Valor Mensal</TableHead>
-                      <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-400">Status</TableHead>
+                      <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-500">Valor Mensal</TableHead>
+                      <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-500">Status</TableHead>
                     </>
                   ) : activeTab === "Kits" ? (
                     <>
-                      <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-400 text-right pr-12">Valores</TableHead>
+                      <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-500 text-right pr-12">Valores</TableHead>
                     </>
                   ) : (
                     <>
-                      <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-400">Estoque Atual</TableHead>
-                      <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-400">Mínimo</TableHead>
-                      <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-400 text-right pr-12">Valores (Unit / Compra)</TableHead>
+                      <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-500">Estoque Atual</TableHead>
+                      <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-500">Mínimo</TableHead>
+                      <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-500 text-right pr-12">Valores (Unit / Compra)</TableHead>
                     </>
                   )}
-                  <TableHead className="text-right font-bold text-xs uppercase tracking-[0.1em] text-gray-400 pr-10">Ações</TableHead>
+                  <TableHead className="text-right font-bold text-xs uppercase tracking-[0.1em] text-gray-500 pr-10">Ações</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -623,7 +623,7 @@ export default function Estoque() {
                     <TableCell colSpan={7} className="text-center h-64">
                       <div className="flex flex-col items-center justify-center gap-3">
                         <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
-                        <p className="text-xs font-bold text-gray-300 uppercase tracking-widest">Carregando estoque...</p>
+                        <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Carregando estoque...</p>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -647,7 +647,7 @@ export default function Estoque() {
                             </div>
                             <div className="flex flex-col">
                               <span className="font-bold text-gray-800 tracking-tight text-[15px]">{custo.nome}</span>
-                              <span className="text-[11px] font-bold text-gray-300 uppercase tracking-widest">{custo.categoria}</span>
+                              <span className="text-[13px] font-bold text-gray-500 uppercase tracking-widest">{custo.categoria}</span>
                             </div>
                           </div>
                         </TableCell>
@@ -663,8 +663,8 @@ export default function Estoque() {
                               custo.ativo ? "bg-green-500 animate-pulse" : "bg-gray-300"
                             )} />
                             <span className={cn(
-                              "text-[11px] font-bold uppercase tracking-widest",
-                              custo.ativo ? "text-green-600" : "text-gray-400"
+                              "text-[13px] font-bold uppercase tracking-widest",
+                              custo.ativo ? "text-green-600" : "text-gray-500"
                             )}>
                               {custo.ativo ? "Ativo" : "Inativo"}
                             </span>
@@ -675,7 +675,7 @@ export default function Estoque() {
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8 rounded-lg text-gray-400 hover:text-primary hover:bg-primary/5"
+                              className="h-8 w-8 rounded-lg text-gray-500 hover:text-primary hover:bg-primary/5"
                               onClick={() => {
                                 setCustoFixoParaEditar(custo);
                                 setShowNovoCustoFixo(true);
@@ -686,7 +686,7 @@ export default function Estoque() {
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8 rounded-lg text-gray-400 hover:text-rose-500 hover:bg-rose-50"
+                              className="h-8 w-8 rounded-lg text-gray-500 hover:text-rose-500 hover:bg-rose-50"
                               onClick={() => handleDeleteCustoFixo(custo.id)}
                             >
                               <Trash2 className="w-4 h-4" />
@@ -716,7 +716,7 @@ export default function Estoque() {
                             </div>
                             <div className="flex flex-col">
                               <span className="font-bold text-gray-800 tracking-tight text-[15px]">{kit.nome}</span>
-                              <span className="text-[11px] font-bold text-gray-300 uppercase tracking-widest truncate max-w-[200px]">
+                              <span className="text-[13px] font-bold text-gray-500 uppercase tracking-widest truncate max-w-[200px]">
                                 {kit.descricao || "Sem descrição"}
                               </span>
                             </div>
@@ -727,13 +727,13 @@ export default function Estoque() {
                             <span className="text-sm font-black text-gray-900 tracking-tight">
                               {kit.preco_venda.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                             </span>
-                            <span className="text-[8px] font-bold text-gray-300 uppercase tracking-widest mt-0.5">Preço de Venda</span>
+                            <span className="text-[12px] font-bold text-gray-500 uppercase tracking-widest mt-0.5">Preço de Venda</span>
                           </div>
                           <div className="flex flex-col items-end mt-2">
                             <span className="text-[12px] font-bold text-gray-600 tracking-tight">
                               {(kit.custo_total || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                             </span>
-                            <span className="text-[8px] font-bold text-gray-300 uppercase tracking-widest">Custo de Produção</span>
+                            <span className="text-[12px] font-bold text-gray-500 uppercase tracking-widest">Custo de Produção</span>
                           </div>
                         </TableCell>
                         <TableCell className="text-right pr-10">
@@ -741,7 +741,7 @@ export default function Estoque() {
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8 rounded-lg text-gray-400 hover:text-primary hover:bg-primary/5"
+                              className="h-8 w-8 rounded-lg text-gray-500 hover:text-primary hover:bg-primary/5"
                               onClick={() => {
                                 setKitParaEditar(kit);
                                 setShowNovoKit(true);
@@ -752,7 +752,7 @@ export default function Estoque() {
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8 rounded-lg text-gray-400 hover:text-rose-500 hover:bg-rose-50"
+                              className="h-8 w-8 rounded-lg text-gray-500 hover:text-rose-500 hover:bg-rose-50"
                               onClick={() => handleDeleteKit(kit.id)}
                             >
                               <Trash2 className="w-4 h-4" />
@@ -785,7 +785,7 @@ export default function Estoque() {
                           </div>
                           <div className="flex flex-col">
                             <span className="font-bold text-gray-800 tracking-tight text-[15px]">{produto.nome}</span>
-                            <span className="text-[11px] font-bold text-gray-300 uppercase tracking-widest">{produto.categoria}</span>
+                            <span className="text-[13px] font-bold text-gray-500 uppercase tracking-widest">{produto.categoria}</span>
                           </div>
                         </div>
                       </TableCell>
@@ -798,17 +798,17 @@ export default function Estoque() {
                             )}>
                               {produto.quantidade}
                             </span>
-                            <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">{produto.unidade}</span>
+                            <span className="text-[13px] font-bold text-gray-500 uppercase tracking-widest">{produto.unidade}</span>
                           </div>
                           {produto.quantidade <= produto.minimo && (
-                            <span className="text-[8px] font-black text-rose-400 uppercase tracking-tighter bg-rose-50 px-1.5 py-0.5 rounded inline-block w-fit">Crítico</span>
+                            <span className="text-[12px] font-black text-rose-400 uppercase tracking-tighter bg-rose-50 px-1.5 py-0.5 rounded inline-block w-fit">Crítico</span>
                           )}
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-baseline gap-1 opacity-50">
                           <span className="text-base font-bold text-gray-500">{produto.minimo}</span>
-                          <span className="text-[11px] font-bold uppercase tracking-widest text-gray-400">{produto.unidade}</span>
+                          <span className="text-[13px] font-bold uppercase tracking-widest text-gray-500">{produto.unidade}</span>
                         </div>
                       </TableCell>
                       <TableCell className="text-right pr-12">
@@ -822,9 +822,9 @@ export default function Estoque() {
                                 maximumFractionDigits: 4
                               })
                               : produto.preco_medio?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) || 'R$ 0,00'
-                            } <span className="text-[8px] text-gray-300 font-bold ml-0.5">/ {produto.unidade.toUpperCase()}</span>
+                            } <span className="text-[12px] text-gray-500 font-bold ml-0.5">/ {produto.unidade.toUpperCase()}</span>
                           </span>
-                          <span className="text-[8px] font-bold text-gray-300 uppercase tracking-widest mt-0.5">
+                          <span className="text-[12px] font-bold text-gray-500 uppercase tracking-widest mt-0.5">
                             COMPRA: {produto.preco_embalagem?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) || 'R$ 0,00'}
                           </span>
                         </div>
@@ -834,7 +834,7 @@ export default function Estoque() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 rounded-lg text-gray-400 hover:text-primary hover:bg-primary/5"
+                            className="h-8 w-8 rounded-lg text-gray-500 hover:text-primary hover:bg-primary/5"
                             onClick={() => {
                               if (activeTab === "Insumos") {
                                 setInsumoParaEditar(produto);
@@ -850,7 +850,7 @@ export default function Estoque() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 rounded-lg text-gray-400 hover:text-rose-500 hover:bg-rose-50"
+                            className="h-8 w-8 rounded-lg text-gray-500 hover:text-rose-500 hover:bg-rose-50"
                             onClick={() => handleDeleteProduto(produto.id)}
                           >
                             <Trash2 className="w-4 h-4" />

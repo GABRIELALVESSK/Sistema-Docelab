@@ -74,7 +74,7 @@ export function PedidoCard({ pedido, onView, onPayment, onEdit, onDelete, onStat
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className={cn(
-                    "flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider border transition-colors cursor-pointer",
+                    "flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[12px] font-bold uppercase tracking-wider border transition-colors cursor-pointer",
                     statusColors[pedido.status]
                   )}>
                     <span className={cn("w-1.5 h-1.5 rounded-full", statusDotColors[pedido.status])} />
@@ -149,29 +149,29 @@ export function PedidoCard({ pedido, onView, onPayment, onEdit, onDelete, onStat
           {pedido.imagem_inspiracao ? (
             <img src={pedido.imagem_inspiracao} alt="Avatar" className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" />
           ) : (
-            <span className="material-icons-round text-gray-300 text-2xl">image</span>
+            <span className="material-icons-round text-gray-500 text-2xl">image</span>
           )}
         </div>
         <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
           <div>
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Produto</p>
+            <p className="text-[12px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">Produto</p>
             <p className="text-xs font-semibold text-secondary dark:text-white line-clamp-1">{pedido.produto}</p>
           </div>
           <div>
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Contato</p>
-            <div className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400">
+            <p className="text-[12px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">Contato</p>
+            <div className="flex items-center gap-1.5 text-gray-500 dark:text-gray-500">
               <span className="material-icons-round text-[12px]">call</span>
               <p className="text-xs font-medium">{pedido.telefone || "Não informado"}</p>
             </div>
           </div>
           <div>
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Qtd</p>
-            <span className="inline-block bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2.5 py-1 rounded text-xs font-black border border-gray-200 dark:border-gray-700 leading-none">
+            <p className="text-[12px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">Qtd</p>
+            <span className="inline-block bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-500 px-2.5 py-1 rounded text-xs font-black border border-gray-200 dark:border-gray-700 leading-none">
               {totalItensCount} un
             </span>
           </div>
           <div className="text-right sm:text-left">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Total</p>
+            <p className="text-[12px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">Total</p>
             <p className="text-sm font-black text-secondary dark:text-white tracking-tight">
               {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valorTotal)}
             </p>
