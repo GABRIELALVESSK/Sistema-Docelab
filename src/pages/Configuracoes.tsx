@@ -14,7 +14,15 @@ import {
     ShieldCheck,
     Bell,
     Globe,
-    Settings2
+    Settings2,
+    Sun,
+    Moon,
+    Shrink,
+    Expand,
+    Smartphone,
+    Calendar,
+    ChevronDown,
+    Info
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useSettings, CorSistema, Tema, Densidade } from "@/contexts/SettingsContext";
@@ -252,7 +260,7 @@ function StepAparencia() {
                         <input className="peer sr-only" name="theme" type="radio" value="light" checked={settings.tema === 'light'} onChange={() => updateSettings({ tema: 'light' })} />
                         <div className="bg-white dark:bg-gray-700 border-2 border-transparent peer-checked:border-[#FF8A96] rounded-2xl p-6 peer-checked:ring-4 ring-[#FF8A96]/10 transition-all flex items-start gap-4 shadow-sm hover:shadow-md hover:border-gray-200 dark:hover:border-gray-600 peer-checked:hover:border-[#FF8A96]">
                             <div className="w-12 h-12 rounded-full bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center shrink-0">
-                                <span className="material-icons-round text-orange-400">light_mode</span>
+                                <Sun className="w-6 h-6 text-orange-400" />
                             </div>
                             <div className="flex-1">
                                 <h4 className="font-bold text-gray-800 dark:text-white text-lg">Modo Claro</h4>
@@ -267,7 +275,7 @@ function StepAparencia() {
                         <input className="peer sr-only" name="theme" type="radio" value="dark" checked={settings.tema === 'dark'} onChange={() => updateSettings({ tema: 'dark' })} />
                         <div className="bg-white dark:bg-gray-700 border-2 border-transparent peer-checked:border-[#FF8A96] rounded-2xl p-6 peer-checked:ring-4 ring-[#FF8A96]/10 transition-all flex items-start gap-4 shadow-sm hover:shadow-md hover:border-gray-200 dark:hover:border-gray-600 peer-checked:hover:border-[#FF8A96]">
                             <div className="w-12 h-12 rounded-full bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center shrink-0">
-                                <span className="material-icons-round text-indigo-400">dark_mode</span>
+                                <Moon className="w-6 h-6 text-indigo-400" />
                             </div>
                             <div className="flex-1">
                                 <h4 className="font-bold text-gray-800 dark:text-white text-lg">Modo Escuro</h4>
@@ -317,7 +325,7 @@ function StepAparencia() {
                         <input className="peer sr-only" name="density" type="radio" value="compact" checked={settings.densidade === 'compact'} onChange={() => updateSettings({ densidade: 'compact' })} />
                         <div className={cn("bg-white dark:bg-gray-700 border-2 rounded-2xl p-5 transition-all flex items-center gap-4 hover:border-gray-300 dark:hover:border-gray-500", settings.densidade === 'compact' ? "border-[#FF8A96] bg-red-50 dark:bg-red-500/5 group-hover:border-[#FF8A96]" : "border-gray-200 dark:border-gray-600")}>
                             <div className={cn("w-10 h-10 rounded-xl shadow-sm flex items-center justify-center shrink-0", settings.densidade === 'compact' ? "bg-white dark:bg-gray-800" : "bg-gray-100 dark:bg-gray-800")}>
-                                <span className={cn("material-icons-round", settings.densidade === 'compact' ? "text-[#FF8A96]" : "text-gray-500")}>unfold_less</span>
+                                <Shrink className={cn("w-5 h-5", settings.densidade === 'compact' ? "text-[#FF8A96]" : "text-gray-500")} />
                             </div>
                             <div className="flex-1">
                                 <h4 className="font-bold text-gray-800 dark:text-white text-md">Compacto</h4>
@@ -332,7 +340,7 @@ function StepAparencia() {
                         <input className="peer sr-only" name="density" type="radio" value="spacious" checked={settings.densidade === 'spacious'} onChange={() => updateSettings({ densidade: 'spacious' })} />
                         <div className={cn("bg-white dark:bg-gray-700 border-2 rounded-2xl p-5 transition-all flex items-center gap-4 hover:border-gray-300 dark:hover:border-gray-500", settings.densidade === 'spacious' ? "border-[#FF8A96] bg-red-50 dark:bg-red-500/5 group-hover:border-[#FF8A96]" : "border-gray-200 dark:border-gray-600")}>
                             <div className={cn("w-10 h-10 rounded-xl shadow-sm flex items-center justify-center shrink-0", settings.densidade === 'spacious' ? "bg-white dark:bg-gray-800" : "bg-gray-100 dark:bg-gray-800")}>
-                                <span className={cn("material-icons-round", settings.densidade === 'spacious' ? "text-[#FF8A96]" : "text-gray-500")}>unfold_more</span>
+                                <Expand className={cn("w-5 h-5", settings.densidade === 'spacious' ? "text-[#FF8A96]" : "text-gray-500")} />
                             </div>
                             <div className="flex-1">
                                 <h4 className="font-bold text-gray-800 dark:text-white text-md">Espaçoso</h4>
@@ -419,7 +427,7 @@ function StepCredenciais() {
                 <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 border border-gray-200 dark:border-gray-600 shadow-sm flex items-center justify-between">
                     <div className="flex items-start gap-4">
                         <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
-                            <span className="material-icons-round text-blue-500">phonelink_lock</span>
+                            <Smartphone className="w-6 h-6 text-blue-500" />
                         </div>
                         <div>
                             <h4 className="font-bold text-gray-800 dark:text-white text-md">Autenticação em Duas Etapas (2FA)</h4>
@@ -515,7 +523,7 @@ function StepPreferencias() {
                         <div className="flex items-center justify-between p-4">
                             <div className="flex items-center gap-4">
                                 <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center">
-                                    <span className="material-icons-round text-blue-500 text-xl">event</span>
+                                    <Calendar className="w-5 h-5 text-blue-500" />
                                 </div>
                                 <div>
                                     <span className="block font-bold text-gray-800 dark:text-white">Google Calendar</span>
@@ -555,7 +563,7 @@ function StepPreferencias() {
                                     <option value="English (US)">English (US)</option>
                                 </select>
                                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-                                    <span className="material-icons-round text-sm">expand_more</span>
+                                    <ChevronDown className="w-4 h-4" />
                                 </div>
                             </div>
                         </div>
@@ -570,7 +578,7 @@ function StepPreferencias() {
                                     <option value="USD">USD - Dólar Americano ($)</option>
                                 </select>
                                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-                                    <span className="material-icons-round text-sm">expand_more</span>
+                                    <ChevronDown className="w-4 h-4" />
                                 </div>
                             </div>
                         </div>
@@ -585,7 +593,7 @@ function StepPreferencias() {
                     <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 border border-gray-200 dark:border-gray-600 shadow-sm">
                         <p className="text-sm text-gray-600 dark:text-gray-500 mb-4">Essas configurações podem ser alteradas a qualquer momento no painel de controle principal.</p>
                         <button className="text-[#FF8A96] hover:text-red-400 transition-colors text-sm font-bold flex items-center gap-1 group">
-                            <span className="material-icons-round text-lg group-hover:scale-110 transition-transform">info</span>
+                            <Info className="w-5 h-5 group-hover:scale-110 transition-transform" />
                             Saiba mais sobre personalização
                         </button>
                     </div>
