@@ -35,7 +35,7 @@ export function Sidebar() {
           <div className="w-8 h-8 rounded-full bg-[#F87171] flex items-center justify-center text-white font-extrabold text-sm shadow-sm transition-transform hover:scale-105 cursor-pointer">
             D
           </div>
-          <h1 className="text-2xl font-bold text-[#1E1E2F] tracking-tighter">
+          <h1 className="text-2xl font-bold text-[#1E1E2F] dark:text-white tracking-tighter">
             Doce<span className="text-[#F87171]">Lab</span>.
           </h1>
         </div>
@@ -51,10 +51,10 @@ export function Sidebar() {
               />
             </div>
           </div>
-          <h3 className="text-lg font-black text-[#1E1E2F] tracking-tight">{settings.nome}</h3>
-          <div className="flex items-center gap-1 mt-2 bg-white px-3 py-1 rounded-full shadow-soft">
+          <h3 className="text-lg font-black text-[#1E1E2F] dark:text-white tracking-tight">{settings.nome}</h3>
+          <div className="flex items-center gap-1 mt-2 bg-white dark:bg-gray-800 px-3 py-1 rounded-full shadow-soft transition-colors text-gray-500 dark:text-gray-400">
             <span className="material-icons-round text-yellow-500 text-sm">star</span>
-            <span className="text-xs font-black text-gray-500">4.9</span>
+            <span className="text-xs font-black">4.9</span>
           </div>
         </div>
 
@@ -69,8 +69,8 @@ export function Sidebar() {
                 className={cn(
                   "flex items-center gap-3 px-4 py-2.5 rounded-2xl font-bold text-xs transition-all duration-300 group",
                   isActive
-                    ? "text-[#F87171] bg-white shadow-soft"
-                    : "text-gray-500 hover:text-[#1E1E2F] hover:bg-white/50"
+                    ? "text-[#F87171] bg-white dark:bg-gray-800 shadow-soft"
+                    : "text-gray-500 dark:text-gray-400 hover:text-[#1E1E2F] dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-800/50"
                 )}
               >
                 <span className={cn(
@@ -87,7 +87,7 @@ export function Sidebar() {
 
         {/* Logout */}
         <div className="mt-8 shrink-0">
-          <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-3 w-full rounded-2xl text-rose-500 font-black text-xs hover:bg-rose-50 transition-all duration-300 group">
+          <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-3 w-full rounded-2xl text-rose-500 dark:text-rose-400 font-black text-xs hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all duration-300 group">
             <span className="material-icons-round transition-transform group-hover:-translate-x-1">
               logout
             </span>

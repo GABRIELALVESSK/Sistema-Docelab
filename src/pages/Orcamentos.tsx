@@ -392,7 +392,7 @@ export default function Orcamentos() {
                                         </div>
                                         <div>
                                             <h4 className="text-[16px] font-bold text-[#1E1E2F] dark:text-white mb-1 truncate">{orc.cliente_nome}</h4>
-                                            <div className="flex items-center gap-4 text-gray-500">
+                                            <div className="flex items-center gap-4 text-gray-500 dark:text-gray-400">
                                                 {orc.cliente_telefone && (
                                                     <div className="flex items-center gap-1">
                                                         <span className="material-symbols-outlined text-[16px]">chat</span>
@@ -404,7 +404,7 @@ export default function Orcamentos() {
                                                     <span className="text-[12px] font-semibold">{orc.itens.length} {orc.itens.length === 1 ? 'item' : 'itens'}</span>
                                                 </div>
                                                 {getOrcamentoMeta(orc).dataEvento && (
-                                                    <div className="flex items-center gap-1 text-primary">
+                                                    <div className="flex items-center gap-1 text-primary dark:text-[#F87171]">
                                                         <span className="material-symbols-outlined text-[16px]">event</span>
                                                         <span className="text-[12px] font-bold">{format(new Date(getOrcamentoMeta(orc).dataEvento + 'T12:00:00'), "dd/MM/yyyy", { locale: ptBR })}</span>
                                                     </div>
