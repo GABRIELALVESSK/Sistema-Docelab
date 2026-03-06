@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { Sidebar } from "./Sidebar";
+import { CompletarCadastroModal } from "../auth/CompletarCadastroModal";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -8,6 +9,8 @@ interface MainLayoutProps {
 export function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className="flex h-screen bg-[#F5F1EB] dark:bg-gray-900 p-4 lg:p-6 overflow-hidden transition-colors">
+      <CompletarCadastroModal />
+
       {/* Sidebar - Fixed width */}
       <div className="w-64 flex-shrink-0 sticky top-0 h-[calc(100vh-3rem)]">
         <Sidebar />
@@ -25,3 +28,4 @@ export function MainLayout({ children }: MainLayoutProps) {
     </div>
   );
 }
+
