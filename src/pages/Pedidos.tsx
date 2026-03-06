@@ -436,7 +436,7 @@ export default function Pedidos() {
               )}
             </>
           ) : (
-            <div className="bg-white dark:bg-card-dark rounded-[2.5rem] p-8 shadow-soft border border-gray-50 dark:border-gray-800">
+            <div className="bg-white dark:bg-gray-800 rounded-[2.5rem] p-8 shadow-soft border border-gray-50 dark:border-gray-700">
               {/* Month Navigation */}
               <div className="flex items-center justify-between mb-10">
                 <h2 className="text-2xl font-black text-[#1E1E2F] dark:text-white capitalize tracking-tighter">
@@ -445,15 +445,15 @@ export default function Pedidos() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-                    className="w-10 h-10 flex items-center justify-center bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors"
+                    className="w-10 h-10 flex items-center justify-center bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-xl transition-colors"
                   >
-                    <span className="material-icons-round text-gray-500">chevron_left</span>
+                    <span className="material-icons-round text-gray-500 dark:text-gray-300">chevron_left</span>
                   </button>
                   <button
                     onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-                    className="w-10 h-10 flex items-center justify-center bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors"
+                    className="w-10 h-10 flex items-center justify-center bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-xl transition-colors"
                   >
-                    <span className="material-icons-round text-gray-500">chevron_right</span>
+                    <span className="material-icons-round text-gray-500 dark:text-gray-300">chevron_right</span>
                   </button>
                 </div>
               </div>
@@ -475,8 +475,8 @@ export default function Pedidos() {
                     <div
                       key={day.toISOString()}
                       className={cn(
-                        "min-h-[140px] p-3 border-b border-r border-gray-50/50 dark:border-gray-800/50 transition-colors cursor-pointer group hover:bg-gray-50 dark:hover:bg-gray-800/20",
-                        hasPedidos && "bg-white dark:bg-card-dark"
+                        "min-h-[140px] p-3 border-b border-r border-gray-50/50 dark:border-gray-700/50 transition-colors cursor-pointer group hover:bg-gray-50 dark:hover:bg-gray-700/50",
+                        hasPedidos && "bg-white dark:bg-gray-800"
                       )}
                     >
                       <span className={cn(
