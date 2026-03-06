@@ -556,8 +556,20 @@ function StepPreferencias() {
                             <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">Idioma do Sistema</label>
                             <div className="relative">
                                 <select className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 appearance-none outline-none" value={settings.idioma} onChange={(e) => {
-                                    updateSettings({ idioma: e.target.value });
-                                    toast({ title: "Idioma Alterado", description: `Idioma atualizado para ${e.target.value}.` });
+                                    const value = e.target.value;
+                                    updateSettings({ idioma: value });
+
+                                    // Sistema de Tradução Global nativa via Cookie (Google Translate Auto-Hook)
+                                    if (value.includes('English')) {
+                                        document.cookie = "googtrans=/pt/en; path=/";
+                                        document.cookie = "googtrans=/pt/en; domain=" + window.location.hostname + "; path=/";
+                                    } else {
+                                        document.cookie = "googtrans=/pt/pt; path=/";
+                                        document.cookie = "googtrans=/pt/pt; domain=" + window.location.hostname + "; path=/";
+                                    }
+
+                                    toast({ title: "Idioma Alterado", description: `O sistema será recarregado em instantes para aplicar o idioma: ${value}.` });
+                                    setTimeout(() => window.location.reload(), 1500);
                                 }}>
                                     <option value="Português (Brasil)">Português (Brasil)</option>
                                     <option value="English (US)">English (US)</option>
@@ -571,8 +583,10 @@ function StepPreferencias() {
                             <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">Moeda Padrão</label>
                             <div className="relative">
                                 <select className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 appearance-none outline-none" value={settings.moeda} onChange={(e) => {
-                                    updateSettings({ moeda: e.target.value });
-                                    toast({ title: "Moeda Alterada", description: `Moeda padrão atualizada para ${e.target.value}.` });
+                                    const value = e.target.value;
+                                    updateSettings({ moeda: value });
+                                    toast({ title: "Moeda Alterada", description: `O sistema será recarregado para atualizar a moeda global para ${value}.` });
+                                    setTimeout(() => window.location.reload(), 1500);
                                 }}>
                                     <option value="BRL">BRL - Real Brasileiro (R$)</option>
                                     <option value="USD">USD - Dólar Americano ($)</option>

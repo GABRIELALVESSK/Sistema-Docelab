@@ -421,13 +421,37 @@ function aplicarArredondamento(
     }
 }
 
-/**
- * Formata um valor monetário para exibição
- */
 export function formatarMoeda(valor: number): string {
-    return valor.toLocaleString('pt-BR', {
+    let moeda = 'BRL';
+    let idioma = 'pt-BR';
+
+    try {
+        // Encontrar configurações de usuário do sistema diretamente
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('@docelab/settings/')) {
+                const config = JSON.parse(localStorage.getItem(key) || '{}');
+                if (config.moeda) moeda = config.moeda;
+                if (config.idioma && (config.idioma.includes('English') || config.idioma === 'en-US')) {
+                    idioma = 'en-US';
+                }
+                break;
+            }
+        }
+    } catch (e) {
+        // Fallback silencioso
+    }
+
+    // Ajuste de legibilidade pra exibição do cifrão da moeda estrangeira
+    if (moeda === 'USD' && idioma === 'pt-BR') {
+        idioma = 'en-US';
+    } else if (moeda === 'BRL' && idioma === 'en-US') {
+        idioma = 'pt-BR';
+    }
+
+    return valor.toLocaleString(idioma, {
         style: 'currency',
-        currency: 'BRL',
+        currency: moeda,
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     });
