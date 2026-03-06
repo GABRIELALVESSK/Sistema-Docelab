@@ -62,7 +62,11 @@
     --shadow-modal: 0 24px 64px -12px rgba(0, 0, 0, 0.15);
   }
 
-  html { font-size: var(--html-font-size, 16px); } html,
+  html {
+    font-size: var(--html-font-size, 16px);
+  }
+
+  html,
   body {
     overflow: hidden;
     height: 100%;
@@ -80,7 +84,7 @@
   input,
   select,
   textarea {
-    @apply rounded-[18px] border border-gray-200 bg-gray-50/60 focus:ring-2 focus:ring-[#EFB6BF]/30 focus:border-[#EFB6BF]/40 transition-all font-medium text-gray-800 placeholder:text-gray-400;
+    @apply rounded-[18px] border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-[#EFB6BF]/30 focus:border-[#EFB6BF]/40 transition-all font-medium text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500;
   }
 
   button {
@@ -94,26 +98,26 @@
   h4,
   h5,
   h6 {
-    @apply text-gray-900;
+    @apply text-gray-900 dark:text-gray-100;
     letter-spacing: -0.02em;
   }
 
   p {
-    @apply text-gray-600;
+    @apply text-gray-600 dark:text-gray-300;
   }
 }
 
 @layer utilities {
   .dashboard-card {
-    @apply bg-white rounded-[24px] border border-gray-200/70 shadow-[var(--shadow-card)] transition-all duration-300 hover:shadow-[var(--shadow-elevated)];
+    @apply bg-white dark:bg-gray-800 rounded-[24px] border border-gray-200/70 dark:border-gray-700 shadow-[var(--shadow-card)] transition-all duration-300 hover:shadow-[var(--shadow-elevated)];
   }
 
   .action-button-card {
-    @apply bg-white rounded-[20px] p-5 flex flex-col items-center justify-center gap-3 transition-all duration-300 hover:shadow-[var(--shadow-elevated)] hover:scale-[1.02] border border-gray-200/70 shadow-[var(--shadow-soft)];
+    @apply bg-white dark:bg-gray-800 rounded-[20px] p-5 flex flex-col items-center justify-center gap-3 transition-all duration-300 hover:shadow-[var(--shadow-elevated)] hover:scale-[1.02] border border-gray-200/70 dark:border-gray-700 shadow-[var(--shadow-soft)];
   }
 
   .modal-item-btn {
-    @apply w-full flex items-center justify-between py-3 px-4 bg-white border border-gray-200/60 rounded-[20px] text-left hover:border-[#EFB6BF]/40 hover:bg-[#EFB6BF]/5 transition-all group active:scale-[0.98];
+    @apply w-full flex items-center justify-between py-3 px-4 bg-white dark:bg-gray-800 border border-gray-200/60 dark:border-gray-700 rounded-[20px] text-left hover:border-[#EFB6BF]/40 hover:bg-[#EFB6BF]/5 transition-all group active:scale-[0.98];
   }
 
   .premium-label {
