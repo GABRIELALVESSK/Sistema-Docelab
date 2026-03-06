@@ -127,13 +127,13 @@ export default function Dashboard() {
   };
 
   const StatCard = ({ title, value, icon, colorClass, iconColorClass }: any) => (
-    <div className="bg-white p-6 rounded-[2rem] shadow-soft flex items-center gap-4 border border-gray-50 group hover:shadow-md transition-all duration-300">
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-[2rem] shadow-soft flex items-center gap-4 border border-gray-50 dark:border-gray-700 group hover:shadow-md transition-all duration-300">
       <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110", colorClass)}>
-        <span className="material-icons-round text-2xl">{icon}</span>
+        <span className="material-icons-round text-2xl dark:opacity-90">{icon}</span>
       </div>
       <div>
         <p className="text-sm text-gray-500 font-medium uppercase tracking-widest mb-1">{title}</p>
-        <p className="text-2xl font-bold text-[#1E1E2F] tracking-tight">
+        <p className="text-2xl font-bold text-[#1E1E2F] dark:text-white tracking-tight">
           {hideValues ? "R$ ••••" : value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
         </p>
       </div>
@@ -146,7 +146,7 @@ export default function Dashboard() {
       <div className="flex-1 p-8 lg:p-10 z-10 overflow-hidden custom-scrollbar">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-6">
           <div className="flex-1">
-            <h2 className="text-xl font-medium text-[#1E1E2F] leading-tight tracking-tight mb-2">
+            <h2 className="text-xl font-medium text-[#1E1E2F] dark:text-white leading-tight tracking-tight mb-2">
               Bom dia,<br />{settings.nome}! 👋
             </h2>
             <p className="text-[#5A5A69] text-sm font-medium max-w-md leading-relaxed opacity-70">
@@ -157,14 +157,14 @@ export default function Dashboard() {
             <Button
               variant="outline"
               onClick={() => setHideValues(!hideValues)}
-              className="rounded-xl border-gray-100 text-[12px] font-bold h-11 px-6 hover:bg-white hover:shadow-sm"
+              className="rounded-xl border-gray-100 dark:border-gray-700 text-[12px] font-bold h-11 px-6 hover:bg-white dark:hover:bg-gray-800 hover:shadow-sm dark:text-gray-200"
             >
               {hideValues ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
               {hideValues ? "MOSTRAR" : "ESCONDER"}
             </Button>
             <button
               onClick={() => toast({ title: "Sugestões", description: "Analizando seus dados para gerar novas sugestões de vendas..." })}
-              className="bg-[#1E1E2F] text-white px-8 py-3.5 rounded-2xl font-bold text-[12px] tracking-wider hover:bg-opacity-90 transition shadow-xl uppercase"
+              className="bg-[#1E1E2F] dark:bg-white dark:text-[#1E1E2F] text-white px-8 py-3.5 rounded-2xl font-bold text-[12px] tracking-wider hover:bg-opacity-90 dark:hover:bg-gray-100 transition shadow-xl uppercase"
             >
               Ver Sugestões
             </button>
@@ -181,33 +181,33 @@ export default function Dashboard() {
         {/* Quick Actions */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-8">
-            <h3 className="text-[26px] font-bold text-[#1E1E2F] tracking-tight">Ações Rápidas</h3>
+            <h3 className="text-[26px] font-bold text-[#1E1E2F] dark:text-white tracking-tight">Ações Rápidas</h3>
             <MoreHorizontal className="text-gray-500 cursor-pointer hover:text-gray-500 transition w-6 h-6" />
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            <button onClick={() => navigate('/financas')} className="flex flex-col items-center justify-center p-5 bg-white rounded-[2.5rem] shadow-soft hover:shadow-md transition group border border-gray-50">
+            <button onClick={() => navigate('/financas')} className="flex flex-col items-center justify-center p-5 bg-white dark:bg-gray-800 rounded-[2.5rem] shadow-soft hover:shadow-md transition group border border-gray-50 dark:border-gray-700">
               <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                 <span className="material-icons-round text-xl">add</span>
               </div>
-              <span className="text-[12px] font-extrabold text-[#5A5A69] tracking-widest uppercase">Nova Receita</span>
+              <span className="text-[12px] font-extrabold text-[#5A5A69] dark:text-gray-300 tracking-widest uppercase">Nova Receita</span>
             </button>
-            <button onClick={() => navigate('/financas')} className="flex flex-col items-center justify-center p-5 bg-white rounded-[2.5rem] shadow-soft hover:shadow-md transition group border border-gray-50">
+            <button onClick={() => navigate('/financas')} className="flex flex-col items-center justify-center p-5 bg-white dark:bg-gray-800 rounded-[2.5rem] shadow-soft hover:shadow-md transition group border border-gray-50 dark:border-gray-700">
               <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                 <span className="material-icons-round text-xl">remove</span>
               </div>
-              <span className="text-[12px] font-extrabold text-[#5A5A69] tracking-widest uppercase">Nova Despesa</span>
+              <span className="text-[12px] font-extrabold text-[#5A5A69] dark:text-gray-300 tracking-widest uppercase">Nova Despesa</span>
             </button>
-            <button onClick={() => navigate('/receitas')} className="flex flex-col items-center justify-center p-5 bg-white rounded-[2.5rem] shadow-soft hover:shadow-md transition group border border-gray-50">
+            <button onClick={() => navigate('/receitas')} className="flex flex-col items-center justify-center p-5 bg-white dark:bg-gray-800 rounded-[2.5rem] shadow-soft hover:shadow-md transition group border border-gray-50 dark:border-gray-700">
               <div className="w-12 h-12 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                 <span className="material-icons-round text-xl">inventory_2</span>
               </div>
-              <span className="text-[12px] font-extrabold text-[#5A5A69] tracking-widest uppercase">Novo Produto</span>
+              <span className="text-[12px] font-extrabold text-[#5A5A69] dark:text-gray-300 tracking-widest uppercase">Novo Produto</span>
             </button>
-            <button onClick={() => navigate('/pedidos')} className="flex flex-col items-center justify-center p-5 bg-white rounded-[2.5rem] shadow-soft hover:shadow-md transition group border border-gray-50">
+            <button onClick={() => navigate('/pedidos')} className="flex flex-col items-center justify-center p-5 bg-white dark:bg-gray-800 rounded-[2.5rem] shadow-soft hover:shadow-md transition group border border-gray-50 dark:border-gray-700">
               <div className="w-12 h-12 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                 <span className="material-icons-round text-xl">shopping_bag</span>
               </div>
-              <span className="text-[12px] font-extrabold text-[#5A5A69] tracking-widest uppercase">Novo Pedido</span>
+              <span className="text-[12px] font-extrabold text-[#5A5A69] dark:text-gray-300 tracking-widest uppercase">Novo Pedido</span>
             </button>
           </div>
         </div>
@@ -215,15 +215,15 @@ export default function Dashboard() {
         {/* Dynamic Billing Chart */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-10">
-            <h3 className="text-[26px] font-bold text-[#1E1E2F] tracking-tight">Faturamento Dinâmico</h3>
+            <h3 className="text-[26px] font-bold text-[#1E1E2F] dark:text-white tracking-tight">Faturamento Dinâmico</h3>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl text-[13px] font-extrabold uppercase tracking-widest text-gray-500 border border-gray-100 cursor-pointer hover:border-gray-200 transition group">
+                <div className="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-xl text-[13px] font-extrabold uppercase tracking-widest text-gray-500 border border-gray-100 dark:border-gray-700 cursor-pointer hover:border-gray-200 transition group">
                   <span className="capitalize">{format(currentDate, "MMMM yyyy", { locale: ptBR })}</span>
                   <span className="material-icons-round text-xs group-hover:text-gray-600">keyboard_arrow_down</span>
                 </div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48 rounded-2xl p-2 shadow-xl border-gray-100">
+              <DropdownMenuContent align="end" className="w-48 rounded-2xl p-2 shadow-xl border-gray-100 dark:border-gray-800 dark:bg-gray-800">
                 {Array.from({ length: 12 }).map((_, i) => {
                   const date = subMonthsDate(new Date(), i);
                   return (
@@ -264,7 +264,7 @@ export default function Dashboard() {
               );
             })}
             <div className="flex flex-col items-center justify-center ml-4 shrink-0">
-              <span className="text-2xl font-black text-[#1E1E2F] mb-0.5 tracking-tighter">
+              <span className="text-2xl font-black text-[#1E1E2F] dark:text-white mb-0.5 tracking-tighter">
                 {hideValues ? "R$ •••" : (() => {
                   const hoje = new Date();
                   const diasParaDividir = isSameMonth(currentDate, hoje) ? getDate(hoje) : getDaysInMonth(currentDate);
@@ -280,18 +280,18 @@ export default function Dashboard() {
       </div>
 
       {/* Right Sidebar (35%) */}
-      <div className="hidden lg:flex w-[380px] p-6 flex-col border-l border-gray-100 bg-white z-10 overflow-hidden custom-scrollbar">
+      <div className="hidden lg:flex w-[380px] p-6 flex-col border-l border-gray-100 dark:border-gray-800 bg-white dark:bg-[#1A1A24] z-10 overflow-hidden custom-scrollbar transition-colors">
         <div className="flex justify-end gap-6 mb-6">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="text-gray-500 hover:text-gray-600 transition relative">
                 <span className="material-icons-round">notifications</span>
-                <span className="absolute top-0 right-0 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
+                <span className="absolute top-0 right-0 w-2 h-2 bg-rose-500 rounded-full border-2 border-white dark:border-gray-800"></span>
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-64 rounded-2xl p-2 shadow-xl border-gray-100 bg-white">
-              <div className="px-3 py-4 border-b border-gray-50 mb-2">
-                <h4 className="text-[12px] font-black uppercase tracking-widest text-[#1E1E2F]">Resumo de Pedidos</h4>
+            <DropdownMenuContent align="end" className="w-64 rounded-2xl p-2 shadow-xl border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-800">
+              <div className="px-3 py-4 border-b border-gray-50 dark:border-gray-700 mb-2">
+                <h4 className="text-[12px] font-black uppercase tracking-widest text-[#1E1E2F] dark:text-white">Resumo de Pedidos</h4>
               </div>
               {entregas.map((entrega, i) => (
                 <DropdownMenuItem
@@ -307,7 +307,7 @@ export default function Dashboard() {
                     <span className="text-[13px] font-black text-gray-500">{entrega.dia}/{entrega.mes + 1}</span>
                   </div>
                   <div className="flex flex-col">
-                    <p className="text-[12px] font-black text-[#1E1E2F] uppercase tracking-wide">{entrega.nomeCliente}</p>
+                    <p className="text-[12px] font-black text-[#1E1E2F] dark:text-white uppercase tracking-wide">{entrega.nomeCliente}</p>
                     <p className="text-[13px] font-bold text-gray-500">{entrega.pedido}</p>
                   </div>
                 </DropdownMenuItem>
@@ -330,16 +330,16 @@ export default function Dashboard() {
         </div>
 
         {/* Meta Monthly Card */}
-        <div className="bg-white p-6 rounded-[2.5rem] shadow-soft border border-gray-50 mb-6 relative overflow-hidden group">
-          <div className="absolute -top-12 -right-12 w-40 h-40 bg-rose-50/50 rounded-full blur-2xl group-hover:bg-rose-100/50 transition duration-700"></div>
+        <div className="bg-white dark:bg-gray-800/50 p-6 rounded-[2.5rem] shadow-soft border border-gray-50 dark:border-gray-800 mb-6 relative overflow-hidden group">
+          <div className="absolute -top-12 -right-12 w-40 h-40 bg-rose-50/50 dark:bg-rose-900/10 rounded-full blur-2xl group-hover:bg-rose-100/50 transition duration-700"></div>
 
           <div className="flex justify-between items-start mb-10 relative z-10">
             <div>
-              <h3 className="text-lg font-extrabold text-[#1E1E2F] tracking-tight">Meta Mensal</h3>
+              <h3 className="text-lg font-extrabold text-[#1E1E2F] dark:text-white tracking-tight">Meta Mensal</h3>
               <p className="text-[12px] font-bold text-gray-500 mt-1 uppercase tracking-widest">Progresso de vendas</p>
             </div>
             <button onClick={() => setShowMetaModal(true)}>
-              <MoreVertical className="text-gray-200 w-6 h-6 hover:text-gray-500 transition" />
+              <MoreVertical className="text-gray-200 dark:text-gray-600 w-6 h-6 hover:text-gray-500 dark:hover:text-gray-400 transition" />
             </button>
           </div>
 
@@ -351,12 +351,12 @@ export default function Dashboard() {
                 return (
                   <>
                     <svg className="w-full h-full transform -rotate-90">
-                      <circle cx="56" cy="56" r="44" fill="transparent" stroke="#f8fafc" strokeWidth="10"></circle>
+                      <circle cx="56" cy="56" r="44" fill="transparent" stroke="currentColor" className="text-slate-50 dark:text-gray-700" strokeWidth="10"></circle>
                       <circle cx="56" cy="56" r="44" fill="transparent" stroke="#F87171" strokeDasharray="276" strokeDashoffset={276 - (progresso * 2.76)} strokeLinecap="round" strokeWidth="10" className="transition-all duration-1000 ease-out"></circle>
                       <circle cx="56" cy="56" r="3" fill="#F87171" className="animate-pulse shadow-glow transform" style={{ transformOrigin: '56px 56px', transform: `rotate(${(progresso * 3.6)}deg) translate(44px)` }}></circle>
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-2xl font-black text-[#1E1E2F] tracking-tighter">{progresso.toFixed(0)}%</span>
+                      <span className="text-2xl font-black text-[#1E1E2F] dark:text-white tracking-tighter">{progresso.toFixed(0)}%</span>
                     </div>
                   </>
                 );
@@ -366,13 +366,13 @@ export default function Dashboard() {
               <div className="mb-6">
                 <p className="text-[13px] text-gray-500 uppercase font-extrabold tracking-widest mb-1.5">Faturado</p>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-[12px] font-bold text-[#1E1E2F]">R$</span>
-                  <p className="text-2xl font-black text-[#1E1E2F] tracking-tighter leading-none">
+                  <span className="text-[12px] font-bold text-[#1E1E2F] dark:text-white">R$</span>
+                  <p className="text-2xl font-black text-[#1E1E2F] dark:text-white tracking-tighter leading-none">
                     {hideValues ? "••••" : stats.receita.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                   </p>
                 </div>
               </div>
-              <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100/50">
+              <div className="p-4 bg-amber-50 dark:bg-amber-900/10 rounded-2xl border border-amber-100/50 dark:border-amber-900/30">
                 <p className="text-[12px] font-black text-amber-500 uppercase tracking-widest mb-1">Falta para a meta</p>
                 <p className="text-xs font-black text-amber-600 tracking-tight">
                   {hideValues ? "R$ ••••" : (metaFaturamento - stats.receita > 0 ? metaFaturamento - stats.receita : 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
@@ -385,7 +385,7 @@ export default function Dashboard() {
         {/* Calendar Large Widget */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-8">
-            <h3 className="text-base font-extrabold text-[#1E1E2F] tracking-tight capitalize">{format(currentDate, "MMMM yyyy", { locale: ptBR })}</h3>
+            <h3 className="text-base font-extrabold text-[#1E1E2F] dark:text-white tracking-tight capitalize">{format(currentDate, "MMMM yyyy", { locale: ptBR })}</h3>
             <div className="flex gap-2">
               <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-gray-500 hover:text-gray-600" onClick={() => setCurrentDate(subMonths(currentDate, 1))}><ChevronLeft className="w-4 h-4" /></Button>
               <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-gray-500 hover:text-gray-600" onClick={() => setCurrentDate(addMonths(currentDate, 1))}><ChevronRight className="w-4 h-4" /></Button>
@@ -417,8 +417,8 @@ export default function Dashboard() {
                   }}>
                     <span className={cn(
                       "text-xs font-bold transition-all w-8 h-8 flex items-center justify-center mx-auto rounded-xl",
-                      isToday ? "bg-[#1E1E2F] text-white shadow-lg scale-110" : "text-gray-500 group-hover:bg-gray-50 group-hover:text-gray-600",
-                      hasEntrega && !isToday ? "border-2 border-indigo-100 text-indigo-500" : ""
+                      isToday ? "bg-[#1E1E2F] dark:bg-white text-white dark:text-[#1E1E2F] shadow-lg scale-110" : "text-gray-500 group-hover:bg-gray-50 dark:group-hover:bg-gray-800",
+                      hasEntrega && !isToday ? "border-2 border-indigo-100 dark:border-indigo-500/30 text-indigo-500" : ""
                     )}>
                       {day}
                     </span>
@@ -435,16 +435,16 @@ export default function Dashboard() {
         {/* Time Filtering */}
         <div>
           <div className="flex items-center justify-between mb-8">
-            <h3 className="text-base font-extrabold text-[#1E1E2F] tracking-tight">Filtragem Temporal</h3>
+            <h3 className="text-base font-extrabold text-[#1E1E2F] dark:text-white tracking-tight">Filtragem Temporal</h3>
             <a className="text-[12px] font-extrabold text-gray-500 hover:text-[#F87171] transition uppercase tracking-widest" href="#">Ver tudo</a>
           </div>
           <div className="space-y-4">
             <div className="flex items-center gap-5 group cursor-pointer">
-              <div className="w-12 h-12 rounded-[1.2rem] bg-amber-50 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform shadow-sm">
+              <div className="w-12 h-12 rounded-[1.2rem] bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform shadow-sm">
                 <span className="material-icons-round text-xl">calendar_today</span>
               </div>
               <div className="flex-1">
-                <h4 className="text-sm font-extrabold text-[#1E1E2F] group-hover:text-[#F87171] transition tracking-tight">Intervalo Personalizado</h4>
+                <h4 className="text-sm font-extrabold text-[#1E1E2F] dark:text-white group-hover:text-[#F87171] transition tracking-tight">Intervalo Personalizado</h4>
                 <p className="text-[13px] font-bold text-gray-500 uppercase tracking-widest mt-0.5">Arraste para definir</p>
               </div>
               <div className="flex flex-col items-end gap-1">
@@ -453,11 +453,11 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="flex items-center gap-5 group cursor-pointer" onClick={() => navigate('/orcamentos')}>
-              <div className="w-12 h-12 rounded-[1.2rem] bg-indigo-50 flex items-center justify-center text-indigo-500 group-hover:scale-110 transition-transform shadow-sm">
+              <div className="w-12 h-12 rounded-[1.2rem] bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-500 group-hover:scale-110 transition-transform shadow-sm">
                 <span className="material-icons-round text-xl">description</span>
               </div>
               <div className="flex-1">
-                <h4 className="text-sm font-extrabold text-[#1E1E2F] group-hover:text-[#F87171] transition tracking-tight">Orçamentos Pendentes</h4>
+                <h4 className="text-sm font-extrabold text-[#1E1E2F] dark:text-white group-hover:text-[#F87171] transition tracking-tight">Orçamentos Pendentes</h4>
                 <p className="text-[13px] font-bold text-gray-500 uppercase tracking-widest mt-0.5">3 aguardando aprovação</p>
               </div>
               <div className="flex flex-col items-end gap-1">
@@ -466,11 +466,11 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="flex items-center gap-5 group cursor-pointer" onClick={() => navigate('/financas')}>
-              <div className="w-12 h-12 rounded-[1.2rem] bg-rose-50 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform shadow-sm">
+              <div className="w-12 h-12 rounded-[1.2rem] bg-rose-50 dark:bg-rose-900/20 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform shadow-sm">
                 <span className="material-icons-round text-xl">receipt_long</span>
               </div>
               <div className="flex-1">
-                <h4 className="text-sm font-extrabold text-[#1E1E2F] group-hover:text-[#F87171] transition tracking-tight">Controle de Despesas</h4>
+                <h4 className="text-sm font-extrabold text-[#1E1E2F] dark:text-white group-hover:text-[#F87171] transition tracking-tight">Controle de Despesas</h4>
                 <p className="text-[13px] font-bold text-gray-500 uppercase tracking-widest mt-0.5">Resumo semanal</p>
               </div>
               <div className="flex flex-col items-end gap-1">
