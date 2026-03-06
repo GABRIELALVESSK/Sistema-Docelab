@@ -322,9 +322,11 @@ export default function Orcamentos() {
                 });
             }
         } else {
-            const phone = orc.cliente_telefone.replace(/\D/g, '');
-            const url = `https://wa.me/${phone.startsWith('55') ? phone : '55' + phone}?text=${encodeURIComponent(msg)}`;
-            window.open(url, '_blank');
+            toast({
+                title: "Webhook não configurado",
+                description: "A URL do Webhook do WhatsApp (VITE_WEBHOOK_WHATSAPP_URL) não foi encontrada nas variáveis de ambiente. Configure-a no Vercel.",
+                variant: "destructive"
+            });
         }
     };
 

@@ -438,6 +438,8 @@ function StepCredenciais() {
 
 function StepPreferencias() {
     const { settings, updateSettings } = useSettings();
+    const { toast } = useToast();
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="space-y-8">
@@ -499,7 +501,13 @@ function StepPreferencias() {
                                 </div>
                             </div>
                             <label className="relative inline-flex items-center cursor-pointer">
-                                <input className="sr-only peer" type="checkbox" checked={settings.whatsapp} onChange={(e) => updateSettings({ whatsapp: e.target.checked })} />
+                                <input className="sr-only peer" type="checkbox" checked={settings.whatsapp} onChange={(e) => {
+                                    updateSettings({ whatsapp: e.target.checked });
+                                    toast({
+                                        title: e.target.checked ? "WhatsApp Conectado" : "WhatsApp Desconectado",
+                                        description: e.target.checked ? "Integração ativada com sucesso." : "Integração removida."
+                                    });
+                                }} />
                                 <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#2ECC71]"></div>
                             </label>
                         </div>
@@ -515,7 +523,13 @@ function StepPreferencias() {
                                 </div>
                             </div>
                             <label className="relative inline-flex items-center cursor-pointer">
-                                <input className="sr-only peer" type="checkbox" checked={settings.googleCalendar} onChange={(e) => updateSettings({ googleCalendar: e.target.checked })} />
+                                <input className="sr-only peer" type="checkbox" checked={settings.googleCalendar} onChange={(e) => {
+                                    updateSettings({ googleCalendar: e.target.checked });
+                                    toast({
+                                        title: e.target.checked ? "Google Calendar Conectado" : "Google Calendar Desconectado",
+                                        description: e.target.checked ? "Os pedidos serão sincronizados." : "Sincronização parada."
+                                    });
+                                }} />
                                 <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#2ECC71]"></div>
                             </label>
                         </div>
@@ -533,7 +547,10 @@ function StepPreferencias() {
                         <div className="space-y-1">
                             <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">Idioma do Sistema</label>
                             <div className="relative">
-                                <select className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 appearance-none outline-none" value={settings.idioma} onChange={(e) => updateSettings({ idioma: e.target.value })}>
+                                <select className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 appearance-none outline-none" value={settings.idioma} onChange={(e) => {
+                                    updateSettings({ idioma: e.target.value });
+                                    toast({ title: "Idioma Alterado", description: `Idioma atualizado para ${e.target.value}.` });
+                                }}>
                                     <option value="Português (Brasil)">Português (Brasil)</option>
                                     <option value="English (US)">English (US)</option>
                                 </select>
@@ -545,7 +562,10 @@ function StepPreferencias() {
                         <div className="space-y-1">
                             <label className="text-xs font-bold text-gray-500 dark:text-gray-500 uppercase ml-1">Moeda Padrão</label>
                             <div className="relative">
-                                <select className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 appearance-none outline-none" value={settings.moeda} onChange={(e) => updateSettings({ moeda: e.target.value })}>
+                                <select className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-[#FF8A96] focus:border-[#FF8A96] text-sm p-3 appearance-none outline-none" value={settings.moeda} onChange={(e) => {
+                                    updateSettings({ moeda: e.target.value });
+                                    toast({ title: "Moeda Alterada", description: `Moeda padrão atualizada para ${e.target.value}.` });
+                                }}>
                                     <option value="BRL">BRL - Real Brasileiro (R$)</option>
                                     <option value="USD">USD - Dólar Americano ($)</option>
                                 </select>

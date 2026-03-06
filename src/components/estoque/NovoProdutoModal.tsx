@@ -43,6 +43,9 @@ const unidades = [
   { value: "g", label: "Gramas (g)" },
   { value: "l", label: "Litros (L)" },
   { value: "ml", label: "Mililitros (ml)" },
+  { value: "m", label: "Metros (m)" },
+  { value: "cm", label: "Centímetros (cm)" },
+  { value: "mm", label: "Milímetros (mm)" },
   { value: "un", label: "Unidades" },
 ];
 

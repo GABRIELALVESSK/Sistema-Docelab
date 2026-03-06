@@ -631,7 +631,7 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                                             <SelectValue />
                                                         </SelectTrigger>
                                                         <SelectContent className="rounded-2xl border border-gray-100 shadow-xl min-w-[100px]">
-                                                            {['un', 'g', 'kg', 'ml', 'L'].map(u => <SelectItem key={u} value={u} className="rounded-lg font-medium">{u}</SelectItem>)}
+                                                            {['un', 'g', 'kg', 'ml', 'L', 'm', 'cm', 'mm'].map(u => <SelectItem key={u} value={u} className="rounded-lg font-medium">{u}</SelectItem>)}
                                                         </SelectContent>
                                                     </Select>
                                                 </div>
@@ -741,6 +741,12 @@ export function NovaReceitaModal({ open, onOpenChange, onSubmit, receitaParaEdit
                                                                                 <>
                                                                                     <SelectItem value="ml" className="text-[12px] font-bold uppercase">ml</SelectItem>
                                                                                     <SelectItem value="L" className="text-[12px] font-bold uppercase">L</SelectItem>
+                                                                                </>
+                                                                            ) : ['mm', 'cm', 'm'].includes(item.unidade) ? (
+                                                                                <>
+                                                                                    <SelectItem value="mm" className="text-[12px] font-bold uppercase">mm</SelectItem>
+                                                                                    <SelectItem value="cm" className="text-[12px] font-bold uppercase">cm</SelectItem>
+                                                                                    <SelectItem value="m" className="text-[12px] font-bold uppercase">m</SelectItem>
                                                                                 </>
                                                                             ) : (
                                                                                 <SelectItem value={item.unidade} className="text-[12px] font-bold uppercase">{item.unidade}</SelectItem>

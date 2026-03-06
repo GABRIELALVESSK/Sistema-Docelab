@@ -154,16 +154,28 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
         ...produtos.map(p => ({ id: `p:${p.id}`, nome: p.nome, tipo: 'produto' as const, original: p }))
     ].sort((a, b) => a.nome.localeCompare(b.nome));
 
+    const getMultiplierFromTo = (from: string, to: string) => {
+        if (from === to) return 1;
+        if (from === "kg" && to === "g") return 1000;
+        if (from === "g" && to === "kg") return 0.001;
+        if (from === "L" && to === "ml") return 1000;
+        if (from === "ml" && to === "L") return 0.001;
+        if (from === "m" && to === "cm") return 100;
+        if (from === "cm" && to === "m") return 0.01;
+        if (from === "m" && to === "mm") return 1000;
+        if (from === "mm" && to === "m") return 0.001;
+        if (from === "cm" && to === "mm") return 10;
+        if (from === "mm" && to === "cm") return 0.1;
+        return 1;
+    };
+
     const calcularCustoProporcional = (receita: Receita, qtdKit: number, unidadeKit: string) => {
         const unidadeReceita = receita.unidade_rendimento || "un";
         const custoBase = receita.cmv_unitario || (receita.custo_unitario ? receita.custo_unitario / (receita.rendimento_unidades || 1) : 0);
 
-        if (unidadeReceita === unidadeKit) return custoBase * qtdKit;
-        if (unidadeReceita === "kg" && unidadeKit === "g") return (custoBase / 1000) * qtdKit;
-        if (unidadeReceita === "g" && unidadeKit === "kg") return (custoBase * 1000) * qtdKit;
-        if (unidadeReceita === "L" && unidadeKit === "ml") return (custoBase / 1000) * qtdKit;
-        if (unidadeReceita === "ml" && unidadeKit === "L") return (custoBase * 1000) * qtdKit;
-        return custoBase * qtdKit;
+        // Custo_base é R$ por unidadeReceita. Quantos `unidadeReceita` tem em 1 `unidadeKit`?
+        const multiplier = getMultiplierFromTo(unidadeKit, unidadeReceita);
+        return custoBase * multiplier * qtdKit;
     };
 
     const handleSelectComponente = (item: any) => {
@@ -199,12 +211,8 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
             const custoBase = p.preco_medio || 0;
             const unidadeBase = p.unidade || "un";
 
-            if (unidadeBase === unidadeSelecionada) custoItem = custoBase * qtdItem;
-            else if (unidadeBase === "kg" && unidadeSelecionada === "g") custoItem = (custoBase / 1000) * qtdItem;
-            else if (unidadeBase === "g" && unidadeSelecionada === "kg") custoItem = (custoBase * 1000) * qtdItem;
-            else if (unidadeBase === "L" && unidadeSelecionada === "ml") custoItem = (custoBase / 1000) * qtdItem;
-            else if (unidadeBase === "ml" && unidadeSelecionada === "L") custoItem = (custoBase * 1000) * qtdItem;
-            else custoItem = custoBase * qtdItem;
+            const multiplier = getMultiplierFromTo(unidadeSelecionada, unidadeBase);
+            custoItem = custoBase * multiplier * qtdItem;
         }
 
         const novoItem: ItemKit = {
@@ -323,7 +331,7 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent className="rounded-2xl border-none shadow-xl">
-                                                {['un', 'g', 'kg', 'ml', 'L'].map(u => (
+                                                {['un', 'g', 'kg', 'ml', 'L', 'm', 'cm', 'mm'].map(u => (
                                                     <SelectItem key={u} value={u} className="text-xs font-bold">{u}</SelectItem>
                                                 ))}
                                             </SelectContent>
@@ -395,11 +403,11 @@ export function NovoKitModal({ open, onOpenChange, onSubmit, kitParaEditar }: No
                                         />
                                         <div className="h-4 w-[1px] bg-gray-100 mx-2" />
                                         <Select value={unidadeSelecionada} onValueChange={setUnidadeSelecionada}>
-                                            <SelectTrigger className="border-none bg-transparent h-auto p-0 w-12 shadow-none focus:ring-0 font-black text-[#EFB6BF] text-[13px] uppercase">
+                                            <SelectTrigger className="border-none bg-transparent h-auto p-0 w-auto shadow-none focus:ring-0 font-black text-[#EFB6BF] text-[13px] uppercase">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent className="rounded-xl border-none shadow-xl">
-                                                {["un", "g", "kg", "ml", "L"].map(u => (
+                                                {["un", "g", "kg", "ml", "L", "m", "cm", "mm"].map(u => (
                                                     <SelectItem key={u} value={u} className="text-[13px] font-black uppercase">{u}</SelectItem>
                                                 ))}
                                             </SelectContent>

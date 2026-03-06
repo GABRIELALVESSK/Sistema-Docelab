@@ -311,9 +311,11 @@ export function CriarOrcamentoModal({ open, onOpenChange, onSubmit, initialData 
                     });
                 }
             } else {
-                const phone = clienteTelefone.replace(/\D/g, '');
-                const url = `https://wa.me/${phone.startsWith('55') ? phone : '55' + phone}?text=${encodeURIComponent(msg)}`;
-                window.open(url, '_blank');
+                toast({
+                    title: "Webhook não configurado",
+                    description: "A URL do Webhook do WhatsApp (VITE_WEBHOOK_WHATSAPP_URL) não foi encontrada. Configure no Vercel.",
+                    variant: "destructive"
+                });
             }
 
             onOpenChange(false);

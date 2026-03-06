@@ -35,6 +35,9 @@ const UNIDADES_COMPRA = [
     { value: 'g', label: 'Gramas (g)' },
     { value: 'L', label: 'Litros (L)' },
     { value: 'ml', label: 'Mililitros (ml)' },
+    { value: 'm', label: 'Metros (m)' },
+    { value: 'cm', label: 'Centímetros (cm)' },
+    { value: 'mm', label: 'Milímetros (mm)' },
     { value: 'un', label: 'Unidade (un)' },
     { value: 'pacote', label: 'Pacote' },
     { value: 'rolo', label: 'Rolo' },
@@ -148,11 +151,14 @@ export function NovoInsumoModal({ open, onOpenChange, onSubmit, insumo }: NovoIn
     const obterUnidadeBasica = (unidade: string): string => {
         if (unidade === 'kg' || unidade === 'g') return 'g';
         if (unidade === 'L' || unidade === 'ml') return 'ml';
+        if (unidade === 'm' || unidade === 'cm' || unidade === 'mm') return 'cm';
         return 'un';
     };
 
     const obterMultiplicador = (unidade: string): number => {
         if (unidade === 'kg' || unidade === 'L') return 1000;
+        if (unidade === 'm') return 100;
+        if (unidade === 'mm') return 0.1;
         return 1;
     };
 

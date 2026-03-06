@@ -18,7 +18,7 @@ export interface Insumo {
     id: string;
     nome: string;
     categoria: string;
-    unidade_compra: 'kg' | 'g' | 'L' | 'ml' | 'un' | 'pacote' | 'rolo' | 'frasco' | 'lata' | 'cx' | 'pct';
+    unidade_compra: 'kg' | 'g' | 'L' | 'ml' | 'un' | 'pacote' | 'rolo' | 'frasco' | 'lata' | 'cx' | 'pct' | 'm' | 'cm' | 'mm';
     quantidade_por_embalagem: number;
     preco_embalagem: number;
     perdas_percentual: number;
@@ -29,7 +29,7 @@ export interface ReceitaIngrediente {
     id?: string;
     produto_id: string;
     quantidade_usada: number;
-    unidade_usada: 'g' | 'ml' | 'un';
+    unidade_usada: 'g' | 'ml' | 'un' | 'cm' | 'm' | 'mm' | 'kg' | 'L'; // including 'kg' and 'L' since it comes from the form
     modo_custo: 'proporcional' | 'compra_minima' | 'amortizado';
     usos_amortizacao?: number;
 }
@@ -123,16 +123,26 @@ export function calcularPrecoPorUnidadeBasica(insumo: Insumo): number {
         return preco_embalagem / (quantidade_por_embalagem * 1000);
     }
 
-    // Para unidades, pacotes, rolos, frascos, etc.
+    // Converter unidades de comprimento para cm (unidade base para comprimento)
+    if (unidade_compra === 'm') {
+        return preco_embalagem / (quantidade_por_embalagem * 100);
+    }
+
+    if (unidade_compra === 'mm') {
+        return preco_embalagem / (quantidade_por_embalagem / 10);
+    }
+
+    // Para unidades, pacotes, rolos, frascos, etc, e cm (já que cm é a base)
     return preco_embalagem / quantidade_por_embalagem;
 }
 
 /**
  * Retorna a unidade básica correspondente à unidade de compra
  */
-export function obterUnidadeBasica(unidade_compra: Insumo['unidade_compra']): 'g' | 'ml' | 'un' {
+export function obterUnidadeBasica(unidade_compra: Insumo['unidade_compra']): 'g' | 'ml' | 'un' | 'cm' {
     if (unidade_compra === 'kg' || unidade_compra === 'g') return 'g';
     if (unidade_compra === 'L' || unidade_compra === 'ml') return 'ml';
+    if (unidade_compra === 'm' || unidade_compra === 'cm' || unidade_compra === 'mm') return 'cm';
     return 'un';
 }
 
@@ -158,11 +168,18 @@ export function calcularCustoItem(
         throw new Error(`Quantidade usada deve ser maior que 0 para ${insumo.nome}`);
     }
 
+    // Normalizar a quantidade usada para a unidade básica (g, ml, un, cm)
+    let quantidadeUsadaBase = quantidade_usada;
+    if (ingrediente.unidade_usada === 'kg') quantidadeUsadaBase *= 1000;
+    else if (ingrediente.unidade_usada === 'L') quantidadeUsadaBase *= 1000;
+    else if (ingrediente.unidade_usada === 'm') quantidadeUsadaBase *= 100;
+    else if (ingrediente.unidade_usada === 'mm') quantidadeUsadaBase /= 10;
+
     switch (modo_custo) {
         case 'proporcional': {
             // Modo padrão: cobra pelo que usou
             const precoUnitario = calcularPrecoPorUnidadeBasica(insumo);
-            const custoBase = precoUnitario * quantidade_usada;
+            const custoBase = precoUnitario * quantidadeUsadaBase;
 
             // Aplicar perdas se configurado
             const fatorPerdas = 1 + (insumo.perdas_percentual / 100);
@@ -171,9 +188,13 @@ export function calcularCustoItem(
 
         case 'compra_minima': {
             // Calcula quantas embalagens precisa comprar
-            const unidadesNecessarias = Math.ceil(
-                quantidade_usada / insumo.quantidade_por_embalagem
-            );
+            let quantidadeEmbalagemBase = insumo.quantidade_por_embalagem;
+            if (insumo.unidade_compra === 'kg') quantidadeEmbalagemBase *= 1000;
+            else if (insumo.unidade_compra === 'L') quantidadeEmbalagemBase *= 1000;
+            else if (insumo.unidade_compra === 'm') quantidadeEmbalagemBase *= 100;
+            else if (insumo.unidade_compra === 'mm') quantidadeEmbalagemBase /= 10;
+
+            const unidadesNecessarias = Math.ceil(quantidadeUsadaBase / (quantidadeEmbalagemBase || 1));
             return unidadesNecessarias * insumo.preco_embalagem;
         }
 
