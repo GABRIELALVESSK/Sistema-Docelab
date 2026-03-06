@@ -133,11 +133,11 @@ export default function Financas() {
   return (
     <>
       <div className="p-4 h-full overflow-hidden animate-in-fade">
-        <div className="bg-white w-full h-full rounded-[2.5rem] shadow-soft overflow-y-auto p-8 relative">
+        <div className="bg-white dark:bg-gray-800 w-full h-full rounded-[2.5rem] shadow-soft overflow-y-auto p-8 relative">
           {/* Header Section */}
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
                 Cofre <span className="text-[#FDA4AF]">Financeiro</span>
               </h1>
               <p className="text-gray-500 text-[12px] font-bold tracking-widest mt-1 uppercase">
@@ -147,7 +147,7 @@ export default function Financas() {
             <div className="flex items-center gap-3">
               <Button
                 variant="outline"
-                className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-100 text-gray-500 hover:bg-gray-50 transition-colors text-[13px] font-bold uppercase tracking-widest"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-100 dark:border-gray-700 text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-[13px] font-bold uppercase tracking-widest"
               >
                 <FileText className="w-4 h-4" />
                 RELATÓRIOS
@@ -165,9 +165,9 @@ export default function Financas() {
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             {/* Receitas Card */}
-            <div className="bg-gray-50/50 rounded-[2rem] p-6 flex flex-col justify-between h-40 border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+            <div className="bg-gray-50/50 dark:bg-gray-700/50 rounded-[2rem] p-6 flex flex-col justify-between h-40 border border-gray-100 dark:border-gray-600 hover:shadow-lg transition-shadow duration-300">
               <div className="flex items-start justify-between">
-                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-500">
+                <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center text-green-500">
                   <TrendingUp className="w-5 h-5" />
                 </div>
                 <span className="text-[12px] font-bold text-gray-500 uppercase tracking-widest">Receitas Totais</span>
@@ -178,9 +178,9 @@ export default function Financas() {
             </div>
 
             {/* Despesas Card */}
-            <div className="bg-gray-50/50 rounded-[2rem] p-6 flex flex-col justify-between h-40 border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+            <div className="bg-gray-50/50 dark:bg-gray-700/50 rounded-[2rem] p-6 flex flex-col justify-between h-40 border border-gray-100 dark:border-gray-600 hover:shadow-lg transition-shadow duration-300">
               <div className="flex items-start justify-between">
-                <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-[#F87171]">
+                <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center text-[#F87171]">
                   <TrendingDown className="w-5 h-5" />
                 </div>
                 <span className="text-[12px] font-bold text-gray-500 uppercase tracking-widest">Despesas Totais</span>
@@ -191,10 +191,10 @@ export default function Financas() {
             </div>
 
             {/* Lucro Card */}
-            <div className="bg-gray-50/50 rounded-[2rem] p-6 flex flex-col justify-between h-40 border border-gray-100 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden">
-              <div className="absolute -right-4 -top-4 w-24 h-24 bg-pink-100/30 rounded-full blur-xl"></div>
+            <div className="bg-gray-50/50 dark:bg-gray-700/50 rounded-[2rem] p-6 flex flex-col justify-between h-40 border border-gray-100 dark:border-gray-600 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden">
+              <div className="absolute -right-4 -top-4 w-24 h-24 bg-pink-100/30 dark:bg-pink-900/20 rounded-full blur-xl"></div>
               <div className="flex items-start justify-between relative z-10">
-                <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-400">
+                <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center text-orange-400">
                   <Coins className="w-5 h-5" />
                 </div>
                 <span className="text-[12px] font-bold text-gray-500 uppercase tracking-widest">Lucro Líquido</span>
@@ -206,9 +206,9 @@ export default function Financas() {
           </div>
 
           {/* Content Area */}
-          <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-6 min-h-[400px]">
+          <div className="bg-white dark:bg-gray-800 rounded-[2rem] border border-gray-100 dark:border-gray-700 shadow-sm p-6 min-h-[400px]">
             <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-              <div className="bg-gray-50 p-1.5 rounded-full flex gap-1">
+              <div className="bg-gray-50 dark:bg-gray-700 p-1.5 rounded-full flex gap-1">
                 {[
                   { value: "todas", label: "Tudo" },
                   { value: "receitas", label: "Entradas" },
@@ -220,8 +220,8 @@ export default function Financas() {
                     className={cn(
                       "px-6 py-2 rounded-full text-[12px] font-bold uppercase tracking-widest transition-all",
                       filter === f.value
-                        ? "bg-white text-gray-900 shadow-sm"
-                        : "text-gray-500 hover:bg-gray-100"
+                        ? "bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm"
+                        : "text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600"
                     )}
                   >
                     {f.label}
@@ -231,7 +231,7 @@ export default function Financas() {
               <div className="relative w-full md:w-72">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
                 <Input
-                  className="w-full pl-11 pr-4 py-2.5 bg-gray-50 border-none rounded-full text-sm text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-[#F87171]/20"
+                  className="w-full pl-11 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700 border-none rounded-full text-sm text-gray-700 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-[#F87171]/20"
                   placeholder="Filtrar lançamentos..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -255,10 +255,10 @@ export default function Financas() {
             ) : (
               Object.entries(groupedTransacoes).map(([categoria, transacoes]) => (
                 <div key={categoria} className="mb-8">
-                  <div className="flex justify-between items-center px-4 mb-4 text-[12px] font-bold text-gray-900 uppercase tracking-widest">
+                  <div className="flex justify-between items-center px-4 mb-4 text-[12px] font-bold text-gray-900 dark:text-gray-300 uppercase tracking-widest">
                     <div className="flex items-center gap-2">
                       <span>{categoria}</span>
-                      <span className="bg-gray-100 text-gray-500 px-2 py-0.5 rounded-md text-[13px]">
+                      <span className="bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300 px-2 py-0.5 rounded-md text-[13px]">
                         {transacoes.length}
                       </span>
                     </div>
@@ -271,17 +271,17 @@ export default function Financas() {
                     {transacoes.map((t) => (
                       <div
                         key={t.id}
-                        className="group flex items-center justify-between p-4 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-colors"
+                        className="group flex items-center justify-between p-4 rounded-2xl bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
                       >
                         <div className="flex items-center gap-4">
                           <div className={cn(
                             "w-12 h-12 rounded-xl flex items-center justify-center shadow-sm",
-                            t.tipo === "receita" ? "bg-green-100 text-green-500" : "bg-red-100 text-[#F87171]"
+                            t.tipo === "receita" ? "bg-green-100 dark:bg-green-900/40 text-green-500" : "bg-red-100 dark:bg-red-900/40 text-[#F87171]"
                           )}>
                             {t.tipo === "receita" ? <TrendingUp className="w-6 h-6" /> : <TrendingDown className="w-6 h-6" />}
                           </div>
                           <div>
-                            <h4 className="font-bold text-gray-800 text-sm tracking-tight">{t.descricao}</h4>
+                            <h4 className="font-bold text-gray-800 dark:text-white text-sm tracking-tight">{t.descricao}</h4>
                             <div className="flex items-center gap-3 mt-1">
                               <span className="text-[12px] text-gray-500 uppercase tracking-wider">{t.data}</span>
                               <span className="w-1 h-1 rounded-full bg-gray-300"></span>

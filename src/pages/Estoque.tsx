@@ -515,7 +515,7 @@ export default function Estoque() {
                 <div className="absolute inset-0 bg-white/10" />
               </div>
               <div>
-                <h1 className="text-3xl font-black text-gray-900 tracking-tight">
+                <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">
                   Estoque de <span className="text-primary">Produtos</span>
                 </h1>
                 <p className="text-xs font-bold text-gray-500 uppercase tracking-widest flex items-center gap-2">
@@ -532,7 +532,7 @@ export default function Estoque() {
                 else if (activeTab === "Custos Fixos") setShowNovoCustoFixo(true);
                 else if (activeTab === "Kits") setShowNovoKit(true);
               }}
-              className="bg-gray-900 hover:bg-black text-white font-black rounded-2xl h-12 px-8 flex items-center gap-2 text-[13px] transition-all active:scale-[0.98] shadow-lg shadow-gray-200"
+              className="bg-gray-900 dark:bg-white hover:bg-black dark:hover:bg-gray-100 text-white dark:text-gray-900 font-black rounded-2xl h-12 px-8 flex items-center gap-2 text-[13px] transition-all active:scale-[0.98] shadow-lg shadow-gray-200 dark:shadow-none"
             >
               <Plus className="w-5 h-5" />
               {activeTab === "Insumos" ? "Novo Insumo" : activeTab === "Custos Fixos" ? "Novo Custo Mensal" : "Novo Kit"}
@@ -547,12 +547,12 @@ export default function Estoque() {
             { label: "Kits", value: stats.kits, icon: <ShoppingBag className="w-7 h-7" />, color: "bg-pink-50 text-primary", sub: "Cadastrados" },
             { label: "Críticos", value: stats.baixo, icon: <AlertTriangle className="w-7 h-7" />, color: "bg-rose-50 text-rose-500", sub: "Reposição", urgent: stats.baixo > 0 },
           ].map((stat, i) => (
-            <div key={i} className="bg-white rounded-[28px] p-6 border border-gray-100/60 shadow-sm flex items-center gap-5 hover:shadow-md transition-all group">
-              <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105", stat.color)}>
+            <div key={i} className="bg-white dark:bg-gray-800 rounded-[28px] p-6 border border-gray-100/60 dark:border-gray-700 shadow-sm flex items-center gap-5 hover:shadow-md transition-all group">
+              <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 dark:bg-opacity-20", stat.color)}>
                 <span className="material-symbols-outlined text-[28px]">{stat.icon}</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-2xl font-black text-gray-900 tracking-tight">{stat.value}</span>
+                <span className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">{stat.value}</span>
                 <p className="text-[12px] font-bold text-gray-500 uppercase tracking-widest">{stat.label}</p>
               </div>
             </div>
@@ -560,10 +560,10 @@ export default function Estoque() {
         </div>
 
         {/* Filters & Control Section */}
-        <div className="bg-white rounded-[32px] p-6 border border-gray-100/50 shadow-sm space-y-6">
+        <div className="bg-white dark:bg-gray-800 rounded-[32px] p-6 border border-gray-100/50 dark:border-gray-700 shadow-sm space-y-6">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             {/* Tabs Selector */}
-            <div className="bg-gray-50/80 p-1 rounded-2xl flex flex-wrap gap-1 border border-gray-100/30">
+            <div className="bg-gray-50/80 dark:bg-gray-700/80 p-1 rounded-2xl flex flex-wrap gap-1 border border-gray-100/30 dark:border-gray-600">
               {["Insumos", "Kits", "Custos Fixos"].map((tab) => (
                 <button
                   key={tab}
@@ -571,8 +571,8 @@ export default function Estoque() {
                   className={cn(
                     "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
                     activeTab === tab
-                      ? "bg-white text-gray-900 shadow-sm border border-gray-100 ring-1 ring-black/5"
-                      : "text-gray-500 hover:text-gray-600"
+                      ? "bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm border border-gray-100 dark:border-gray-500 ring-1 ring-black/5 dark:ring-white/5"
+                      : "text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
                   )}
                 >
                   {tab}
@@ -587,16 +587,16 @@ export default function Estoque() {
                 placeholder="O que você está procurando?..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="bg-gray-50/50 border-gray-100 h-11 pl-12 rounded-2xl text-[14px] font-semibold text-gray-900 placeholder:text-gray-500 focus:bg-white focus:ring-primary/20 transition-all border-none shadow-inner"
+                className="bg-gray-50/50 dark:bg-gray-700/50 border-gray-100 dark:border-gray-600 h-11 pl-12 rounded-2xl text-[14px] font-semibold text-gray-900 dark:text-white placeholder:text-gray-500 focus:bg-white dark:focus:bg-gray-600 focus:ring-primary/20 transition-all border-none shadow-inner"
               />
             </div>
           </div>
 
           {/* Table Container */}
-          <div className="overflow-hidden rounded-2xl border border-gray-100/50">
+          <div className="overflow-hidden rounded-2xl border border-gray-100/50 dark:border-gray-700">
             <Table>
               <TableHeader>
-                <TableRow className="hover:bg-transparent border-b border-gray-50 bg-gray-50/30">
+                <TableRow className="hover:bg-transparent border-b border-gray-50 dark:border-gray-700 bg-gray-50/30 dark:bg-gray-700/30">
                   <TableHead className="font-bold text-xs uppercase tracking-[0.1em] text-gray-500 pl-8 h-12">Item & Categoria</TableHead>
                   {activeTab === "Custos Fixos" ? (
                     <>
@@ -639,20 +639,20 @@ export default function Estoque() {
                     </TableRow>
                   ) : (
                     custosFixos.map((custo) => (
-                      <TableRow key={custo.id} className="hover:bg-gray-50/30 border-b border-gray-50 group transition-colors">
+                      <TableRow key={custo.id} className="hover:bg-gray-50/30 dark:hover:bg-gray-700/30 border-b border-gray-50 dark:border-gray-700 group transition-colors">
                         <TableCell className="pl-8 py-5">
                           <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-blue-50/50 text-blue-500 flex items-center justify-center shadow-sm">
+                            <div className="w-10 h-10 rounded-xl bg-blue-50/50 dark:bg-blue-900/40 text-blue-500 flex items-center justify-center shadow-sm">
                               <span className="material-symbols-outlined text-[20px]">schedule</span>
                             </div>
                             <div className="flex flex-col">
-                              <span className="font-bold text-gray-800 tracking-tight text-[15px]">{custo.nome}</span>
+                              <span className="font-bold text-gray-800 dark:text-white tracking-tight text-[15px]">{custo.nome}</span>
                               <span className="text-[13px] font-bold text-gray-500 uppercase tracking-widest">{custo.categoria}</span>
                             </div>
                           </div>
                         </TableCell>
                         <TableCell>
-                          <span className="text-sm font-black text-gray-900 tracking-tight">
+                          <span className="text-sm font-black text-gray-900 dark:text-white tracking-tight">
                             {custo.valor_mensal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                           </span>
                         </TableCell>
@@ -708,14 +708,14 @@ export default function Estoque() {
                     </TableRow>
                   ) : (
                     kits.filter(k => k.nome.toLowerCase().includes(searchTerm.toLowerCase())).map((kit) => (
-                      <TableRow key={kit.id} className="hover:bg-gray-50/50 border-b border-gray-50 group transition-colors">
+                      <TableRow key={kit.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-700/50 border-b border-gray-50 dark:border-gray-700 group transition-colors">
                         <TableCell className="pl-8 py-5">
                           <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-accent-pink/50 text-primary flex items-center justify-center shadow-sm">
+                            <div className="w-10 h-10 rounded-xl bg-accent-pink/50 dark:bg-accent-pink/10 text-primary flex items-center justify-center shadow-sm">
                               <ShoppingBag className="w-5 h-5" />
                             </div>
                             <div className="flex flex-col">
-                              <span className="font-bold text-gray-800 tracking-tight text-[15px]">{kit.nome}</span>
+                              <span className="font-bold text-gray-800 dark:text-white tracking-tight text-[15px]">{kit.nome}</span>
                               <span className="text-[13px] font-bold text-gray-500 uppercase tracking-widest truncate max-w-[200px]">
                                 {kit.descricao || "Sem descrição"}
                               </span>
@@ -724,7 +724,7 @@ export default function Estoque() {
                         </TableCell>
                         <TableCell className="text-right pr-12">
                           <div className="flex flex-col items-end">
-                            <span className="text-sm font-black text-gray-900 tracking-tight">
+                            <span className="text-sm font-black text-gray-900 dark:text-white tracking-tight">
                               {kit.preco_venda.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                             </span>
                             <span className="text-[12px] font-bold text-gray-500 uppercase tracking-widest mt-0.5">Preço de Venda</span>
@@ -773,18 +773,18 @@ export default function Estoque() {
                   </TableRow>
                 ) : (
                   filteredProdutos.map((produto) => (
-                    <TableRow key={produto.id} className="hover:bg-gray-50/50 border-b border-gray-50 group transition-colors">
+                    <TableRow key={produto.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-700/50 border-b border-gray-50 dark:border-gray-700 group transition-colors">
                       <TableCell className="pl-8 py-5">
                         <div className="flex items-center gap-4">
                           <div className={cn(
                             "w-10 h-10 rounded-xl flex items-center justify-center shadow-sm relative overflow-hidden",
-                            activeTab === "Insumos" ? "bg-amber-50 text-amber-500" : "bg-green-50 text-green-500"
+                            activeTab === "Insumos" ? "bg-amber-50 dark:bg-amber-900/40 text-amber-500" : "bg-green-50 dark:bg-green-900/40 text-green-500"
                           )}>
                             {activeTab === "Insumos" ? <Beaker className="w-5 h-5" /> : <Package className="w-5 h-5" />}
-                            <div className="absolute inset-0 bg-white/20" />
+                            <div className="absolute inset-0 bg-white/20 dark:bg-black/10" />
                           </div>
                           <div className="flex flex-col">
-                            <span className="font-bold text-gray-800 tracking-tight text-[15px]">{produto.nome}</span>
+                            <span className="font-bold text-gray-800 dark:text-white tracking-tight text-[15px]">{produto.nome}</span>
                             <span className="text-[13px] font-bold text-gray-500 uppercase tracking-widest">{produto.categoria}</span>
                           </div>
                         </div>
